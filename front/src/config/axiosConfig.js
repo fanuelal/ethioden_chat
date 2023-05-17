@@ -1,5 +1,10 @@
-import axios from '@babel/core'
-const axiosInstatn = axios.create()
-axiosInstatn.default.header.common['Authorization'] = 'Bearer TOKEN ';
+import axios from 'axios';
 
-export default axiosInstatn;
+const axiosConfig = axios.create({
+
+  headers: {
+    'Authorization': 'Bearer ${token}'
+  }
+});
+
+export default axiosConfig;
