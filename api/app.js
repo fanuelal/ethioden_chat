@@ -28,6 +28,6 @@ const PORT = process.env.PORT
 app.listen(PORT, () => {
     createdEmployeeTable();
     createdRoomTable();
-    createdChatTable()
+    createdChatTable();
     console.log(`server is running on ${PORT}`)
 })
