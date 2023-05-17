@@ -6,7 +6,7 @@ dotenv.config({path: '../../.env'})
 
 export const authenticate = async(req, res) =>{
     const {email, password} = req.body;
-    
+    console.log(password, email)
     if((email === undefined || password === undefined )|| (email === null || password === null )) {
         return res.status(400).json({success: false, data: null, message: `Email and password is required`})
     }

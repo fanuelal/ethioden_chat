@@ -20,8 +20,8 @@ app.get('/', (req, res) => {
 })
 
 
-app.use('/api/v1/', apiRoutes)
 app.post('/api/v1/auth', authenticate)
+app.use('/api/v1/', authorize, apiRoutes)
 // sequelize.sync()
 const PORT = process.env.PORT
 

@@ -100,8 +100,8 @@ const EmployeeModel = class{
         })
     }
 
-    static employeeIsAvailable = async (email, password) => {
-        console.log(email, password)
+    static employeeIsAvailable = async (email) => {
+        console.log(email)
         return new Promise((resolve, reject) => {
             con.query(`SELECT email, password, role FROM employees WHERE email='${email}'`, (err, result, fields) => {
              if (err) reject(err);
