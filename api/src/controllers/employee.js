@@ -10,7 +10,7 @@ export const createEmployee = async(req, res) => {
     const body  = req.body;
   
     try{
-        createdTable()
+        
         const existingEmployee = EmployeeModel.checkUserExsting(body.email)
         console.log(existingEmployee)
         if(existingEmployee[0]) return res.status(400).json({succes: true, data: null, message: ' Employee already exist!'})
@@ -24,7 +24,6 @@ export const createEmployee = async(req, res) => {
 }
 export const fetchAllEmployee = async(req, res) => {
     try{
-        createdTable();
         const result = await EmployeeModel.getAll();
         return res.status(200).json({success: true, data: result, message: `your fetched data`});
 
@@ -37,7 +36,7 @@ export const getSingleEmployee = async(req, res) => {
     const userId = req.params.id
     
     try{
-        createdTable();
+
         const result = await EmployeeModel.getSingle(userId);
         return res.status(200).json({success: true, data: result, message: `your fetched data`});
 

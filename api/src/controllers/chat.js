@@ -6,7 +6,7 @@ dotenv.config({ path: '../../.env' })
 export const createChat = async(req, res) => {
     const body = req.body
     try{
-        createdChatTable()
+        
         var chat = new ChatModel(body.text, body.inRoom, body.roomId, body.reciverId, body.senderId)
         chat.create()
         return res.status(200).json({succes: true, data: null, message: ' Chat created successfuly'});
@@ -16,7 +16,7 @@ export const createChat = async(req, res) => {
 }
 export const getAllChats = async(req, res) => {
     try{
-        createdTable();
+        
         console.log('get all chat called')
         const result = ChatModel.getAll()
         return res.status(200).json({message: `fetch success`, status: 200, data: result});

@@ -13,8 +13,8 @@ const checkToken = async (req, res, next) => {
     if(typeof header !== 'undefined') {
         const bearer = header.split(' ');
         const token = bearer[1];
-
         req.token = token;
+        console.log(token)
         next();
     } else {
     
@@ -24,11 +24,11 @@ const checkToken = async (req, res, next) => {
     
 const authorize = app.use('/', checkToken, async (req, res, next) => {
     
-    jwt.verify(req.token, process.env.TOKEN_KEY, (err, authorizedData) => {
+    jwt.verify(req.token, process.env.SERVER_KEY, (err, authorizedData) => {
 
         if(err){
 
-            res.status(403).json({success: false, data: null, message: 'you are not authorized user!'});
+            res.status(403).json({success: false, data: null, message: `you are not authorized user ${err}`});
 
         } else {
             req.userType = authorizedData.userType;
