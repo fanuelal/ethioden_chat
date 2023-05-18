@@ -52,11 +52,22 @@ body{
     padding-right: 10px;
 }
 .roomHeader{
-    background-color: var(--tertiary);
-    height: 8vh;
-    padding-top: 4vh;
+    background-color: #1D1F34;
+    height: 1vh;
+    padding-top: 8vh;
     color: var(--white);
 }
+.roomHeader h2{
+    font-size: large;
+   padding-top: 0px;
+   float: left;
+   margin-top: -30px;
+    margin-left: 0px;
+  
+    
+    
+}
+
 .recentMessageContent {
     position: absolute;
     margin-top: 30px;
@@ -74,7 +85,7 @@ body{
 }
 .recentChatBox:hover {
     transition: all 0.3s linear;
-    background-color: var(#4e527b);
+    background-color:lightslategrey;
 }
 .recentChatProfile {
     border-radius: 100%;
@@ -85,11 +96,11 @@ body{
 .profileNav{
     background-color: #1d1f34;
     padding-left: 24%;
-    width: 78%;
+    width: 76%;
     height: 9vh;
     display: flex;
     align-items:  center;
-    border-radius: 3vh;
+    border-radius: 0vh;
     border-bottom: var(--white) solid 1px;
     /* justify-content: center; */
 }
@@ -188,7 +199,7 @@ body{
 
 .sendBtn {
     padding-left: 5px;
-    background-color: lightslategrey;
+    background-color: #1D1F34;
     border-radius: 100%;
     margin-top: 3px;
     margin-left: 85%;
@@ -240,8 +251,8 @@ body{
     position: relative;
     /* display: inline-block; */
     float: right;
-    color: black;
-    background-color:  whitesmoke;
+    color: white;
+    background-color:  #4e527b;
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -268,7 +279,7 @@ body{
 .messageViewReciver {
     display: block;
     color:black;
-    background-color: var(--white);
+    background-color: #ccc;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
