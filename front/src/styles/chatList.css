@@ -4,7 +4,7 @@
 :root {
     --primary: #c1ddc2;
     --secondary: #faf0e6;
-    --tertiary: #2D4739;
+    --tertiary: rgb (29,31,52);
     --white: #fff;
   }
 
@@ -27,7 +27,7 @@ body{
 
 .chatList {
     color: gray;
-    background-color: white;
+    background-color:whitesmoke;
     font-weight: bold;
     font-size: 16;
     height: 100vh;
@@ -63,7 +63,7 @@ body{
     margin-left: 60px;
 }
 .recentChatBox {
-    background-color: white;
+    background-color: whitesmoke;
     height: 70px;
     width: 97%;
         margin-top: 1px;
@@ -83,10 +83,10 @@ body{
     float: left;
 }
 .profileNav{
-    background-color: var(--tertiary);
-    padding-left: 27%;
-    width: 70%;
-    height: 10vh;
+    background-color: #1d1f34;
+    padding-left: 24%;
+    width: 78%;
+    height: 9vh;
     display: flex;
     align-items:  center;
     border-radius: 3vh;
@@ -173,9 +173,9 @@ body{
 .chatInputField {
     bottom: 0;
     height: 50px;
-    width: 70%;
-    border: solid 1px gray;
-    border-radius: 10px;
+    width: 80%;
+    border: solid 10px gray;
+    border-radius: 80px;
     padding-left: 10px;
     border-start-start-radius: 10px;
     border-top-left-radius: 10px;
@@ -187,10 +187,10 @@ body{
 
 .sendBtn {
     padding-left: 5px;
-    background-color: brown;
+    background-color: lightslategrey;
     border-radius: 100%;
     margin-top: 3px;
-    margin-left: 81%;
+    margin-left: 85%;
     width: 40px;
     height: 40px;
     position: absolute;
@@ -227,7 +227,7 @@ body{
     display: flex;
     flex-direction: column;
     padding-top: 0px;
-    background-color: var(--primary);
+    background-color: white;
     width: 60%;
     height: 80vh;
     margin-left: 40%;
@@ -239,8 +239,8 @@ body{
     position: relative;
     /* display: inline-block; */
     float: right;
-    color: white;
-    background-color: rgb(148, 75, 8);
+    color: black;
+    background-color:  whitesmoke;
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -266,8 +266,8 @@ body{
 
 .messageViewReciver {
     display: block;
-    color: var(--tertiary);
-    background-color: var(--secondary);
+    color:black;
+    background-color: var(--white);
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
