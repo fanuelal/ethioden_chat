@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Mono&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Open+Sans&family=Roboto+Mono&display=swap');
 :root {
-    --primary: #c1ddc2;
+    --primary: #ffffff;
     --secondary: #faf0e6;
     --tertiary: #2D4739;
     --white: #fff;
@@ -20,13 +20,13 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f2f2f2;
+    background-color: rgb(29, 31, 52);
   }
   
   .login-title {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: var(--tertiary);
+    color: var(--white);
   }
   
   .login-form {
@@ -38,7 +38,7 @@
     padding: 2rem;
     border-radius: 1rem;
     background-color: #fff;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+    /* box-shadow: 0 0.5rem 1rem rgba(232, 227, 227, 0.3); */
   }
   
   .login-label {
@@ -63,7 +63,7 @@
     margin-top: 1rem;
     border: none;
     border-radius: 0.5rem;
-    background-color: #333;
+    background-color: rgb(29, 31, 52);
     color: #fff;
     font-weight: bold;
     cursor: pointer;
@@ -71,5 +71,7 @@
   }
   
   .login-button:hover {
-    background-color: #555;
+    /* background-color: rgb(60, 61, 72); */
+     background-color: #4e527b;
+    ;
   }
