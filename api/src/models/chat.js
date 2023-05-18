@@ -25,8 +25,9 @@ const ChatModel = class{
 
      create = async() => {
         
-        const query = `INSERT INTO chats ( id, text, inRoom, roomId, reciverId, senderId) 
-               VALUES ('${uuidv4()}', '${this.text}', '${this.inRoom}', '${roomId}','${this.reciverId}', '${this.senderId}'')`;
+        const query = `INSERT INTO chats ( id, text, inRoom, reciverId, senderId) 
+               VALUES ('${uuidv4()}', '${this.text}', '${this.inRoom}','${this.reciverId}', '${this.senderId}')`;
+
         con.query(query, (error, result, failed) => {
             if(error) throw(error)
             console.log(result.datatype)
@@ -43,12 +44,14 @@ const ChatModel = class{
           });
          
       }).then((value) => {
-        fetchedData = value;
-        const extractedData = fetchedData.map((data)=> {
-            // console.log(data.id)
-            return data
-        })
-        return extractedData
+        // console.log(value);
+        // fetchedData = value;
+        // const extractedData = fetchedData.map((data)=> {
+        //     // console.log(data.id)
+        //     return data
+        // })
+        // console.log(extractedData)
+        return value
     })
     }
 
@@ -65,20 +68,26 @@ const ChatModel = class{
  });
  }
 
-     updateChat = async(userId) => {
+     updateChat = async(chatId) => {
         return new Promise((resolve, reject) => {
-            con.query(`UPDATE chats SET  first_name = '${this.first_name}', 
-            last_name = '${this.last_name}', 
-            isDeleted = '${this.isDeleted}', 
-            isActive = '${this.isActive}', 
-            department = '${this.department}',
-            email = '${this.email}',
-            role = '${this.role}' WHERE id = '${userId}'`, (error, result, fields) => {
+            con.query(`UPDATE chats SET  text = '${this.text}'  WHERE id = '${chatId}'`, (error, result, fields) => {
                 if(error) reject(error);
                 resolve(result)
             })
         }).then((data) => {
-            return data;
+            return data[0];
+        })
+    }
+
+    static deleteChat = async(chatId) => {
+        console.log(chatId)
+        return new Promise((resolve, reject) => {
+            con.query(`UPDATE chats SET  isDeleted = true  WHERE id = '${chatId}'`, (error, result, fields) => {
+                if(error) reject(error);
+                resolve(result)
+            })
+        }).then((data) => {
+            return data[0];
         })
     }
 

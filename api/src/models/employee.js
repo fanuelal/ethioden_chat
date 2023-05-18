@@ -120,6 +120,7 @@ export const createdEmployeeTable = () => {
     
     con.query(`USE ${process.env.MYSQL_DB};`, (error, result, failed) => {
             if(error) throw error;
+            
             return con.query(`CREATE TABLE IF NOT EXISTS employees(
                 id VARCHAR(50) PRIMARY KEY NOT NULL, 
                 first_name VARCHAR(50), 

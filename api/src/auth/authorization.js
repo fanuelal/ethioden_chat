@@ -14,7 +14,6 @@ const checkToken = async (req, res, next) => {
         const bearer = header.split(' ');
         const token = bearer[1];
         req.token = token;
-        console.log(token)
         next();
     } else {
     
