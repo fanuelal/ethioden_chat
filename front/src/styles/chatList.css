@@ -2,9 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Mono&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Open+Sans&family=Roboto+Mono&display=swap');
 :root {
-    --primary: #c1ddc2;
-    --secondary: #faf0e6;
-    --tertiary: #2D4739;
+    --primary: #ffffff;
+    --secondary: #ffffff;
+    --tertiary: #1D1F34;
     --white: #fff;
   }
 
@@ -18,8 +18,8 @@ body{
 }
 .logoContainer {
     height: 100px;
-    width: 60%;
-    padding-left: 10px;
+    width: 40%;
+    margin-left: 350px;
     padding-top: 40px;
     background-color: var(--white);
     border-radius: 10px;
@@ -74,7 +74,7 @@ body{
 }
 .recentChatBox:hover {
     transition: all 0.3s linear;
-    background-color: var(--primary);
+    background-color: var(#4e527b);
 }
 .recentChatProfile {
     border-radius: 100%;
@@ -94,11 +94,12 @@ body{
     /* justify-content: center; */
 }
 .catagoryNav{
+    font-family: Sans-serif;
     position: absolute;
     z-index: 1;
     height: 100vh;
     width: 15%;
-    background-color: var(--tertiary);
+    background-color: #1D1F34;
 
 }
 .profileNav h2{
@@ -157,7 +158,7 @@ body{
 }
 
 .chatInputDiv {
-    /* background-color: green; */
+    
     position: absolute;
     bottom: 10px;
     height: 50px;
@@ -279,7 +280,7 @@ body{
 }
 
 .emptyScreenCont{
-    background-color: #2D4739;
+    background-color: #1D1F34;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -293,18 +294,20 @@ body{
     color: #f2f2f2;
     align-items: center;
     font-weight: 100;
-    margin-left: 5%;
+    margin-left: 30%;
 }
 
 .catagoryNav img{
-    margin-top: 100px;
-    margin-left: -40px;
-    width: 70px;
-    height: 70px;
+    margin-top: 10px;
+    margin-left: -90px;
+    /* margin-left: ; */
+    width: 50px;
+    height: 50px;
     
 }
 .catagoryNav ul{
     margin-top: 5vh;
+    font-family: sans-serif;
 }
 
 .catagoryNav li{
@@ -314,23 +317,26 @@ body{
     color: var(--white);
     padding-left: 10px;
     align-items: center;
-    margin-top: 10px;  
+    margin-top: 6px;  
 }
 
 .catagoryNav li:hover{
-    background-color: #3a5848;
+    background-color: #4e527b;
 }
 
 .catagoryNav li p{
     padding-left: 30px;
 }
 .catagoryNav h3{
-    margin-top: 23vh;
-    color: #aaa;
+    margin-top: 30px;
+    margin-left: 10px;
+    /* margin-top: 75px;
+    margin-left: -120px; */
+    color: #ffff;
     font-size: 15px;
-    font-family: 'Lato', sans-serif;
+    font-family: sans-serif;
 }
 
 .catagoryNav .active{
-    background-color: #3a5848;
+    background-color: #4e527b;
 }
