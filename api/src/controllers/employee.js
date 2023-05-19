@@ -4,10 +4,11 @@ import {createdEmployeeTable} from '../models/employee.js';
 
 import con from '../config/database.js'
 dotenv.config({ path: '../../.env' })
+ 
 
 export const createEmployee = async(req, res) => {
     const body  = req.body;
-    // console.log(body.password)
+  
     try{
         
         const existingEmployee = EmployeeModel.checkUserExsting(body.email)
