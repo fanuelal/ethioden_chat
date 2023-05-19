@@ -17,7 +17,14 @@ export function ChatUI(props){
      const onMessageAdd = (message) => {
         const messageUUid = uuid();
         console.log(messageUUid)
-        const newMessage =  axiosConfig.post("http://localhost:5000/api/v1/chat/",
+        const newmessage={
+            messageId: messageUUid,
+            messageContent:message,
+            reciverId: "28ffe05e-f38b-453d-ada2-d51e3a10dd54",
+            senderId: "e175330c-8d4b-4e69-b056-0e952bc1a125",
+        }
+
+        axiosConfig.post("http://localhost:5000/api/v1/chat/",
         {
             "text": message,
             "inRoom": false,
@@ -26,12 +33,18 @@ export function ChatUI(props){
             "senderId": "e175330c-8d4b-4e69-b056-0e952bc1a125"
 
         })
-        props.messages.push(newMessage)
-         setMessages([...props.messages, newMessage]);
+        props.messages.push(newmessage)
+        setMessages([...props.messages, newmessage]);
+        // console.log(messages)
+
+
+        //  const onsend = (message) => {
+            // {message !== undefined? setMessages((prev)=>[...prev,newmessage]): setMessages('')}
+            // setMessages((prev) => [...prev, newmessage]);
+            // console.log(newmessage);
+          
+
     }
-  
-  
-  
   
     const onMessageSend = () =>{
         if(message.trim() !== ''){
