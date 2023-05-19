@@ -36,21 +36,19 @@ const ChatModel = class{
         return null;
     }
 
-    static getAll = async () => {
-           var fetchedData; 
-          return new Promise((resolve, reject) => {con.query('SELECT * FROM `chats` WHERE isDeleted = false', (err, result, fields) => {
+    static getAll = async (condition) => {
+           var query = 'SELECT * FROM `chats` WHERE isDeleted = false'; 
+           
+           if(condition) {
+            query = `SELECT * FROM chats WHERE isDeleted = false AND inRoom = false AND (reciverId = '${condition}' OR senderId = '${condition}' )`;
+            console.log(condition)
+           }
+          return new Promise((resolve, reject) => {con.query(query, (err, result, fields) => {
             if (err) reject(err);
             resolve(result);
           });
          
       }).then((value) => {
-        // console.log(value);
-        // fetchedData = value;
-        // const extractedData = fetchedData.map((data)=> {
-        //     // console.log(data.id)
-        //     return data
-        // })
-        // console.log(extractedData)
         return value
     })
     }
@@ -91,7 +89,10 @@ const ChatModel = class{
         })
     }
 
+
+
 }
+
 
 
 export const createdChatTable = () => {

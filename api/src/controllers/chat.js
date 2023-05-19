@@ -15,8 +15,10 @@ export const createChat = async(req, res) => {
     }
 }
 export const getAllChats = async(req, res) => {
+    const queryUserId = req.query.userId
+    
     try{
-        const result = await ChatModel.getAll()
+        const result = await ChatModel.getAll(queryUserId)
         console.log(result)
         return res.status(200).json({message: `fetch success`, status: 200, data: result});
     }catch(error){
