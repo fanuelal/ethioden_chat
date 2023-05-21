@@ -14,6 +14,7 @@ export function ChatList(props){
      const ListRecent = users.map(user =>
         <RecentChat onClick={recentClickHandler} userId={user.userId} profileImg={user.profileImg} recentChat={user.recentChat} status={user.userState} username={user.username} />
              )
+             
     return(
         <div className="chatList">
             <div className="roomHeader"> 
