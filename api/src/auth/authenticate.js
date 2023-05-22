@@ -16,10 +16,11 @@ try{
      if(!isCorrect) return res.status(400).json({success: false, data: null, message: `Wrong email or password`})
     
     const genToken = tokenGenerator(existingEmployee)
-    return res.status(200).json({success: true, data: {existingEmployee, genToken}, message: `your token has been successfully generated`})
+    return res.status(200).json({success: true, data: {...existingEmployee, genToken}, message: `your token has been successfully generated`})
 }catch(error){
     return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`})
 }
+
 
 }
 
