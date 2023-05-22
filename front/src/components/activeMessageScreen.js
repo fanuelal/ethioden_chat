@@ -1,7 +1,7 @@
 import {React, useRef, useEffect, useState} from 'react'
 import '../styles/chatList.css'
 import {MessageView} from './singleChatMessage'
-import { currentUser } from '../model/currentUserData';
+import {currentUser} from '../model/currentUserData'
 
 export function ChatListContainer({ messages }){
     const messageDisplayRef = useRef(null);
@@ -23,9 +23,8 @@ export function ChatListContainer({ messages }){
             <MessageView message="hi team" isSenders={true}/>
 
             {messages.map((message, index) => (
-              (currentUser.userId ===  message.senderId ? message.isSenders=true : message.isSenders=false),
-        <MessageView key={index} message={message.text} isSenders={message.isSender} />
-              
+
+        <MessageView key={index} message={message.text} isSenders={currentUser.userId === message.senderId} />
       ))}
         </div>
     )

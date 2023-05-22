@@ -16,7 +16,7 @@ export function ChatList(props){
     // function Fetchuser(){
         const [userList, setUserList]= useState([])
         useEffect(()=>{
-            axiosConfig.get('http://localhost:5000/api/v1/employee')
+            axiosConfig.get('/employee')
             .then(res => {
                 setUserList(res.data.data)
                 console.log(res.data.data)
@@ -25,9 +25,9 @@ export function ChatList(props){
         },[]) 
     // }
 
- const ListRecent = userList.map((user) =>{
+ const ListRecent = userList.map((user) => {
         console.log(user.id);
-        if(user.id != currentUser.userId){
+        if(user.id !== currentUser.userId){
             return  <RecentChat onClick={recentClickHandler} userId={user.id} profileImg={"https://www.pngmart.com/files/22/User-Avatar-Profile-PNG.png"} recentChat={"hello there"} status={user.lastSeen} username={user.first_name} />
         }
  
