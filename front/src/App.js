@@ -14,7 +14,7 @@ function App() {
   const [messagesData, setMessageData] = useState([])
   // const [user, setUser] = useState();
   function chatSelectHandler(userId) {
-    axios.get("http://localhost:5000/api/v1/chat?userId=4d534be7-eb3e-46d5-a0e0-e8920b1ddffe").then((value)=>{
+    axios.get(`http://localhost:5000/api/v1/chat?userId=${userId}`).then((value)=>{
      console.log(value.data.data)
      setMessageData(value.data.data)
     })
