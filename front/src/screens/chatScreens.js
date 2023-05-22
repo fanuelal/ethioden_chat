@@ -35,16 +35,7 @@ export function ChatUI(props){
         })
         props.messages.push(newmessage)
         setMessages([...props.messages, newmessage]);
-        // console.log(messages)
-
-
-        //  const onsend = (message) => {
-            // {message !== undefined? setMessages((prev)=>[...prev,newmessage]): setMessages('')}
-            // setMessages((prev) => [...prev, newmessage]);
-            // console.log(newmessage);
-          
-
-    }
+        }
   
     const onMessageSend = () =>{
         if(message.trim() !== ''){
