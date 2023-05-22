@@ -42,6 +42,7 @@ body{
     margin-top: 2px;
     margin-left: 57px;
     font-size: 20px;
+    
 }
 
 .recentSentAt {
@@ -59,10 +60,12 @@ body{
 }
 .roomHeader h2{
     font-size: large;
+     padding: 40px; 
    padding-top: 0px;
    float: left;
    margin-top: -30px;
     margin-left: 0px;
+     
   
     
     
@@ -70,9 +73,12 @@ body{
 
 .recentMessageContent {
     position: absolute;
+
     margin-top: 30px;
     margin-left: 60px;
+    
 }
+
 .recentChatBox {
     background-color: whitesmoke;
     height: 70px;
@@ -83,10 +89,18 @@ body{
         cursor: pointer;
     border: none;
 }
-.recentChatBox:hover {
-    transition: all 0.3s linear;
-    background-color:lightslategrey;
+/* styles.css */
+
+  .recentChatBox:hover {
+     transition: all 0.3s linear; 
+     background-color:lightgrey; 
+    height: 80px;  
+    
+ }  
+ .recentChatBox.selected {
+    background-color: lightgrey;
 }
+
 .recentChatProfile {
     border-radius: 100%;
     width: 50px;
@@ -128,11 +142,20 @@ body{
     margin-left: 15%;
 }
 .recentChatBox p {
-    color: gray;
-    font-size: 12px;
-    font-weight: 300;
+    color:black;
+    font-size: 13px;
+     font-weight: 300; 
     padding-top: 5%;
     padding-left: 0;
+     text-overflow:"---";
+   width: 230px;
+    white-space: nowrap;
+    max-width: fit-content;
+      overflow: hidden;
+      border: px solid #000000; 
+    text-overflow: ellipsis;
+      
+    
 }
 .chatListActiveStatusOnline {
     border-radius: 100%;
@@ -146,6 +169,7 @@ body{
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
     animation: ripple 1.5s infinite ease-in-out;
 }
+
 
 
   @keyframes ripple{

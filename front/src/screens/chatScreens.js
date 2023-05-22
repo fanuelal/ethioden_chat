@@ -19,7 +19,7 @@ export function ChatUI(props){
         console.log(messageUUid)
         const newmessage={
             messageId: messageUUid,
-            messageContent:message,
+            text:message,
             reciverId: "28ffe05e-f38b-453d-ada2-d51e3a10dd54",
             senderId: "e175330c-8d4b-4e69-b056-0e952bc1a125",
         }
@@ -35,16 +35,7 @@ export function ChatUI(props){
         })
         props.messages.push(newmessage)
         setMessages([...props.messages, newmessage]);
-        // console.log(messages)
-
-
-        //  const onsend = (message) => {
-            // {message !== undefined? setMessages((prev)=>[...prev,newmessage]): setMessages('')}
-            // setMessages((prev) => [...prev, newmessage]);
-            // console.log(newmessage);
-          
-
-    }
+        }
   
     const onMessageSend = () =>{
         if(message.trim() !== ''){

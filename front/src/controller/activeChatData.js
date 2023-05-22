@@ -11,12 +11,12 @@ export var chatScreenUser = {
 
 export function ActiveData (props) {
     const [user, setUser] = useState();
-    useEffect(() => {
-        const selectedUser = users.find(user => user.userId === props.userId);
-        chatScreenUser = selectedUser;
-        if (selectedUser) setUser(selectedUser);
-        // console.log(user);
-    }, [props.userId]);
+    // useEffect(() => {
+    //     const selectedUser = users.find(user => user.userId === props.userId);
+    //     chatScreenUser = selectedUser;
+    //     if (selectedUser) setUser(selectedUser);
+    //     // console.log(user);
+    // }, [props.userId]);
     return (
          <ChatUI user={chatScreenUser} messages={props.messages}/>
     );
