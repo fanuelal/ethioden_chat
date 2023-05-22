@@ -1,8 +1,8 @@
 import react, {useEffect} from 'react';
-import axiosConfig from '../config/axiosConfig';
+import axiosInstance from '../config/axiosConfig';
  function Fetchuser(){
     useEffect(()=>{
-        axiosConfig.get('http://localhost:5000/api/v1/employee')
+        axiosInstance.get('/employee')
         .then(res => console.log(res))
     },[])
 return(
