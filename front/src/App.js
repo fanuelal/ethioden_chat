@@ -7,12 +7,18 @@ import {EmptyScreen} from './screens/emptyChat'
 import Login from './screens/loginScreen';
 import {Route, Routes} from 'react-router-dom'
 import {CatagoryList} from './screens/catagoryList'
+
+import axios from 'axios'
 function App() {
   const [selected, setSelected] = useState(-1);
   const [messagesData, setMessageData] = useState([])
   // const [user, setUser] = useState();
   function chatSelectHandler(userId) {
-    
+    axios.get(`http://localhost:5000/api/v1/chat?userId=${userId}`).then((value)=>{
+     console.log(value.data.data)
+     setMessageData(value.data.data)
+    })
+
 
     var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
         
