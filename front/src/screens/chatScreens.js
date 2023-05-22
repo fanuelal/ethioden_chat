@@ -24,7 +24,7 @@ export function ChatUI(props){
             senderId: "e175330c-8d4b-4e69-b056-0e952bc1a125",
         }
 
-        axiosConfig.post("http://localhost:5000/api/v1/chat/",
+        axiosConfig.post("/chat/",
         {
             "text": message,
             "inRoom": false,

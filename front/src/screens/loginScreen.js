@@ -24,7 +24,7 @@ function Login() {
         const token = response.data.data.genToken;
         setToken(token);
         console.log(getToken());
-  
+        console.log(response.data.data)
         navigate('/home');
       } else {
         setLoginError(true);

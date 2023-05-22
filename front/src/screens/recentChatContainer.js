@@ -16,7 +16,7 @@ export function ChatList(props){
     // function Fetchuser(){
         const [userList, setUserList]= useState([])
         useEffect(()=>{
-            axiosConfig.get('http://localhost:5000/api/v1/employee')
+            axiosConfig.get('/employee')
             .then(res => {
                 setUserList(res.data.data)
                 console.log(res.data.data)
