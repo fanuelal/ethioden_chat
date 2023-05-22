@@ -26,6 +26,7 @@ function Login() {
        
         console.log(getToken());
         var userData = response.data.data;
+        console.log(userData)
         currentUser.userId = userData.id;
         currentUser.department = userData.department;
         currentUser.role = userData.role;
