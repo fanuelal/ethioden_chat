@@ -1,7 +1,7 @@
 import {React, useRef, useEffect, useState} from 'react'
 import '../styles/chatList.css'
 import {MessageView} from './singleChatMessage'
-import axiosConfig from '../config/axiosConfig';
+
 
 export function ChatListContainer({ messages }){
     const messageDisplayRef = useRef(null);
@@ -14,7 +14,7 @@ export function ChatListContainer({ messages }){
       scrollToBottom();
     }, [messages]);
 
-    axiosConfig.get("")
+    
 
 
     return(
@@ -27,7 +27,7 @@ export function ChatListContainer({ messages }){
             <MessageView message="hi" isSenders={false}/>
             <MessageView message="hi team" isSenders={true}/>
             {messages.map((message, index) => (
-        <MessageView key={index} message={message.messageContent} isSenders={message.isSender} />
+        <MessageView key={index} message={message.text} isSenders={message.isSender} />
       ))}
         </div>
     )
