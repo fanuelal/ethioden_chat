@@ -29,6 +29,7 @@ function Login() {
         currentUser.department = userData.department;
         currentUser.role = userData.role;
         currentUser.email = userData.email;
+        currentUser.username = userData.first_name
         console.log(currentUser)
         navigate('/home');
       } else {
