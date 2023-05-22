@@ -10,7 +10,7 @@ export const users = [
         userId: 2,
         username: "Tony",
         profileImg: "https://www.pngmart.com/files/22/User-Avatar-Profile-PNG.png",
-        recentChat: "hey surf have you done your tasks!",
+        recentChat: "hey Abel  have you done your tasks on time !",
         userState: "online"
 
     },

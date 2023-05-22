@@ -92,9 +92,12 @@ body{
 /* styles.css */
 
   .recentChatBox:hover {
-     transition: all 0.3s linear; 
+      transition: all 0.3s linear;  
      background-color:lightgrey; 
-    height: 80px;  
+     /* height: 75px;   */
+   
+   
+    justify-content: center;
     
  }  
  .recentChatBox.selected {
@@ -143,9 +146,9 @@ body{
 }
 .recentChatBox p {
     color:black;
-    font-size: 13px;
+    font-size: 11px;
      font-weight: 300; 
-    padding-top: 5%;
+    padding-top: 3%;
     padding-left: 0;
      text-overflow:"---";
    width: 230px;
