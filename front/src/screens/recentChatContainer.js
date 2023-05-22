@@ -19,14 +19,14 @@ export function ChatList(props){
             axiosConfig.get('http://localhost:5000/api/v1/employee')
             .then(res => {
                 setUserList(res.data.data)
-                console.log(res.data.data)
+                // console.log(res.data.data)
             
             })
         },[]) 
     // }
 
  const ListRecent = userList.map((user) => {
-        console.log(user.id);
+        // console.log(user.id);
         if(user.id !== currentUser.userId){
             return  <RecentChat onClick={recentClickHandler} userId={user.id} profileImg={"https://www.pngmart.com/files/22/User-Avatar-Profile-PNG.png"} recentChat={"hello there"} status={user.lastSeen} username={user.first_name} />
         }

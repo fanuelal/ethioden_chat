@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/login.css';
 import axiosInstance from '../config/axiosConfig';
 import { setToken, getToken } from '../config/tokenManager';
-
+import {currentUser} from '../model/currentUserData'
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +23,9 @@ function Login() {
       if (response.data.success) {
         const token = response.data.data.genToken;
         setToken(token);
+        // currentUser.userId = 
         console.log(getToken());
+        console.log(response.data);
   
         navigate('/home');
       } else {
