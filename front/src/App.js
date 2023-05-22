@@ -5,11 +5,16 @@ import { useState } from 'react';
 import { messages } from './model/message';
 import {EmptyScreen} from './screens/emptyChat'
 import Login from './screens/loginScreen';
+import ProtectedRoute from './components/protectedRoute';
 import {Route, Routes} from 'react-router-dom'
 import {CatagoryList} from './screens/catagoryList'
+
+import axios from 'axios'
 function App() {
   const [selected, setSelected] = useState(-1);
   const [messagesData, setMessageData] = useState([])
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   // const [user, setUser] = useState();
   function chatSelectHandler(userId) {
     
@@ -24,9 +29,8 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/home' element={<Home onChatClick={chatSelectHandler} selected={selected} messagesData={messagesData}/>} />
-      </Routes>
+        <Route path='/' element={<Login setLoggedIn={setIsLoggedIn}/>} />
+        <Route path='/home' element={<Home onChatClick={chatSelectHandler} selected={selected} messagesData={messagesData}/>} /> </Routes>
 
       
     </div>
