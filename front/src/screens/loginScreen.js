@@ -23,7 +23,7 @@ function Login() {
       if (response.data.success) {
         const token = response.data.data.genToken;
         setToken(token);
-        // currentUser.userId = 
+       
         console.log(getToken());
         var userData = response.data.data;
         currentUser.userId = userData.id;
