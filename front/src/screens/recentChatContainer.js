@@ -28,7 +28,7 @@ export function ChatList(props){
  const ListRecent = userList.map((user) => {
         console.log(user.id);
         if(user.id !== currentUser.userId){
-            return  <RecentChat onClick={recentClickHandler} userId={user.id} profileImg={"https://www.pngmart.com/files/22/User-Avatar-Profile-PNG.png"} recentChat={"hello there"} status={user.lastSeen} username={user.first_name} />
+            return  <RecentChat onClick={recentClickHandler} userId={user.id} profileImg={"https://thumbs.dreamstime.com/b/icon-profile-color-red-not-shadow-icon-profile-color-red-circle-color-dark-red-background-color-white-194702104.jpg"} recentChat={"hello there"} status={user.isActive} username={user.first_name} />
         }
  
     });
