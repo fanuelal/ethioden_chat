@@ -8,8 +8,9 @@ export const createChat = async(req, res) => {
     
     try{
         var chat = new ChatModel(body.text, body.inRoom, body.roomId, body.reciverId, body.senderId)
-        chat.create()
-        return res.status(200).json({succes: true, data: null, message: ' Chat created successfuly'});
+        const chatId = chat.create()
+
+        return res.status(200).json({succes: true, data: chatId, message: ' Chat created successfuly'});
     }catch(error){
         throw(error);
     }
