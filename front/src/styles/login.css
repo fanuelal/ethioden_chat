@@ -74,3 +74,7 @@
      background-color: #4e527b;
     ;
   }
+  .login-error{
+    color: rgb(221, 54, 54);
+    border-radius: 10px;
+  }

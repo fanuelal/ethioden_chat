@@ -103,7 +103,7 @@ const EmployeeModel = class{
     static employeeIsAvailable = async (email) => {
         console.log(email)
         return new Promise((resolve, reject) => {
-            con.query(`SELECT email, password, role FROM employees WHERE email='${email}'`, (err, result, fields) => {
+            con.query(`SELECT id, email, password, department, first_name, role FROM employees WHERE email='${email}'`, (err, result, fields) => {
              if (err) reject(err);
              console.log(result)
              resolve(result);
