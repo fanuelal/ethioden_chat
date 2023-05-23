@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 import { EmailOutlined, LockOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,9 @@ import '../styles/login.css';
 import axiosInstance from '../config/axiosConfig';
 import { setToken, getToken } from '../config/tokenManager';
 import {currentUser } from '../model/currentUserData';
-function Login() {
+
+function Login({setIsLoggedIn}) {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +25,8 @@ function Login() {
       if (response.data.success) {
         const token = response.data.data.genToken;
         setToken(token);
-       
+        
+       setIsLoggedIn(true)
         console.log(getToken());
         var userData = response.data.data;
         console.log(userData)
@@ -33,7 +36,7 @@ function Login() {
         currentUser.email = userData.email;
         currentUser.username = userData.first_name
         console.log(currentUser)
-        navigate('/home');
+         navigate('/home');
       } else {
         setLoginError(true);
   
