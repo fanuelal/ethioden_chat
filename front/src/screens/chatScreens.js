@@ -32,10 +32,11 @@ export function ChatUI(props){
             "roomId": null,
             "reciverId": props.user,
             "senderId": currentUser.userId
-
-        })
-        props.messages.push(newmessage)
-        setMessages([...props.messages, newmessage]);
+        }).then((response) => {
+            console.log(response.data);
+            setMessages([...props.messages, newmessage]);
+        }).catch((error) => {
+            throw(error)});
         }
   
     const onMessageSend = () =>{
