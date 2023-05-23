@@ -7,6 +7,7 @@ import '../styles/login.css';
 import axiosInstance from '../config/axiosConfig';
 import { setToken, getToken } from '../config/tokenManager';
 import {currentUser } from '../model/currentUserData';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -55,6 +56,9 @@ function Login() {
     <div className="login-container">
       <h1 className="login-title">Welcome back!</h1>
       <form className="login-form" onSubmit={submitHandler}>
+      {loginError && (
+          <p className="login-error">Incorrect email or password. Please try again.</p>
+        )}
         <label htmlFor="email" className="login-label">
           Email
         </label>
@@ -91,9 +95,6 @@ function Login() {
         <button type="submit" className="login-button">
           Login
         </button>
-        {loginError && (
-          <p className="login-error">Incorrect email or password. Please try again.</p>
-        )}
       </form>
     </div>
   );
