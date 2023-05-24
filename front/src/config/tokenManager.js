@@ -1,4 +1,4 @@
-let token = '';
+let token = ''
 
 export const setToken = (newToken) => {
   token = newToken;
@@ -6,8 +6,8 @@ export const setToken = (newToken) => {
 };
 
 export const getToken = () => {
-  if(token !==null){
+
     token = localStorage.getItem('token')
-  }
+  
   return token;
 };

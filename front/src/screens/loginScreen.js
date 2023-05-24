@@ -8,7 +8,7 @@ import axiosInstance from '../config/axiosConfig';
 import { setToken, getToken } from '../config/tokenManager';
 import {currentUser } from '../model/currentUserData';
 
-function Login({setIsLoggedIn}) {
+function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,8 +25,6 @@ function Login({setIsLoggedIn}) {
       if (response.data.success) {
         const token = response.data.data.genToken;
         setToken(token);
-        
-       setIsLoggedIn(true)
         console.log(getToken());
         var userData = response.data.data;
         console.log(userData)
@@ -37,10 +35,13 @@ function Login({setIsLoggedIn}) {
         currentUser.username = userData.first_name
         console.log(currentUser)
          navigate('/home');
+         setTimeout(() => {
+          localStorage.removeItem('token');
+          navigate('/')
+        },60 *60* 1000);
       } else {
         setLoginError(true);
   
-      
       }
     } catch (err) {
       console.log(err);

@@ -1,12 +1,13 @@
-import {Outlet, Navigate} from 'react-router-dom'
-
+import {Outlet, Navigate, useLocation} from 'react-router-dom'
 
 import React from 'react'
 
-const PrivateRoutes = ({isLoggedIn}) => {
+const PrivateRoutes = ({isLogin}) => {
+  const location = useLocation();
+  
   return (
-    isLoggedIn ?
-    <Outlet/>:<Navigate to='/'/>
+    isLogin()?
+    <Outlet/>:<Navigate to='/' state={{from: location}} replace/>
   )
 }
 
