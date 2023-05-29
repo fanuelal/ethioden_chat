@@ -29,7 +29,7 @@ const tokenGenerator = (employee) => {
         {employee},
         process.env.SERVER_KEY,
         {
-            expiresIn: '30 seconds'
+            expiresIn: '1h'
         }
     )
 }

@@ -28,7 +28,7 @@ export function ChatUI(props){
         axiosConfig.post("/chat/",
         {
             "text": message,
-            "inRoom": false,
+            "inRoom": 0,
             "roomId": null,
             "reciverId": props.user,
             "senderId": currentUser.userId
@@ -60,7 +60,7 @@ export function ChatUI(props){
         <div className='ChatRoom'>
         <div className='profileNav'>
             {props.user.profileImg ? <img alt='user profile' className='chatProfile' src={props.user.profileImg} />: <img alt='user profile' className='chatProfile' src="https://thumbs.dreamstime.com/b/icon-profile-color-red-not-shadow-icon-profile-color-red-circle-color-dark-red-background-color-white-194702104.jpg" />}
-            <h2>{props.user.username}</h2>
+            <h2>props.user.first_name</h2>
             </div> 
         <ChatListContainer messages={messages.length === 0? props.messages : messages} />
         <div> 
