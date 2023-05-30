@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 import { EmailOutlined, LockOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { setToken, getToken } from '../config/tokenManager';
 import {currentUser } from '../model/currentUserData';
 
 function Login() {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -26,17 +27,21 @@ function Login() {
         setToken(token);
         console.log(getToken());
         var userData = response.data.data;
+        console.log(userData)
         currentUser.userId = userData.id;
         currentUser.department = userData.department;
         currentUser.role = userData.role;
         currentUser.email = userData.email;
         currentUser.username = userData.first_name
         console.log(currentUser)
-        navigate('/home');
+         navigate('/home');
+         setTimeout(() => {
+          localStorage.removeItem('token');
+          navigate('/')
+        },60 *60* 1000);
       } else {
         setLoginError(true);
   
-      
       }
     } catch (err) {
       console.log(err);
