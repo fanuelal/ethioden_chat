@@ -8,33 +8,51 @@ import { useState, useEffect } from 'react'
 import { currentUser } from '../model/currentUserData'
 import { v4 as uuid } from 'uuid';
 import axiosConfig from '../config/axiosConfig'
+<<<<<<< Updated upstream
+import Suggestionbox from '../components/suggestionbox'
+=======
+import { PopUp } from './PopUp'
+>>>>>>> Stashed changes
 export function ChatUI(props){
+
+
+  const suggetions =[
+       
+        {
+            id: 1,
+            text: "hello there how are you"
+        }
+    ]
+
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
+    
     useEffect(()=>{
         setMessages([])
     }, [props.user])
      const onMessageAdd = (message) => {
         const messageUUid = uuid();
-        console.log(messageUUid)
+        // console.log(props.user)
+
         const newmessage={
             messageId: messageUUid,
             text:message,
-            reciverId: "28ffe05e-f38b-453d-ada2-d51e3a10dd54",
-            senderId: "e175330c-8d4b-4e69-b056-0e952bc1a125",
+            reciverId: props.user,
+            senderId: currentUser.userId,
         }
 
-        axiosConfig.post("http://localhost:5000/api/v1/chat/",
+        axiosConfig.post("/chat/",
         {
             "text": message,
-            "inRoom": false,
+            "inRoom": 0,
             "roomId": null,
-            "reciverId": "28ffe05e-f38b-453d-ada2-d51e3a10dd54",
-            "senderId": "e175330c-8d4b-4e69-b056-0e952bc1a125"
-
-        })
-        props.messages.push(newmessage)
-        setMessages([...props.messages, newmessage]);
+            "reciverId": props.user,
+            "senderId": currentUser.userId
+        }).then((response) => {
+            console.log(response.data);
+            setMessages([...props.messages, newmessage]);
+        }).catch((error) => {
+            throw(error)});
         }
   
     const onMessageSend = () =>{
@@ -43,6 +61,13 @@ export function ChatUI(props){
             setMessage('')
         }
     }
+
+    // const onsend = (text) => {
+
+    //     setMessage(text);
+    // onsend={onsend(suggetion.text)}
+    // }
+
 
     const handleInputChange = (event) => {
         setMessage(event.target.value);
@@ -53,21 +78,47 @@ export function ChatUI(props){
             onMessageSend();
         }
     }
+  
+
+
+    const suggest= suggetions.map((suggetion)=> {
+        return(<Suggestionbox text={suggetion.text}/>);
+
+    });
+    
+
+    // console.log(props.username);
 
     return(
         <div className='ChatRoom'>
         <div className='profileNav'>
-            {props.user.profileImg ? <img alt='user profile' className='chatProfile' src={props.user.profileImg} />: <h2>no pp</h2>}
-            <h2>{props.user.username}</h2>
+            {props.user.profileImg ? <img alt='user profile' className='chatProfile' src={props.user.profileImg} />: <img alt='user profile' className='chatProfile' src="https://thumbs.dreamstime.com/b/icon-profile-color-red-not-shadow-icon-profile-color-red-circle-color-dark-red-background-color-white-194702104.jpg" />}
+<<<<<<< Updated upstream
+            
+            <h2>{props.username}</h2>
+=======
+            <h2>{props.user.username }</h2>
+            <div class="recentSentAt1">lastseen recently</div>
+            <div className='setstatus'>
+                <PopUp/>
+                
+
+            </div>
+>>>>>>> Stashed changes
             </div> 
         <ChatListContainer messages={messages.length === 0? props.messages : messages} />
         <div> 
+            
         <div className='chatInputDiv'>
+        <div className='suggestion-Container'>
+        {suggest}
+            </div>
+
+
             <ChatSend onClick={onMessageSend}/>
             <input type="text" className="chatInputField" value={message} placeholder='Type something here ...' onChange={handleInputChange} onKeyDown={onkeyPressHandler}/>
-            
-        </div>
-
+</div>
+           
         </div>
         </div>
     )

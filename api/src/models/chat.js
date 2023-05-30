@@ -24,24 +24,23 @@ const ChatModel = class{
     }
 
      create = async() => {
-        
+        const chatId = uuidv4();
         const query = `INSERT INTO chats ( id, text, inRoom, reciverId, senderId) 
-               VALUES ('${uuidv4()}', '${this.text}', '${this.inRoom}','${this.reciverId}', '${this.senderId}')`;
+               VALUES ('${chatId}', '${this.text}', '${this.inRoom}','${this.reciverId}', '${this.senderId}')`;
 
         con.query(query, (error, result, failed) => {
             if(error) throw(error)
             console.log(result.datatype)
-            return result
+            return chatId
         });
         return null;
     }
 
-    static getAll = async (condition) => {
+    static getAll = async (reciverId) => {
            var query = 'SELECT * FROM `chats` WHERE isDeleted = false'; 
            
-           if(condition) {
-            query = `SELECT * FROM chats WHERE isDeleted = false AND inRoom = false AND (reciverId = '${condition}' OR senderId = '${condition}' )`;
-            console.log(condition)
+           if(reciverId) {
+            query = `SELECT * FROM chats WHERE isDeleted = false AND inRoom = false AND (reciverId = '${reciverId}' OR senderId = '${reciverId}' ) ORDER BY created_at`;
            }
           return new Promise((resolve, reject) => {con.query(query, (err, result, fields) => {
             if (err) reject(err);
