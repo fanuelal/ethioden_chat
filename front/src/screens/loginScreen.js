@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-<<<<<<< Updated upstream
 import { TextField } from '@mui/material';
-=======
-import { TextField, Button } from '@mui/material';
->>>>>>> Stashed changes
 import { EmailOutlined, LockOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
@@ -11,10 +7,6 @@ import '../styles/login.css';
 import axiosInstance from '../config/axiosConfig';
 import { setToken, getToken } from '../config/tokenManager';
 import {currentUser } from '../model/currentUserData';
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 function Login() {
 
   const [email, setEmail] = useState('');
@@ -34,17 +26,13 @@ function Login() {
         setToken(token);
         console.log(getToken());
         var userData = response.data.data;
-<<<<<<< Updated upstream
         console.log(userData)
-=======
->>>>>>> Stashed changes
         currentUser.userId = userData.id;
         currentUser.department = userData.department;
         currentUser.role = userData.role;
         currentUser.email = userData.email;
         currentUser.username = userData.first_name
         console.log(currentUser)
-<<<<<<< Updated upstream
          navigate('/home');
          setTimeout(() => {
           localStorage.removeItem('token');
@@ -53,13 +41,6 @@ function Login() {
       } else {
         setLoginError(true);
   
-=======
-        navigate('/home');
-      } else {
-        setLoginError(true);
-  
-      
->>>>>>> Stashed changes
       }
     } catch (err) {
       console.log(err);

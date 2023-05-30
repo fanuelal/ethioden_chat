@@ -8,27 +8,14 @@ import Login from './screens/loginScreen';
 import {Route, Routes, Navigate} from 'react-router-dom'
 import {CatagoryList} from './screens/catagoryList'
 import axiosInstance from './config/axiosConfig'
-<<<<<<< Updated upstream
 import PrivateRoutes from './components/privateRoutes';
 import { getToken } from './config/tokenManager';
-=======
-
->>>>>>> Stashed changes
 function App() {
 
   const [selected, setSelected] = useState(-1);
   const [messagesData, setMessageData] = useState([])
-<<<<<<< Updated upstream
   const [selectedUser, setSelectedUser] = useState({})
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
-=======
-  // const [user, setUser] = useState();
-  function chatSelectHandler(userId) {
-    axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
-     console.log(value.data.data)
-     setMessageData(value.data.data)
-    })
->>>>>>> Stashed changes
 
 const isLogin = () => {
   const token =getToken()
