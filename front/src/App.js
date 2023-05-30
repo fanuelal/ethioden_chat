@@ -26,22 +26,30 @@ const isLogin = () => {
 };
 
   function chatSelectHandler(userId) {
-    axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
-    //  console.log(value.data.data)
-     setMessageData(value.data.data)
-    })
+    try{
+      setInterval(async () =>{
 
-    axiosInstance.get(`/employee/${userId}`).then((value) => {
-      // console.log(value.data.data)
-      setSelectedUser(value.data.data);
-      // console.log(selectedUser.first_name)
-    })
-    var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
-        
-        setMessageData((prev) => [...userMessages]);
-        
+        await axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
+          //  console.log(value.data.data)
+           setMessageData(value.data.data)
+          })
       
-    setSelected(userId);
+          await  axiosInstance.get(`/employee/${userId}`).then((value) => {
+            // console.log(value.data.data)
+            setSelectedUser(value.data.data);
+            // console.log(selectedUser.first_name)
+          })
+          var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
+              
+              setMessageData((prev) => [...userMessages]);
+              
+            
+          setSelected(userId);
+      } , 2000)
+
+    }catch(error){
+      console.log(error)
+    }
   }
   // console.log(selected)
   return (
@@ -54,8 +62,6 @@ const isLogin = () => {
         </Route>
           
             </Routes>
-
-      
     </div>
   );
 }
