@@ -65,10 +65,6 @@ function Login() {
       console.log(err);
       setLoginError(true);
   
-     
-      setTimeout(() => {
-        setLoginError(false);
-      }, 2000);
     }
   };
   

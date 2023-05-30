@@ -40,7 +40,7 @@ const isLogin = () => {
 
   function chatSelectHandler(userId) {
     try{
-      setInterval(async () =>{
+      setTimeout(async () =>{
 
         await axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
           //  console.log(value.data.data)
