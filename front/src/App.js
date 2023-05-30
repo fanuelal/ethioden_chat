@@ -14,6 +14,7 @@ function App() {
 
   const [selected, setSelected] = useState(-1);
   const [messagesData, setMessageData] = useState([])
+  const [selectedUser, setSelectedUser] = useState({})
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 const isLogin = () => {
@@ -30,7 +31,11 @@ const isLogin = () => {
      setMessageData(value.data.data)
     })
 
-
+    axiosInstance.get(`/employee/${userId}`).then((value) => {
+      // console.log(value.data.data)
+      setSelectedUser(value.data.data);
+      // console.log(selectedUser.first_name)
+    })
     var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
         
         setMessageData((prev) => [...userMessages]);
@@ -45,7 +50,7 @@ const isLogin = () => {
         <Route path='/' element={<Login />} />
         <Route path="/*" element={<Navigate to="/" />} />
         <Route  element ={<PrivateRoutes isLogin= {isLogin} />}>
-            <Route path='/home' element={<Home onChatClick={chatSelectHandler} selected={selected} messagesData={messagesData}/>}  />
+            <Route path='/home' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
         </Route>
           
             </Routes>
@@ -55,13 +60,14 @@ const isLogin = () => {
   );
 }
 function Home(props){
-  console.log(props.selected);
+  // console.log(props.selectedUser);
+  // console.log(props.selected);
   // console.log(props.selected)
   return (
     <>
           <CatagoryList />
       <ChatList onChatClick={props.onChatClick}/>
-      {props.selected !== -1 ? <ActiveData userId={props.selected} messages={props.messagesData}/>: <EmptyScreen />}
+      {props.selected !== -1 ? <ActiveData userId={props.selected} username={props.selectedUser} messages={props.messagesData}/>: <EmptyScreen />}
     </>
     
   )

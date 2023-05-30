@@ -12,9 +12,10 @@ export function ActiveData (props) {
     //     if (selectedUser) setUser(selectedUser);
     //     // console.log(user);
     // }, [props.userId]);
-    console.log(props.userId);
+    // console.log(props.userId);
+    console.log(props.username);
     return (
-         <ChatUI user={props.userId} messages={props.messages}/>
+         <ChatUI user={props.userId} username={props.username} messages={props.messages}/>
     );
 }
 
