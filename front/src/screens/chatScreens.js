@@ -8,7 +8,18 @@ import { useState, useEffect } from 'react'
 import { currentUser } from '../model/currentUserData'
 import { v4 as uuid } from 'uuid';
 import axiosConfig from '../config/axiosConfig'
+import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props){
+
+
+  const suggetions =[
+       
+        {
+            id: 1,
+            text: "hello there how are you"
+        }
+    ]
+
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     useEffect(()=>{
@@ -45,6 +56,13 @@ export function ChatUI(props){
         }
     }
 
+    // const onsend = (text) => {
+
+    //     setMessage(text);
+    // onsend={onsend(suggetion.text)}
+    // }
+
+
     const handleInputChange = (event) => {
         setMessage(event.target.value);
     }
@@ -55,15 +73,31 @@ export function ChatUI(props){
         }
     }
 
+
+    const suggest= suggetions.map((suggetion)=> {
+        return(<Suggestionbox text={suggetion.text}/>);
+
+    });
+    
+
+    // console.log(props.user);
+
     return(
         <div className='ChatRoom'>
         <div className='profileNav'>
             {props.user.profileImg ? <img alt='user profile' className='chatProfile' src={props.user.profileImg} />: <img alt='user profile' className='chatProfile' src="https://thumbs.dreamstime.com/b/icon-profile-color-red-not-shadow-icon-profile-color-red-circle-color-dark-red-background-color-white-194702104.jpg" />}
+            
             <h2>{props.user.username}</h2>
             </div> 
         <ChatListContainer messages={messages.length === 0? props.messages : messages} />
         <div> 
+            
         <div className='chatInputDiv'>
+        <div className='suggestion-Container'>
+        {suggest}
+            </div>
+
+
             <ChatSend onClick={onMessageSend}/>
             <input type="text" className="chatInputField" value={message} placeholder='Type something here ...' onChange={handleInputChange} onKeyDown={onkeyPressHandler}/>
             

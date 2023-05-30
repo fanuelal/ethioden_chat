@@ -21,6 +21,8 @@ app.get('/', (req, res) => {
 
 
 app.post('/api/v1/auth', authenticate)
+// app.post('/api/v1/auth')
+
 // authorize
 app.use('/api/v1/', authorize, apiRoutes)
 // sequelize.sync()

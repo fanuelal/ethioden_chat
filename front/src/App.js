@@ -15,7 +15,7 @@ function App() {
   // const [user, setUser] = useState();
   function chatSelectHandler(userId) {
     axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
-     console.log(value.data.data)
+    //  console.log(value.data.data)
      setMessageData(value.data.data)
     })
 
@@ -27,6 +27,7 @@ function App() {
       
     setSelected(userId);
   }
+  // console.log(selected)
   return (
     <div className="App">
       <Routes>
@@ -39,12 +40,15 @@ function App() {
   );
 }
 function Home(props){
+  console.log(props.selected);
+  // console.log(props.selected)
   return (
     <>
           <CatagoryList />
       <ChatList onChatClick={props.onChatClick}/>
       {props.selected !== -1 ? <ActiveData userId={props.selected} messages={props.messagesData}/>: <EmptyScreen />}
     </>
+    
   )
 }
 
