@@ -7,7 +7,6 @@ import '../styles/login.css';
 import axiosInstance from '../config/axiosConfig';
 import { setToken, getToken } from '../config/tokenManager';
 import {currentUser } from '../model/currentUserData';
-
 function Login() {
 
   const [email, setEmail] = useState('');
@@ -33,12 +32,14 @@ function Login() {
         currentUser.role = userData.role;
         currentUser.email = userData.email;
         currentUser.username = userData.first_name
-        console.log(currentUser)
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      
          navigate('/home');
          setTimeout(() => {
           localStorage.removeItem('token');
+          localStorage.removeItem('currentUser')
           navigate('/')
-        },60 *60* 1000);
+        },30000);
       } else {
         setLoginError(true);
   
@@ -96,6 +97,9 @@ function Login() {
         <button type="submit" className="login-button">
           Login
         </button>
+        {loginError && (
+          <p className="login-error">Incorrect email or password. Please try again.</p>
+        )}
       </form>
     </div>
   );

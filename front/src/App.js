@@ -49,13 +49,39 @@ function App() {
       if (!fetchingMessages) {
         setFetchingMessages(true);
         fetchNewMessages();
-      }
+      }}
 
       timeout = setTimeout(fetchNewMessages, 2000);
+  function chatSelectHandler(userId) {
+    try{
+      setTimeout(async () =>{
+
+         axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
+           console.log(value.data.data.length)
+          if(value.data.data.length > messagesData.length){
+            setMessageData(value.data.data)
+          }
+          })
+      
+            axiosInstance.get(`/employee/${userId}`).then((value) => {
+            // console.log(value.data.data)
+            setSelectedUser(value.data.data);
+            // console.log(selectedUser.first_name)
+          })
+          var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
+              
+              setMessageData((prev) => [...userMessages]);
+              
+            
+          setSelected(userId);
+      } , 2000)
+
+    }catch(error){
+      console.log(error)
     }
 
     return () => clearTimeout(timeout);
-  }, [selected, messagesData, fetchingMessages]);
+  }}, [selected, messagesData, fetchingMessages]);
 
   const chatSelectHandler = (userId) => {
     setSelected(userId);

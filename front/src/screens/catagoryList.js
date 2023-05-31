@@ -15,6 +15,8 @@ export function CatagoryList() {
 
   const logoutHandler = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
+    
     navigate('/');
   };
 

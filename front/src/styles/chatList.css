@@ -42,10 +42,35 @@ body{
     margin-top: 2px;
     margin-left: 57px;
     font-size: 20px;
+    color: black;
     
+}
+.recentSentAt1 {
+   color: white;
+    font-size: 10px;
+    float: left;
+    margin-left: -70px;
+    margin-top: 30px;
+    padding-left: 10px;
+}
+.setstatus{
+    height: 15%; 
+    width: 18%; 
+    float: right;
+    padding-right: -10px;
+    
+    /* margin-right: -50px; */
+   
+
+     position: relative; 
+    
+    /* top: 25; */
+    /* right: 0; */
+
 }
 
 .recentSentAt {
+   color: black;
     font-size: 10px;
     float: right;
     margin-right: 2px;
@@ -371,24 +396,6 @@ body{
 
 .catagoryNav .active{
     background-color: #4e527b;
-}
-.suggest{
-    
-    background-color: #e0dede;
-    height: 15px;
-    width: fit-content;
-    margin-left: 10px;
-    margin-bottom: 3px;
-    border-radius: 15px;
-    color: #4e4c4c;
-    padding: 7px;
-    border: 1.5px solid #9f9e9e;
-    font-size:10PX;
-}
-.suggestion-Container{
-    display: inline-flex;
-    padding-Bottom: 20;
-    margin-Bottom: -20;
 }
 .button1{
     margin-bottom: -30px;
