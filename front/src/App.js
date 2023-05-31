@@ -27,14 +27,16 @@ const isLogin = () => {
 
   function chatSelectHandler(userId) {
     try{
-      setInterval(async () =>{
+      setInterval( () =>{
 
-        await axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
-          //  console.log(value.data.data)
-           setMessageData(value.data.data)
+         axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
+           console.log(value.data.data.length)
+          if(value.data.data.length > messagesData.length){
+            setMessageData(value.data.data)
+          }
           })
       
-          await  axiosInstance.get(`/employee/${userId}`).then((value) => {
+            axiosInstance.get(`/employee/${userId}`).then((value) => {
             // console.log(value.data.data)
             setSelectedUser(value.data.data);
             // console.log(selectedUser.first_name)
