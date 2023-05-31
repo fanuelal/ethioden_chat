@@ -7,7 +7,6 @@ import '../styles/login.css';
 import axiosInstance from '../config/axiosConfig';
 import { setToken, getToken } from '../config/tokenManager';
 import {currentUser } from '../model/currentUserData';
-
 function Login() {
 
   const [email, setEmail] = useState('');
@@ -47,10 +46,6 @@ function Login() {
       console.log(err);
       setLoginError(true);
   
-     
-      setTimeout(() => {
-        setLoginError(false);
-      }, 2000);
     }
   };
   
@@ -100,6 +95,9 @@ function Login() {
         <button type="submit" className="login-button">
           Login
         </button>
+        {loginError && (
+          <p className="login-error">Incorrect email or password. Please try again.</p>
+        )}
       </form>
     </div>
   );
