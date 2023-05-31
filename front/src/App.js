@@ -5,13 +5,14 @@ import { useState } from 'react';
 import { messages } from './model/message';
 import {EmptyScreen} from './screens/emptyChat'
 import Login from './screens/loginScreen';
-import {Route, Routes} from 'react-router-dom'
+import {Route, Routes, Navigate} from 'react-router-dom'
 import {CatagoryList} from './screens/catagoryList'
 import axiosInstance from 'axios'
 
 function App() {
   const [selected, setSelected] = useState(-1);
   const [messagesData, setMessageData] = useState([])
+ 
   // const [user, setUser] = useState();
   function chatSelectHandler(userId) {
     axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
@@ -19,13 +20,29 @@ function App() {
      setMessageData(value.data.data)
     })
 
-
-    var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
-        
-        setMessageData((prev) => [...userMessages]);
-        
+         axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
+           console.log(value.data.data.length)
+          if(value.data.data.length > messagesData.length){
+            setMessageData(value.data.data)
+          }
+          })
       
-    setSelected(userId);
+            axiosInstance.get(`/employee/${userId}`).then((value) => {
+            // console.log(value.data.data)
+            setSelectedUser(value.data.data);
+            // console.log(selectedUser.first_name)
+          })
+          var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
+              
+              setMessageData((prev) => [...userMessages]);
+              
+            
+          setSelected(userId);
+      } , 2000)
+
+    }catch(error){
+      console.log(error)
+    }
   }
   return (
     <div className="App">

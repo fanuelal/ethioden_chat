@@ -16,12 +16,12 @@ export function PopUp () {
     return(
     <div className="status ">
         <div className=" Status_icon" > 
-        <FontAwesomeIcon icon={faFaceSmileWink}onClick={handleClickOpen} 
+        <FontAwesomeIcon icon={faFaceSmileWink} onClick={handleClickOpen} 
         style={{
             color:'white',
             fontSize:'20px',
             float:'right',
-          marginRight:'-530px'
+          marginRight:'-150%'
         }}/>
        {/* <p>Status</p> */}
       <div>
