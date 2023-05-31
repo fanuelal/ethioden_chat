@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { currentUser } from '../model/currentUserData';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentDots, faUsers, faBullhorn, faCog, faInfoCircle, faQuestionCircle, faRobot, faSignOut, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faCommentDots, faUsers, faBullhorn, faCog, faInfoCircle, faQuestionCircle, faRobot, faSignOut, faBell,faFaceSmileWink } from '@fortawesome/free-solid-svg-icons';
 import Notification from '../components/Notification';
 import '../styles/chatList.css';
 import Popup from 'reactjs-popup';
@@ -70,6 +70,11 @@ export function CatagoryList() {
         <li>
           <FontAwesomeIcon icon={faQuestionCircle} />
           <p>Help</p>
+        
+        </li>
+        <li>
+          <FontAwesomeIcon icon={faFaceSmileWink}  />
+          <p>Status</p>
         </li>
         <li>
           <FontAwesomeIcon icon={faSignOut} onClick={logoutHandler} />

@@ -8,8 +8,8 @@ import { useState, useEffect } from 'react'
 import { currentUser } from '../model/currentUserData'
 import { v4 as uuid } from 'uuid';
 import axiosConfig from '../config/axiosConfig'
-import Suggestionbox from '../components/suggestionbox'
 import { PopUp } from './PopUp'
+import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props){
 
 

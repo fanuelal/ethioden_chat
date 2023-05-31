@@ -1,6 +1,6 @@
 import {ChatUI} from '../screens/chatScreens'
-// import React, { useState, useEffect } from 'react';
-// import { users } from '../model/users';
+import React, { useState, useEffect } from 'react';
+import { users } from '../model/users';
 
 
 export function ActiveData (props) {
@@ -12,10 +12,9 @@ export function ActiveData (props) {
     //     if (selectedUser) setUser(selectedUser);
     //     // console.log(user);
     // }, [props.userId]);
-    // console.log(props.userId);
-    console.log(props.username);
+    console.log(props.userId.toString());
     return (
-         <ChatUI user={props.userId} username={props.username} messages={props.messages}/>
+         <ChatUI user={props.userId} messages={props.messages}/>
     );
 }
 
