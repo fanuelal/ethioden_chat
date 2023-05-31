@@ -42,10 +42,35 @@ body{
     margin-top: 2px;
     margin-left: 57px;
     font-size: 20px;
+    color: black;
     
+}
+.recentSentAt1 {
+   color: white;
+    font-size: 10px;
+    float: left;
+    margin-left: -70px;
+    margin-top: 30px;
+    padding-left: 10px;
+}
+.setstatus{
+    height: 15%; 
+    width: 18%; 
+    float: right;
+    padding-right: -10px;
+    
+    /* margin-right: -50px; */
+   
+
+     position: relative; 
+    
+    /* top: 25; */
+    /* right: 0; */
+
 }
 
 .recentSentAt {
+   color: black;
     font-size: 10px;
     float: right;
     margin-right: 2px;
@@ -128,6 +153,7 @@ body{
     height: 100vh;
     width: 15%;
     background-color: #1D1F34;
+    align-items: center;
 
 }
 .profileNav h2{
@@ -202,6 +228,7 @@ body{
     height: 50px;
     width:65%;
     margin-left: 32%;
+    margin-bottom: 25px;
 }
 
 .chatInputDiv input {
@@ -365,14 +392,95 @@ body{
 .catagoryNav li p{
     padding-left: 30px;
 }
-.catagoryNav h3{
-    margin-top: 30px;
-    margin-left: 10px;
-    color: #ffff;
-    font-size: 15px;
-    font-family: 'Roboto Mono', monospace;
-}
+
 
 .catagoryNav .active{
     background-color: #4e527b;
 }
+.button1{
+    margin-bottom: -30px;
+}
+
+  .popup-content {
+    margin: auto;
+    background: rgb(255, 255, 255);
+    width: 50%;
+    padding: 3px;
+  }
+  .popup-arrow {
+    color: rgb(255, 255, 255);
+  }
+  [role='tooltip'].popup-content {
+    width: 185px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+  }
+  
+  .popup-overlay {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  [data-popup='tooltip'].popup-overlay {
+    background: transparent;
+  }
+  
+
+.notificationPanel {
+  list-style-type: none;
+  padding: 0;
+  background-color: #1D1F34;
+}
+
+.notification {
+  display: flex;
+  align-items: end;
+  padding: 6px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.userImage {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.notificationContent {
+  margin-left: 10px;
+}
+
+.notificationSender {
+  font-weight: bold;
+  color: #fff;
+}
+.notificationText {
+  margin-top: 3px;
+  color: #fff;
+}
+
+.seeMore {
+  display: flex;
+  margin-top: 10px;
+  color: whitesmoke;
+  cursor: pointer;
+ justify-content: center;
+}
+
+
+.notificationIcon {
+  float: right;
+  margin-right: 10px;
+  cursor: pointer;
+  color: var(--white);
+}
+.username{
+  margin-top: 20px;
+  color: var(--white); 
+}
+.notificationIcon:active {
+  color: red; 
+}
+
+
+
+
+
+
+
