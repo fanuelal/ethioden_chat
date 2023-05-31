@@ -372,24 +372,6 @@ body{
 .catagoryNav .active{
     background-color: #4e527b;
 }
-.suggest{
-    
-    background-color: #e0dede;
-    height: 15px;
-    width: fit-content;
-    margin-left: 10px;
-    margin-bottom: 3px;
-    border-radius: 15px;
-    color: #4e4c4c;
-    padding: 7px;
-    border: 1.5px solid #9f9e9e;
-    font-size:10PX;
-}
-.suggestion-Container{
-    display: inline-flex;
-    padding-Bottom: 20;
-    margin-Bottom: -20;
-}
 .button1{
     margin-bottom: -30px;
 }

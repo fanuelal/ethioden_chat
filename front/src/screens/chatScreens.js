@@ -8,17 +8,7 @@ import { useState, useEffect } from 'react'
 import { currentUser } from '../model/currentUserData'
 import { v4 as uuid } from 'uuid';
 import axiosConfig from '../config/axiosConfig'
-import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props){
-
-
-  const suggetions =[
-       
-        {
-            id: 1,
-            text: "hello there how are you"
-        }
-    ]
 
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
@@ -57,12 +47,6 @@ export function ChatUI(props){
         }
     }
 
-    // const onsend = (text) => {
-
-    //     setMessage(text);
-    // onsend={onsend(suggetion.text)}
-    // }
-
 
     const handleInputChange = (event) => {
         setMessage(event.target.value);
@@ -73,15 +57,6 @@ export function ChatUI(props){
             onMessageSend();
         }
     }
-
-
-    const suggest= suggetions.map((suggetion)=> {
-        return(<Suggestionbox text={suggetion.text}/>);
-
-    });
-    
-
-    // console.log(props.username);
 
     return(
         <div className='ChatRoom'>
@@ -94,9 +69,6 @@ export function ChatUI(props){
         <div> 
             
         <div className='chatInputDiv'>
-        <div className='suggestion-Container'>
-        {suggest}
-            </div>
 
 
             <ChatSend onClick={onMessageSend}/>
