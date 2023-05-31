@@ -1,8 +1,10 @@
 .status {
     position: relative;
-  
+    
   }
-  
+.Status_icon {
+  background-color: green;
+}
   button {
     background-color: lightgray;
     color:black;
