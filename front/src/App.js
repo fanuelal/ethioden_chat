@@ -37,9 +37,9 @@ const isLogin = () => {
           })
       
             axiosInstance.get(`/employee/${userId}`).then((value) => {
-            // console.log(value.data.data)
+            
             setSelectedUser(value.data.data);
-            // console.log(selectedUser.first_name)
+           
           })
           var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
               
