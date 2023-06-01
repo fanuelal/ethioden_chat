@@ -21,7 +21,7 @@ export function PopUp () {
             color:'white',
             fontSize:'20px',
             float:'right',
-          marginRight:'-150%'
+          marginRight:'-220%'
         }}/>
        {/* <p>Status</p> */}
       <div>
