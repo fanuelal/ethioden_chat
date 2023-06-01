@@ -9,8 +9,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import { CatagoryList } from './screens/catagoryList';
 import axiosInstance from './config/axiosConfig';
 import PrivateRoutes from './components/privateRoutes';
-import { getToken } from './config/tokenManager';
-
+import { getToken,refreshToken } from './config/tokenManager';
 function App() {
   const [selected, setSelected] = useState(-1);
   const [messagesData, setMessageData] = useState([]);
@@ -86,6 +85,8 @@ function App() {
   const chatSelectHandler = (userId) => {
     setSelected(userId);
   };
+ 
+
 
   return (
     <div className="App">
@@ -113,6 +114,13 @@ function App() {
 }
 
 function Home(props) {
+
+  useEffect(() => {
+    const refreshTokenInterval = setInterval(refreshToken, 2*60*1000); 
+    return () => {
+      clearInterval(refreshTokenInterval);
+    };
+  }, [])
   return (
     <>
       <CatagoryList />

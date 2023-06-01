@@ -16,6 +16,8 @@ export function CatagoryList() {
   const logoutHandler = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('email')
+    localStorage.removeItem('password')
     
     navigate('/');
   };
@@ -37,7 +39,7 @@ export function CatagoryList() {
           }
           open={showNotifications}
           onClose={toggleNotifications}
-          closeOnDocumentClick={true} // Add this line to close on outside click once
+          closeOnDocumentClick={true}
           position="bottom right"
         >
           <Notification showAll={showAllNotifications} setShowAll={setShowAllNotifications} />
