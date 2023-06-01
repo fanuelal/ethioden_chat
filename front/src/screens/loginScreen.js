@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField } from '@mui/material';
 import { EmailOutlined, LockOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/login.css';
 import axiosInstance from '../config/axiosConfig';
 import { setToken, getToken } from '../config/tokenManager';
-import {currentUser } from '../model/currentUserData';
-function Login() {
+import { currentUser } from '../model/currentUserData';
 
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -20,35 +20,33 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axiosInstance.post('/auth', { email, password });
-  
+
       if (response.data.success) {
         const token = response.data.data.genToken;
         setToken(token);
         console.log(getToken());
         var userData = response.data.data;
-        console.log(userData)
+        console.log(userData);
         currentUser.userId = userData.id;
         currentUser.department = userData.department;
         currentUser.role = userData.role;
         currentUser.email = userData.email;
-        currentUser.username = userData.first_name
-        console.log(currentUser)
-         navigate('/home');
-         setTimeout(() => {
-          localStorage.removeItem('token');
-          navigate('/')
-        },60 *60* 1000);
+        currentUser.password = userData.password;
+        currentUser.username = userData.first_name;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+
+        navigate('/home');
       } else {
         setLoginError(true);
-  
       }
     } catch (err) {
       console.log(err);
       setLoginError(true);
-  
     }
   };
-  
+
 
   const showPasswordHandler = () => setShowPassword((show) => !show);
 
@@ -56,9 +54,6 @@ function Login() {
     <div className="login-container">
       <h1 className="login-title">Welcome back!</h1>
       <form className="login-form" onSubmit={submitHandler}>
-      {loginError && (
-          <p className="login-error">Incorrect email or password. Please try again.</p>
-        )}
         <label htmlFor="email" className="login-label">
           Email
         </label>
@@ -95,9 +90,7 @@ function Login() {
         <button type="submit" className="login-button">
           Login
         </button>
-        {loginError && (
-          <p className="login-error">Incorrect email or password. Please try again.</p>
-        )}
+        {loginError && <p className="login-error">Incorrect email or password. Please try again.</p>}
       </form>
     </div>
   );
