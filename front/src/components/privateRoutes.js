@@ -7,7 +7,7 @@ const PrivateRoutes = ({isLogin}) => {
   
   return (
     isLogin()?
-    <Outlet/>:<Navigate to='/' state={{from: location}} replace/>
+    <Outlet/>:<Navigate to='/login' state={{from: location}} replace/>
   )
 }
 

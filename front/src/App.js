@@ -57,11 +57,13 @@ const isLogin = () => {
   return (
     <div className="App">
       <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path="/*" element={<Navigate to="/" />} />
         <Route  element ={<PrivateRoutes isLogin= {isLogin} />}>
             <Route path='/home' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
+            <Route path='/' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
+
         </Route>
+        <Route path='/login' element={<Login />} />
+        <Route path="/*" element={<Navigate to="/" />} />
           
             </Routes>
     </div>
