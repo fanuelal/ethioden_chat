@@ -53,7 +53,7 @@ function App() {
       timeout = setTimeout(fetchNewMessages, 2000);
   function chatSelectHandler(userId) {
     try{
-      setTimeout(async () =>{
+      // setTimeout(async () =>{
 
          axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
            console.log(value.data.data.length)
@@ -73,8 +73,7 @@ function App() {
               
             
           setSelected(userId);
-      } , 2000)
-
+      // } , 2000)
     }catch(error){
       console.log(error)
     }
