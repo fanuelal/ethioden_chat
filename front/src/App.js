@@ -54,18 +54,18 @@ function App() {
 // }, [selected, messagesData, fetchingMessages]);
 
  
-  function chatSelectHandler(userId) {
+  const  chatSelectHandler = async (userId) => {
     try{
       // setTimeout(async () =>{
 
-         axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
+         await axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
            console.log(value.data.data.length)
           if(value.data.data.length > messagesData.length){
             setMessageData(value.data.data)
           }
           })
       
-            axiosInstance.get(`/employee/${userId}`).then((value) => {
+            await  axiosInstance.get(`/employee/${userId}`).then((value) => {
             setSelectedUser(value.data.data);
            
           })
@@ -79,6 +79,7 @@ function App() {
     }catch(error){
       console.log(error)
     }
+
   }
 
   return (
