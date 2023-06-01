@@ -86,7 +86,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route  element ={<PrivateRoutes isLogin= {isLogin} />}>
-            <Route path='/home' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
+            {/* <Route path='/' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  /> */}
             <Route path='/' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
 
         </Route>
