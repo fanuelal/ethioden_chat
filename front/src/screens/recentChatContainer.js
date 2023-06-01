@@ -27,7 +27,8 @@ export function ChatList(props){
         },[]) 
     // }
 
- const ListRecent = userList.map((user) => {  
+ const ListRecent = userList.map((user) => {
+        // console.log(user.id);
         if(user.id !== currentUser.userId){
             return  <RecentChat onClick={recentClickHandler} userId={user.id} profileImg={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"} recentChat={"hello there"} status={true} username={user.first_name} />
         }
