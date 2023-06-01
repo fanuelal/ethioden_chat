@@ -41,16 +41,19 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    let timeout;
+//   let timeout;
+//   useEffect(() => {
 
-    if (selected !== -1) {
-      if (!fetchingMessages) {
-        setFetchingMessages(true);
-        fetchNewMessages();
-      }}
+//     if (selected !== -1) {
+//       if (!fetchingMessages) {
+//         setFetchingMessages(true);
+//         fetchNewMessages();
+//       }}
 
-      timeout = setTimeout(fetchNewMessages, 2000);
+//       timeout = setTimeout(fetchNewMessages, 2000);
+// }, [selected, messagesData, fetchingMessages]);
+
+ 
   function chatSelectHandler(userId) {
     try{
       // setTimeout(async () =>{
@@ -63,7 +66,6 @@ function App() {
           })
       
             axiosInstance.get(`/employee/${userId}`).then((value) => {
-            
             setSelectedUser(value.data.data);
            
           })
@@ -77,15 +79,7 @@ function App() {
     }catch(error){
       console.log(error)
     }
-
-    return () => clearTimeout(timeout);
-  }}, [selected, messagesData, fetchingMessages]);
-
-  const chatSelectHandler = (userId) => {
-    setSelected(userId);
-  };
- 
-
+  }
 
   return (
     <div className="App">
