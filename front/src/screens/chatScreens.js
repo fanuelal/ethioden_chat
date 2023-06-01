@@ -9,7 +9,7 @@ import { currentUser } from '../model/currentUserData'
 import { v4 as uuid } from 'uuid';
 import axiosConfig from '../config/axiosConfig'
 // import Suggestionbox from '../components/suggestionbox'
-import { PopUp } from './PopUp'
+import { StatusPopUp } from './StatusPopUp'
 // import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props){
 
@@ -70,7 +70,7 @@ export function ChatUI(props){
             <h2>{props.username }</h2>
             <div class="recentSentAt1">lastseen recently</div>
             <div className='setstatus'>
-                <PopUp/>
+                <StatusPopUp/>
                 
 
             </div>

@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import{faFaceSmileWink,faClose,faUsers,faHouseChimneyUser,faTree,faFaceSadTear,faAngleDown}from '@fortawesome/free-solid-svg-icons';
+import{faFaceSmileWink,faClose,faUsers,faHouseChimneyUser,faTree,faFaceSadTear}from '@fortawesome/free-solid-svg-icons';
 import "../styles/PopUp.css";
 import { DropDown } from "./DropDown";
-export function PopUp () {
-    const [popup,setpop]=useState('false')
+export function StatusPopUp () {
+    const [popup,setpop]=useState(false)
     const handleClickOpen=()=>{
         setpop(!popup);
     }

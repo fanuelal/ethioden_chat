@@ -1,158 +1,151 @@
 .status {
-    position: relative;
-    
-  }
+  position: relative;
+}
 .Status_icon {
   background-color: green;
 }
-  button {
-    background-color: lightgray;
-    color:black;
-    border: none;
-    padding: 10px 10px;
-    cursor: pointer;
+button {
+  background-color: lightgray;
+  color: black;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+}
 
-  }
-  
-  .mainn {
-    position: fixed;
-    top: -90px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-  }
-  
-  .popup {
-    background-color: #fff;
-    padding: 70px;
-    border-radius: 10px;
-    max-width: 400px;
-  }
+.mainn {
+  position: fixed;
+  top: -90px;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
 
-  .popup-body{
-    margin-top: -50px;
-      float: left;
-    background-color: white;
-     margin-left: -50px;
-     
-     
-  }
-  .popup-body p{
-    float: right;
-   margin-top:-20px ;
-    margin-right: -350px;
-    max-width:600px ;
-    color: lightgray;
-    
-  }
- 
- 
-  .popup-header {
-    float: left;
-    margin-top: -10px;
-      
-  }
-  
- .popup-header input {
-    padding: 15px;
-    border: 3px solid lightskyblue;
-    box-shadow: light;
-    margin-left: -40px;
-    /* float: left; */
-    height: 10px;
-    width: 400px;
-    
-   
-  }
-  
-  .listofstatus {
-    margin-top: -0px;
-    background-color:white;
-    float: left;
-    margin-left: -10px;
-  }
-  
-  .listofstatus ul {
-    list-style-type: none;
-    padding: 20px;
-    
-  }
-  
-  .listofstatus li {
-    margin-bottom: 10px;
-    align-items: flex-start;
-    margin-left: -30px;
-    width: fit-content;
-    }
-    .listofstatus li:hover{
-      background-color: whitesmoke;
-      
-    }
-    .listofstatus p{
-      margin-bottom: 10px;
-    align-items: flex-start;
-    margin-left: 5px;
-    width: fit-content;
-    float: right;
-   color: rgb(192, 192, 192);
-    }
-  
-  .btn{
-    float: right;
-    margin-right: -200px;
-    margin-bottom: -100px;
-   
-  }
-  .btn p{
-    float: left;
-    margin-left: -450px;
-   color: black;
-  }
-  .DropDown {
+}
+
+.popup {
+  background-color: white;
+  padding: 70px;
+  border-radius: 10px;
+  max-width: 400px;
+}
+
+.popup-body {
+  margin-top: -50px;
+  float: left;
+  background-color: white;
+  margin-left: -50px;
+}
+.popup-body p {
+  float: right;
+  margin-top: -20px;
+  margin-right: -350px;
+  max-width: 600px;
+  color: lightgray;
+}
+
+.popup-header {
+  float: left;
+  margin-top: -3px;
+}
+
+.popup-header input {
+  padding: 15px;
+  border: 3px solid lightskyblue;
+  box-shadow: light;
+  margin-left: -40px;
+  /* float: left; */
+  height: 10px;
+  width: 400px;
+}
+
+.listofstatus {
+  margin-top: 10px;
+  padding: -10px;
+  float: left;
+  color: black;
+  margin-left: -10px;
+}
+
+.listofstatus ul {
+  list-style-type: none;
+  padding: -10px;
+  /* background-color: blue; */
+  margin-top: -5px;
+}
+
+.listofstatus li {
+    margin-bottom: 1px; 
+ align-items: flex-start; 
+  /* margin-left: -30px; */
+  width: fit-content;
+  padding: -20px; 
+  color: black;
+  /* justify-content: space-between; */
+  padding-bottom: -130px;
+}
+.listofstatus li:hover {
+  background-color: lightgray;
+}
+.listofstatus p {
+  /* margin-bottom: 10px; */
+  align-items: flex-start;
+  margin-left: -10px;
+  width: fit-content;
+  float: right;
+  color: lightslategray;
+}
+
+.btn {
+  float: right;
+  margin-right: -180px;
+  margin-bottom: -100px;
+}
+.btn p {
+  float: left;
+  margin-left: -400px;
+  color: black;
+}
+.DropDown {
   position: relative;
   display: inline-block;
 }
-.ll p{
- 
+.ll p {
   float: right;
   margin-left: 10px;
-  
 }
 
 .menu {
   position: absolute;
-  top: 30px;
+  top: 25px;
   left: -90px;
-  background-color: white;
+  margin-bottom: 50px;
+  background-color:white;
   list-style-type: none;
-  margin: 0;
-  padding: 10px;
+  margin-left: 60px;
+  padding: 0px;
   width: max-content;
-  
+
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .list {
-  padding-left: 29px;
-  padding-top: 1px;
-  
-  
+  /* padding-left: 60px; */
+   margin-bottom: 50px;
+   justify-content: space-between;
+  /* background-color: blue; */
+  /* margin-left: 200px; */
 }
 .DropDown ul li:hover {
   cursor: pointer;
-  background-color: lightslategray;
+  background-color: lightgray;
 }
 
 .DropDown .fa-angle-down {
   margin-left: 3px;
   cursor: pointer;
 }
-
-
-
