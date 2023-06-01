@@ -47,7 +47,7 @@ body{
 }
 .recentSentAt1 {
    color: white;
-    font-size: 10px;
+    font-size: 9px;
     float: left;
     margin-left: -70px;
     margin-top: 30px;
@@ -156,17 +156,20 @@ body{
     align-items: center;
 
 }
-.profileNav h2{
+.profilename{
     color: var(--white);
     text-align: center;
-    margin-left: 30%;
+    margin-left: 25%;
+    margin-bottom: 3px;
+    size: 10px;
+    font-weight: bold;
 }
 .chatProfile{
     position: absolute;
     float: right;
     border-radius: 100%;
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     float: left;
     margin-left: 15%;
 }
@@ -220,7 +223,10 @@ body{
     margin-top: 10%;
     margin-left: 40px;
 }
-
+/* .profilename{
+  /* margin-left: -100px; */
+  /* size: 14px; */
+ 
 .chatInputDiv {
     
     position: absolute;
@@ -405,14 +411,18 @@ body{
     margin: auto;
     background: rgb(255, 255, 255);
     width: 50%;
+    margin-left: 7%;
     padding: 3px;
   }
   .popup-arrow {
     color: rgb(255, 255, 255);
+    margin-left: -175px;
   }
   [role='tooltip'].popup-content {
     width: 185px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+    box-shadow:0px 0px 1px 1px #d0cdcd;
+    border-radius: 10px;
+    
   }
   
   .popup-overlay {
@@ -420,13 +430,16 @@ body{
   }
   [data-popup='tooltip'].popup-overlay {
     background: transparent;
+    
   }
   
-
+.notificationIcon{
+margin-top: -11%;
+}
 .notificationPanel {
   list-style-type: none;
   padding: 0;
-  background-color: #1D1F34;
+  background-color: #ffffff;
 }
 
 .notification {
@@ -447,18 +460,19 @@ body{
 }
 
 .notificationSender {
-  font-weight: bold;
-  color: #fff;
+  font-size: 13px;
+  color: #1d1f34;
 }
 .notificationText {
   margin-top: 3px;
-  color: #fff;
+  font-size: 10px;
+  color: #1d1f34;
 }
 
 .seeMore {
   display: flex;
   margin-top: 10px;
-  color: whitesmoke;
+  color: #1d1f34;
   cursor: pointer;
  justify-content: center;
 }
