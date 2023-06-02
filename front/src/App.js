@@ -59,15 +59,15 @@ function App() {
       // setTimeout(async () =>{
 
          axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
-           console.log(value.data.data.length)
-          if(value.data.data.length > messagesData.length){
+          //  console.log(value.data.data)
+          // if(value.data.data.length > messagesData.length){
             setMessageData(value.data.data)
-          }
+          // }
           })
       
             axiosInstance.get(`/employee/${userId}`).then((value) => {
+              console.log(value.data.data.first_name)
             setSelectedUser(value.data.data);
-           
           })
           var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
               
