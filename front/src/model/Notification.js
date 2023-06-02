@@ -11,7 +11,7 @@ export const notifications = [
       id: 2,
       userImage: currentUser.profileImg,
       content: 'hi there',
-      sender: currentUser.username,
+      sender: currentUser.first_name,
     },
     {
         id: 2,
