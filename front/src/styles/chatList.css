@@ -185,7 +185,6 @@ body {
   white-space: nowrap;
   max-width: fit-content;
   overflow: hidden;
-  border: px solid #000000;
   text-overflow: ellipsis;
 }
 .chatListActiveStatusOnline {
@@ -408,8 +407,17 @@ body {
 }
 .popup-arrow {
   color: rgb(255, 255, 255);
-  margin-left: -192px;
+  margin-left: -550%;
+  margin-top: -5px;
+  height: 20px;
+  width: 20px;
+
 }
+/* .popup-arrow {
+  color: rgb(255, 255, 255);
+  margin-left: -192px;
+  
+} */
 [role="tooltip"].popup-content {
   width: 185px;
   box-shadow: 0px 0px 1px 1px #d0cdcd;
