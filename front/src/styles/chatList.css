@@ -196,7 +196,6 @@ body{
     white-space: nowrap;
     max-width: fit-content;
       overflow: hidden;
-      border: px solid #000000; 
     text-overflow: ellipsis;
       
     
