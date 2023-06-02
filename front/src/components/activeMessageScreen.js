@@ -19,7 +19,7 @@ export function ChatListContainer({ messages }){
 
     return(
         <div className='MessageDisplay' ref={messageDisplayRef}>
-            {messages.map((message, index) => (
+           {messages.length === 0 ? <div className='emptyError'></div>: messages.map((message, index) => (
 
         <MessageView key={index} message={message.text} isSenders={currentUser.userId === message.senderId} />
       ))}

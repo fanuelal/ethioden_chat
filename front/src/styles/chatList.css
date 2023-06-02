@@ -24,6 +24,18 @@ body{
     background-color: var(--white);
     border-radius: 10px;
 }
+.emptyError{
+  background-position: center;
+  background-size: cover;
+  background-image: url('https://cdn.dribbble.com/users/4240845/screenshots/8501281/empty-box-drib_4x.jpg');
+  position: absolute;
+  margin-top: 30vh;
+  margin-left: 10%;
+  width: 30%;
+  height: 30vh;
+  border-radius: 10px;
+  align-items: center;
+}
 
 .chatList {
     color: gray;

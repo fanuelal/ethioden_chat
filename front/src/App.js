@@ -58,14 +58,14 @@ function App() {
     try{
       // setTimeout(async () =>{
 
-         await axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
+         axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
            console.log(value.data.data.length)
           if(value.data.data.length > messagesData.length){
             setMessageData(value.data.data)
           }
           })
       
-            await  axiosInstance.get(`/employee/${userId}`).then((value) => {
+            axiosInstance.get(`/employee/${userId}`).then((value) => {
             setSelectedUser(value.data.data);
            
           })
