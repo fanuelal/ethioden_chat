@@ -13,7 +13,7 @@ export function CatagoryList() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAllNotifications, setShowAllNotifications] = useState(false);
   const navigate = useNavigate();
-
+  const [selected, setSelected] = useState(" ");
   const logoutHandler = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
@@ -34,7 +34,40 @@ export function CatagoryList() {
       setpop(false);
   }
 
-  return (
+  const handleMenuItemClick = (menu) => {
+    setSelected(menu.Status);
+    
+  }
+   const Status=[
+    { 
+      Status:"In a meeting",
+      icon:<FontAwesomeIcon icon={faUsers} style={{color:'blue',fontSize:'20px'}}/>,
+      time: "- 1 hour"
+     },
+
+     { 
+      Status:"Vacationing",
+     icon:<FontAwesomeIcon icon={faTree}style={{color:'green',fontSize:'20px'}}/>,
+     time:"- 4 hours"
+    },
+
+    { 
+      Status:"Out of Sick",
+     icon:<FontAwesomeIcon icon={faFaceSadTear} style={{color:'yellow',fontSize:'20px'}}/>,
+     time:"- Today"
+    },
+
+    { 
+      Status:"working remotely  ",
+     icon:<FontAwesomeIcon icon={faHouseChimneyUser} style={{color:'chocolate',fontSize:'20px'}}/>,
+     time:"- This week"
+    },
+
+  ]
+  
+  
+  
+   return (
     <div className="catagoryNav">
       <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />
       <h3 className='username' >{currentUser.username}</h3>
@@ -61,26 +94,25 @@ export function CatagoryList() {
             <div className="popup">
                
                 <div className="popup-body">
-                <h3>Set a status</h3>
-              <p><FontAwesomeIcon icon={faClose}onClick={closepopup}/></p>
+                <h3>Set a status</h3> 
+              <p><FontAwesomeIcon icon={faClose}onClick={closepopup}  /></p>
                  </div>
                
                 <div className="popup-header">
-                     <input type="text" placeholder="What's your Status?"/>
+                     <input type="text" placeholder={selected} />
                      
-                     
-                       </div>
+                     </div>
                        
      <div className="listofstatus ">
      <ul>
-        <li> <FontAwesomeIcon icon={faUsers} style={{color:'blue',fontSize:'20px'}}/>
-        In a meeting <p>- 1 hour</p>  </li>
-                <li> <FontAwesomeIcon icon={faTree}style={{color:'green',fontSize:'20px'}}/>
-       Vacationing <p>- Don't Clear</p> </li>
-       <li> <FontAwesomeIcon icon={faFaceSadTear} style={{color:'yellow',fontSize:'20px'}}/>
-        Out of Sick <p>- Today</p>  </li>
-        <li><FontAwesomeIcon icon={faHouseChimneyUser} style={{color:'chocolate',fontSize:'20px'}}/>
-            working remotely  <p>- Today</p> </li>
+     {Status.map((menu)=>(
+                        <li   className="" 
+                        onClick={() => handleMenuItemClick(menu)}
+                        key={menu}> {menu.icon} <span>   </span> {menu.Status}<p  className='ppp'>{menu.time}</p></li>
+
+                    ))
+                    }
+      
 
      </ul> 
      <div className="btn">
@@ -113,11 +145,15 @@ export function CatagoryList() {
         <li>
           <FontAwesomeIcon icon={faRobot} />
           <p>Bot</p>
+        </li><li>
+          <FontAwesomeIcon icon={faFaceSmileWink}  />
+          <p onClick={handleClickOpen}>Status</p>
         </li>
         <li>
           <FontAwesomeIcon icon={faCog} />
           <p>Settings</p>
-        </li>
+        </li>  
+        
         <li>
           <FontAwesomeIcon icon={faInfoCircle} />
           <p>About</p>
@@ -127,10 +163,7 @@ export function CatagoryList() {
           <p>Help</p>
         
         </li>
-        <li>
-          <FontAwesomeIcon icon={faFaceSmileWink}  />
-          <p onClick={handleClickOpen}>Status</p>
-        </li>
+      
         <li>
           <FontAwesomeIcon icon={faSignOut}  />
           <p onClick={logoutHandler}>Logout</p>
