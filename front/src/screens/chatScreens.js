@@ -70,7 +70,7 @@ export function ChatUI(props){
             <p className='profilename'>{props.username }</p>
             <div class="recentSentAt1">lastseen recently</div>
             <div className='setstatus'>
-                <StatusPopUp/>
+                 <StatusPopUp/>  
                 
 
             </div>

@@ -1,15 +1,14 @@
 .status {
   position: relative;
 }
-.Status_icon {
-  background-color: green;
-}
+
 button {
   background-color: lightgray;
   color: black;
   border: none;
   padding: 10px 10px;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 .mainn {
@@ -17,20 +16,23 @@ button {
   top: -90px;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 120vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
+  
 
 }
 
 .popup {
   background-color: white;
   padding: 70px;
+  margin-bottom: 80px;
   border-radius: 10px;
   max-width: 400px;
+ 
 }
 
 .popup-body {
@@ -45,20 +47,23 @@ button {
   margin-right: -350px;
   max-width: 600px;
   color: lightgray;
+
 }
 
 .popup-header {
   float: left;
-  margin-top: -3px;
+  margin-top: -9px;
+  margin-bottom: 3px;
+ 
 }
 
 .popup-header input {
-  padding: 15px;
-  border: 3px solid lightskyblue;
+  padding: 13px;
+  border: 2px solid lightskyblue;
   box-shadow: light;
-  margin-left: -40px;
-  /* float: left; */
+  margin-left: -30px;
   height: 10px;
+  margin-bottom: 10px;
   width: 400px;
 }
 
@@ -68,29 +73,36 @@ button {
   float: left;
   color: black;
   margin-left: -10px;
+  
 }
 
 .listofstatus ul {
   list-style-type: none;
-  padding: -10px;
-  /* background-color: blue; */
+  padding: -1px;
+  padding-top: 3px;
+padding-bottom: -70px;
+   
   margin-top: -5px;
+  margin-bottom: 0px;
+ /* margin-left: 5px; */
 }
 
 .listofstatus li {
-    margin-bottom: 1px; 
+    margin-bottom: -13px; 
+    margin-top: 0px;
  align-items: flex-start; 
-  /* margin-left: -30px; */
+  /* margin-left: 30px;  */
   width: fit-content;
-  padding: -20px; 
+  /* padding: -20px;  */
   color: black;
-  /* justify-content: space-between; */
-  padding-bottom: -130px;
+
+  
 }
 .listofstatus li:hover {
-  background-color: lightgray;
+  background-color: white;
+  cursor: pointer;
 }
-.listofstatus p {
+.ppp {
   /* margin-bottom: 10px; */
   align-items: flex-start;
   margin-left: -10px;
@@ -101,13 +113,15 @@ button {
 
 .btn {
   float: right;
-  margin-right: -180px;
+  margin-right: -160px;
   margin-bottom: -100px;
+ 
 }
 .btn p {
   float: left;
-  margin-left: -400px;
+  margin-left: -450px;
   color: black;
+  
 }
 .DropDown {
   position: relative;
@@ -116,33 +130,34 @@ button {
 .ll p {
   float: right;
   margin-left: 10px;
+ 
 }
 
 .menu {
   position: absolute;
-  top: 25px;
+  top: 29px;
   left: -90px;
-  margin-bottom: 50px;
+  margin-bottom: 90px;
   background-color:white;
   list-style-type: none;
   margin-left: 60px;
   padding: 0px;
   width: max-content;
-
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .list {
-  /* padding-left: 60px; */
-   margin-bottom: 50px;
+   padding-left: 60px; 
+   margin-bottom: 10px;
    justify-content: space-between;
-  /* background-color: blue; */
+ 
   /* margin-left: 200px; */
 }
 .DropDown ul li:hover {
   cursor: pointer;
-  background-color: lightgray;
+  background-color: white;
+ 
 }
 
 .DropDown .fa-angle-down {
