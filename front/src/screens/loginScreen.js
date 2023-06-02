@@ -23,7 +23,7 @@ function Login() {
 
       if (response.data.success) {
         const token = response.data.data.genToken;
-        setToken(token);
+         setToken(token);
         console.log(getToken());
         var userData = response.data.data;
         console.log(userData);
@@ -37,7 +37,7 @@ function Login() {
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
 
-        navigate('/home');
+         navigate('/');
       } else {
         setLoginError(true);
       }

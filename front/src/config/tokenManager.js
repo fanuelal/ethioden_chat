@@ -3,7 +3,8 @@ import { currentUser } from "../model/currentUserData";
 import axiosInstance from "./axiosConfig";
 let token = ''
 export const setToken = (newToken) => {
-  token = newToken;
+   token = newToken;
+  localStorage.setItem('token',token)
 };
 
 export const getToken = () => {
