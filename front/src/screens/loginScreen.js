@@ -38,7 +38,7 @@ function Login() {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         localStorage.setItem('token',token)
         localStorage.setItem('refreshToken',refreshToken)
-        console.log(id)
+        
          navigate('/');
       } else {
         setLoginError(true);
