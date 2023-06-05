@@ -27,7 +27,7 @@ export function ChatList(props){
     function arrowclickHandler(){
         setIssearch(false)
         
-            axiosConfig.get('/employee')
+            axiosConfig.get(`/employee/recent/${currentUser.userId}`)
             .then(res => {
                 setUserList(res.data.data)
             
@@ -42,8 +42,9 @@ export function ChatList(props){
         const [userList, setUserList]= useState([])
          
         useEffect(()=>{
-            axiosConfig.get('/employee/recent')
+            axiosConfig.get(`/employee/recent/${currentUser.userId}`)
             .then(res => {
+                console.log(userList);
                 setUserList(res.data.data)
                 // console.log(res.data.data)
             

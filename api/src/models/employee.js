@@ -58,10 +58,11 @@ const EmployeeModel = class{
  })
  }
  
-    static getAllRecent = async () => {
+    static getAllRecent = async (currentUserId) => {
+        console.log(currentUserId);
            var fetchedData; 
             // ,chat.id,chat.reciverid,chat.senderid
-          return new Promise((resolve, reject) => {con.query(`SELECT employees.id ,employees.first_name,employees.last_name,chats.text FROM employees Inner join chats on employees.id=chats.reciverid && '4a2864c7-28d8-4a4d-ad59-ad64982a7a85'=chats.senderid OR employees.id=chats.senderid AND '4a2864c7-28d8-4a4d-ad59-ad64982a7a85'=chats.reciverid `, (err, result, fields) => {
+          return new Promise((resolve, reject) => {con.query(`SELECT employees.id ,employees.first_name,employees.last_name,chats.text FROM employees Inner join chats on employees.id=chats.reciverid && '${currentUserId}'=chats.senderid OR employees.id=chats.senderid AND '${currentUserId}'=chats.reciverid `, (err, result, fields) => {
             if (err) reject(err);
             resolve(result);
           });
