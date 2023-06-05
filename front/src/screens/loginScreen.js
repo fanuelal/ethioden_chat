@@ -22,9 +22,11 @@ function Login() {
       const response = await axiosInstance.post('/auth', { email, password });
 
       if (response.data.success) {
-        const token = response.data.data.genToken;
+        const token = response.data.data.accessToken;
+        const refreshToken = response.data.data.refreshToken;
          setToken(token);
         console.log(getToken());
+        console.log(refreshToken);
         var userData = response.data.data;
         console.log(userData);
         currentUser.userId = userData.id;
@@ -34,9 +36,9 @@ function Login() {
         currentUser.password = userData.password;
         currentUser.username = userData.first_name;
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        localStorage.setItem('email', email);
-        localStorage.setItem('password', password);
-
+        localStorage.setItem('token',token)
+        localStorage.setItem('refreshToken',refreshToken)
+        console.log(id)
          navigate('/');
       } else {
         setLoginError(true);
