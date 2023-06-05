@@ -18,7 +18,7 @@ export function ChatList(props){
         const [userList, setUserList]= useState([])
          
         useEffect(()=>{
-            axiosConfig.get('/employee')
+            axiosConfig.get('/employee/recent')
             .then(res => {
                 setUserList(res.data.data)
                 // console.log(res.data.data)
