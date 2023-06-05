@@ -10,6 +10,7 @@ import { CatagoryList } from './screens/catagoryList';
 import axiosInstance from './config/axiosConfig';
 import PrivateRoutes from './components/privateRoutes';
 import { getToken,refreshToken } from './config/tokenManager';
+// import SearchComp from "./components/searchComp.js";
 function App() {
   const [selected, setSelected] = useState(-1);
   const [messagesData, setMessageData] = useState([]);
@@ -110,6 +111,7 @@ function Home(props) {
     <>
       <CatagoryList />
       <ChatList onChatClick={props.onChatClick} />
+      {/* <SearchComp onChatClick={props.onChatClick}/> */}
       {props.selected !== -1 ? (
         <ActiveData
           userId={props.selected}

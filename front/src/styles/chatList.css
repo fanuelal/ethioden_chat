@@ -111,7 +111,7 @@ body {
 .recentChatBox {
   background-color: whitesmoke;
   height: 70px;
-  width: 97%;
+  width: 95%;
   margin-top: 1px;
   padding-left: 5px;
   padding-top: 10px;
@@ -360,6 +360,7 @@ body {
   font-weight: 100;
   margin-left: 30%;
 }
+
 
 .catagoryNav img {
   margin-top: 10px;
