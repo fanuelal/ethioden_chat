@@ -24,33 +24,30 @@ const ChatModel = class{
     }
 
      create = async() => {
-        
+        const chatId = uuidv4();
         const query = `INSERT INTO chats ( id, text, inRoom, reciverId, senderId) 
-               VALUES ('${uuidv4()}', '${this.text}', '${this.inRoom}','${this.reciverId}', '${this.senderId}')`;
+               VALUES ('${chatId}', '${this.text}', '${this.inRoom}','${this.reciverId}', '${this.senderId}')`;
 
         con.query(query, (error, result, failed) => {
             if(error) throw(error)
             console.log(result.datatype)
-            return result
+            return chatId
         });
         return null;
     }
 
-    static getAll = async () => {
-           var fetchedData; 
-          return new Promise((resolve, reject) => {con.query('SELECT * FROM `chats` WHERE isDeleted = false', (err, result, fields) => {
+    static getAll = async (reciverId) => {
+           var query = 'SELECT * FROM `chats` WHERE isDeleted = false'; 
+           
+           if(reciverId) {
+            query = `SELECT * FROM chats WHERE isDeleted = false AND inRoom = false AND (reciverId = '${reciverId}' OR senderId = '${reciverId}' ) ORDER BY created_at`;
+           }
+          return new Promise((resolve, reject) => {con.query(query, (err, result, fields) => {
             if (err) reject(err);
             resolve(result);
           });
          
       }).then((value) => {
-        // console.log(value);
-        // fetchedData = value;
-        // const extractedData = fetchedData.map((data)=> {
-        //     // console.log(data.id)
-        //     return data
-        // })
-        // console.log(extractedData)
         return value
     })
     }
@@ -91,7 +88,10 @@ const ChatModel = class{
         })
     }
 
+
+
 }
+
 
 
 export const createdChatTable = () => {

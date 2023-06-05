@@ -71,7 +71,10 @@
   }
   
   .login-button:hover {
-    /* background-color: rgb(60, 61, 72); */
      background-color: #4e527b;
     ;
+  }
+  .login-error{
+    color: rgb(221, 54, 54);
+    border-radius: 10px;
   }

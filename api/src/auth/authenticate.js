@@ -15,20 +15,57 @@ try{
      const isCorrect = passwordchecker(password, existingEmployee.password);
      if(!isCorrect) return res.status(400).json({success: false, data: null, message: `Wrong email or password`})
     
-    const genToken = tokenGenerator(existingEmployee)
-    return res.status(200).json({success: true, data: {existingEmployee, genToken}, message: `your token has been successfully generated`})
+    const accessToken = accessTokenGenerator(existingEmployee)
+    const refreshToken = RefreshTokenGenerator(existingEmployee)
+    return res.status(200).json({success: true, data: {...existingEmployee, accessToken,refreshToken}, message: `your token has been successfully generated`})
 }catch(error){
     return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`})
 }
 
+
 }
 
-const tokenGenerator = (employee) => {
+export const accessTokenGenerator = (employee) => {
     return jwt.sign(
         {employee},
         process.env.SERVER_KEY,
         {
-            expiresIn: '1h'
+            expiresIn: '20 seconds'
         }
     )
 }
+
+ export const RefreshTokenGenerator = (employee)=>{
+    return jwt.sign(
+        {employee},process.env.REFRESH_TOKEN_SECRET,{
+            expiresIn: '7d'
+
+        }
+    )
+}
+export const tokenRefresh = async (req, res) => {
+    const { refreshToken } = req.body;
+  
+    if (!refreshToken) {
+      return res.status(400).json({ success: false, data: null, message: 'Refresh token is required' });
+    }
+  
+    try {
+      const data = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+      const { employee } = data;
+  
+      const newAccessToken = accessTokenGenerator(employee);
+  
+      return res.status(200).json({
+        success: true,
+        data: { accessToken: newAccessToken },
+        message: 'Access token has been refreshed'
+      });
+    } catch (err) {
+      return res.status(403).json({
+        success: false,
+        data: null,
+        message: `Invalid refresh token ${err}`
+      });
+    }
+  };

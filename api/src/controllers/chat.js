@@ -8,15 +8,18 @@ export const createChat = async(req, res) => {
     
     try{
         var chat = new ChatModel(body.text, body.inRoom, body.roomId, body.reciverId, body.senderId)
-        chat.create()
-        return res.status(200).json({succes: true, data: null, message: ' Chat created successfuly'});
+        const chatId = chat.create()
+
+        return res.status(200).json({succes: true, data: chatId, message: ' Chat created successfuly'});
     }catch(error){
         throw(error);
     }
 }
 export const getAllChats = async(req, res) => {
+    const queryUserId = req.query.userId
+    
     try{
-        const result = await ChatModel.getAll()
+        const result = await ChatModel.getAll(queryUserId)
         console.log(result)
         return res.status(200).json({message: `fetch success`, status: 200, data: result});
     }catch(error){

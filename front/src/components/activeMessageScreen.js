@@ -1,9 +1,11 @@
-import {React, useRef, useEffect} from 'react'
+import {React, useRef, useEffect, useState} from 'react'
 import '../styles/chatList.css'
 import {MessageView} from './singleChatMessage'
+import {currentUser} from '../model/currentUserData'
+
 export function ChatListContainer({ messages }){
     const messageDisplayRef = useRef(null);
-    
+    const [message,setMessage]=useState([])
     const scrollToBottom = () => {
       messageDisplayRef.current.scrollTop = messageDisplayRef.current.scrollHeight;
     };
@@ -12,18 +14,15 @@ export function ChatListContainer({ messages }){
       scrollToBottom();
     }, [messages]);
 
+    
+
+
     return(
         <div className='MessageDisplay' ref={messageDisplayRef}>
-            <MessageView message="hi" isSenders={false}/>
-            <MessageView message="hi team" isSenders={true}/>
-            <MessageView message="hi" isSenders={false}/>
-            <MessageView message="hi" isSenders={false}/>
-            <MessageView message="hi team" isSenders={true}/>
-            <MessageView message="hi" isSenders={false}/>
-            <MessageView message="hi team" isSenders={true}/>
-            {messages.map((message, index) => (
-        <MessageView key={index} message={message.messageContent} isSenders={message.isSender} />
+           {messages.length === 0 ? <div className='emptyError'></div>: messages.map((message, index) => (
+
+        <MessageView key={index} message={message.text} isSenders={currentUser.userId === message.senderId} />
       ))}
         </div>
-    )
+    );
 }
