@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { TextField } from '@mui/material';
 import { EmailOutlined, LockOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
 import '../styles/login.css';
 import axiosInstance from '../config/axiosConfig';
 import { setToken, getToken } from '../config/tokenManager';
-import {currentUser } from '../model/currentUserData';
+import { currentUser } from '../model/currentUserData';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,35 +20,33 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axiosInstance.post('/auth', { email, password });
-  
+
       if (response.data.success) {
         const token = response.data.data.genToken;
-        setToken(token);
+         setToken(token);
         console.log(getToken());
         var userData = response.data.data;
+        console.log(userData);
         currentUser.userId = userData.id;
         currentUser.department = userData.department;
         currentUser.role = userData.role;
         currentUser.email = userData.email;
-        currentUser.username = userData.first_name
-        console.log(currentUser)
-        navigate('/home');
+        currentUser.password = userData.password;
+        currentUser.username = userData.first_name;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+
+         navigate('/');
       } else {
         setLoginError(true);
-  
-      
       }
     } catch (err) {
       console.log(err);
       setLoginError(true);
-  
-     
-      setTimeout(() => {
-        setLoginError(false);
-      }, 2000);
     }
   };
-  
+
 
   const showPasswordHandler = () => setShowPassword((show) => !show);
 
@@ -91,9 +90,7 @@ function Login() {
         <button type="submit" className="login-button">
           Login
         </button>
-        {loginError && (
-          <p className="login-error">Incorrect email or password. Please try again.</p>
-        )}
+        {loginError && <p className="login-error">Incorrect email or password. Please try again.</p>}
       </form>
     </div>
   );

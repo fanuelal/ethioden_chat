@@ -31,6 +31,14 @@ export const fetchAllEmployee = async(req, res) => {
         return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`})
     }
 }
+export const fetchAllRecentEmployee = async(req, res) => {
+    try{
+        const result = await EmployeeModel.getAllRecent();
+        return res.status(200).json({success: true, data: result, message: `your fetched data`});
+    }catch(error){
+        return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`})
+    }
+}
 
 export const getSingleEmployee = async(req, res) => {
     const userId = req.params.id

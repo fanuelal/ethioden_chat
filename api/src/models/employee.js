@@ -42,19 +42,46 @@ const EmployeeModel = class{
     }
 
     static getAll = async () => {
+        var fetchedData; 
+       return new Promise((resolve, reject) => {con.query('SELECT * FROM `employees` WHERE isDeleted = false', (err, result, fields) => {
+         if (err) reject(err);
+         resolve(result);
+       });
+      
+   }).then((value) => {
+     fetchedData = value;
+     const extractedData = fetchedData.map((data)=> {
+         // console.log(data.id)
+         return data
+     })
+     return extractedData
+ })
+ }
+ 
+    static getAllRecent = async () => {
            var fetchedData; 
-          return new Promise((resolve, reject) => {con.query('SELECT * FROM `employees` WHERE isDeleted = false', (err, result, fields) => {
+            // ,chat.id,chat.reciverid,chat.senderid
+          return new Promise((resolve, reject) => {con.query(`SELECT employees.id ,employees.first_name,employees.last_name,chats.text FROM employees Inner join chats on employees.id=chats.reciverid && '4a2864c7-28d8-4a4d-ad59-ad64982a7a85'=chats.senderid OR employees.id=chats.senderid AND '4a2864c7-28d8-4a4d-ad59-ad64982a7a85'=chats.reciverid `, (err, result, fields) => {
             if (err) reject(err);
             resolve(result);
           });
          
       }).then((value) => {
         fetchedData = value;
-        const extractedData = fetchedData.map((data)=> {
-            // console.log(data.id)
-            return data
+        var tempList = [];
+        
+        var extractedData = fetchedData.map((data)=> {
+ 
+            if(! tempList.includes(data.id)){
+                
+                tempList.push(data.id);
+                return data
+            }
+            return;
+            
         })
-        return extractedData
+        // console.log();
+        return extractedData.filter((value) => value !== undefined)
     })
     }
 
@@ -103,7 +130,7 @@ const EmployeeModel = class{
     static employeeIsAvailable = async (email) => {
         console.log(email)
         return new Promise((resolve, reject) => {
-            con.query(`SELECT email, password, role FROM employees WHERE email='${email}'`, (err, result, fields) => {
+            con.query(`SELECT id, email, password, department, first_name, role FROM employees WHERE email='${email}'`, (err, result, fields) => {
              if (err) reject(err);
              console.log(result)
              resolve(result);

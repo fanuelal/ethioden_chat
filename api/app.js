@@ -21,8 +21,10 @@ app.get('/', (req, res) => {
 
 
 app.post('/api/v1/auth', authenticate)
+// app.post('/api/v1/auth')
+ 
 // authorize
-app.use('/api/v1/', apiRoutes)
+app.use('/api/v1/', authorize, apiRoutes)
 // sequelize.sync()
 const PORT = process.env.PORT
 
@@ -31,4 +33,4 @@ app.listen(PORT, () => {
     createdRoomTable();
     createdChatTable();
     console.log(`server is running on ${PORT}`)
-})
+})  
