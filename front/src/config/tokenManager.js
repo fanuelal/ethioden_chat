@@ -22,14 +22,13 @@ export const getToken = () => {
 };
 
 export const refreshToken = async () => {
-  const storedEmail = localStorage.getItem('email');
-  const storedPassword = localStorage.getItem('password');
+  const refreshToken = localStorage.getItem('refreshToken');
 
-  if (storedEmail && storedPassword) {
+  if (refreshToken) {
     try {
-      const res = await axiosInstance.post('/auth', { email: storedEmail, password: storedPassword });
+      const res = await axiosInstance.post('/refresh', { refreshToken });
       if (res.data.success) {
-        const token = res.data.data.genToken;
+        const token = res.data.data.accessToken;
         setToken(token);
         console.log(getToken());
         var userData = res.data.data;
@@ -40,13 +39,11 @@ export const refreshToken = async () => {
         currentUser.password = userData.password;
         currentUser.email = userData.email;
         currentUser.username = userData.first_name;
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      } 
+      } else{
+        console.log(res.data.message);
+      }
     } catch (err) {
       console.log(err);
     }
-  } else{
-    console.log('no token');
   }
 };
-

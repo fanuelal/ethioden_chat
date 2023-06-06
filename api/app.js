@@ -3,7 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from 'cors'
 import authorize from './src/auth/authorization.js';
-import { authenticate } from './src/auth/authenticate.js';
+import { authenticate, tokenRefresh } from './src/auth/authenticate.js';
 import { createdEmployeeTable } from './src/models/employee.js';
 import { createdChatTable } from './src/models/chat.js'
 import {createdRoomTable} from './src/models/room.js'
@@ -23,9 +23,10 @@ app.get('/', (req, res) => {
 
 app.post('/api/v1/auth', authenticate)
 // app.post('/api/v1/auth')
- 
+app.post('/api/v1/refresh',tokenRefresh)
 // authorize
 app.use('/api/v1/', authorize, apiRoutes)
+
 // sequelize.sync()
 const PORT = process.env.PORT
 

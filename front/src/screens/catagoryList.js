@@ -15,11 +15,10 @@ export function CatagoryList() {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(" ");
   const logoutHandler = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('email')
-    localStorage.removeItem('password')
     
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
+  
     navigate('/');
   };
 

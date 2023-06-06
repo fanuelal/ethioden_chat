@@ -27,7 +27,7 @@ export function ChatList(props){
     function arrowclickHandler(){
         setIssearch(false)
         
-            axiosConfig.get('/employee')
+            axiosConfig.get(`/employee/recent/${currentUser.userId}`)
             .then(res => {
                 setUserList(res.data.data)
             
@@ -42,17 +42,18 @@ export function ChatList(props){
         const [userList, setUserList]= useState([])
          
         useEffect(()=>{
-            axiosConfig.get('/employee/recent')
+            axiosConfig.get(`/employee/recent/${currentUser.userId}`)
             .then(res => {
+                // console.log(userList);
                 setUserList(res.data.data)
                 // console.log(res.data.data)
             
             })
-        },[]) 
+        },[userList]) 
     // }
 
  const ListRecent = userList.map((user) => {
-        console.log(user.id);
+        // console.log(user.id);
         if(user.id !== currentUser.userId){
             return  <RecentChat onClick={recentClickHandler} userId={user.id} profileImg={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"} recentChat={"hello there"} status={true} username={user.first_name} />
         }
