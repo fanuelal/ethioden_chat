@@ -102,7 +102,7 @@ function App() {
 function Home(props) {
 
   useEffect(() => {
-    const refreshTokenInterval = setInterval(refreshToken, 18*1000); 
+    const refreshTokenInterval = setInterval(refreshToken, 55*60*1000); 
     return () => {
       clearInterval(refreshTokenInterval);
     };

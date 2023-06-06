@@ -30,7 +30,7 @@ export const accessTokenGenerator = (employee) => {
         {employee},
         process.env.SERVER_KEY,
         {
-            expiresIn: '20 seconds'
+            expiresIn: '1h'
         }
     )
 }

@@ -2,6 +2,13 @@ import {React, useState, useEffect}  from "react";
 import { RecentChat } from "../components/recentChat";
 import axiosConfig from '../config/axiosConfig';
 import {currentUser} from "../model/currentUserData"
+import InputAdornment from '@mui/material/InputAdornment';
+// import AccountCircle from '@mui/icons-material/AccountCircle';
+import SearchIcon from '@mui/icons-material/Search';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 
 function SearchComp(props) {
@@ -14,11 +21,12 @@ function SearchComp(props) {
 }
 
 const filteredUser = (event) => {
-  const search = event.target.value;
+  const search = event.target.value.toLowerCase();
   console.log(search)
   const filteredUser = userList.filter((user) =>
-  user.first_name.includes(search)
+  user.first_name.toLowerCase().includes(search)
   );
+
   console.log(filteredUser)
   setSearchedlist(filteredUser);
 };
@@ -40,17 +48,28 @@ const ListRecent = (searchedlist.length === 0? userList: searchedlist).map((user
 
 return(
 <div>
-<label>
-  <input
-  type="search"
-  placeholder="&#61442;"
-  className="search"
-  onChange={(event) => filteredUser(event)}
-  
-  />
-  
-  
-</label>
+<FormControl >
+          <OutlinedInput
+            className="search"
+            startAdornment={
+              <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+            }
+            onChange={(event) => filteredUser(event)}
+          />
+        </FormControl>
+
+
+
+
+
+
+
+
+
+
+
 {ListRecent}
 
 </div>
