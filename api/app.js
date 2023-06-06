@@ -7,6 +7,7 @@ import { authenticate } from './src/auth/authenticate.js';
 import { createdEmployeeTable } from './src/models/employee.js';
 import { createdChatTable } from './src/models/chat.js'
 import {createdRoomTable} from './src/models/room.js'
+import {createdStatusTable} from './src/models/status.js'
 dotenv.config()
 const app = express();
 
@@ -32,5 +33,6 @@ app.listen(PORT, () => {
     createdEmployeeTable();
     createdRoomTable();
     createdChatTable();
+    createdStatusTable();
     console.log(`server is running on ${PORT}`)
 })  
