@@ -55,15 +55,17 @@ function App() {
       
             axiosInstance.get(`/employee/${userId}`).then((value) => {
               console.log(value.data.data.first_name)
+              axiosInstance.get(`/status/${userId}`).then((resStatus) => {
+                console.log(resStatus.data.data);
+                if(resStatus.data.data.length > 0){
+                  Userstatus[0].content = resStatus.data.data[0].label;
+                }else{
+                  Userstatus[0].content = "No status!";
+                }
+              });
             setSelectedUser(value.data.data);
           })
-          const statusResponse = await axiosInstance.get(`/status/${userId}`);
-          console.log(statusResponse.data.data);
-          if(statusResponse.data.data.length > 0){
-            Userstatus[0].content = statusResponse.data.data[0].label;
-          }else{
-            Userstatus[0].content = "No status!";
-          }
+
           var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
               
               setMessageData((prev) => [...userMessages]);

@@ -20,9 +20,9 @@
     height: 35px;
     margin-top: 5%;
     /* border: none; */
-    outline: none;
+    /* outline: none; */
     border-radius: 10px;
-    border-color: #c0c0c1;
+    border-color: #000000;
   }
 
 .backarrow{
@@ -33,13 +33,14 @@
     width: 18px;
 
 }
-.search::-webkit-input-placeholder { 
+/* .search::-webkit-input-placeholder { 
     font-family: FontAwesome;
-    /* font-weight: normal; */
-    /* overflow: visible; */
-    /* vertical-align: top; */
-    display: inline-block !important;
+    padding: 20px; */
+    /* font-weight: normal;
+    overflow: visible;
+    vertical-align: top; */
+    /* display: inline-block !important;
     padding-left: 5px;
     padding-top: 2px;
     color: hsl(0, 0%, 77%);
-    }
+    } */
