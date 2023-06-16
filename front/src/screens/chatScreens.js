@@ -19,7 +19,7 @@ export function ChatUI(props){
     useEffect(()=>{
         setMessages([])
     }, [props.user])
-     const onMessageAdd = (message) => {
+        const onMessageAdd = (message) => {
         const messageUUid = uuid();
         // console.log(props.user)
 
@@ -43,8 +43,8 @@ export function ChatUI(props){
         }).catch((error) => {
             throw(error)});
         }
-  
-    const onMessageSend = () =>{
+
+        const onMessageSend = () =>{
         if(message.trim() !== ''){
             onMessageAdd(message)
             setMessage('')
