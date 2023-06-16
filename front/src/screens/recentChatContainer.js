@@ -16,17 +16,18 @@ export function ChatList(props) {
     props.onChatClick(userId);
     // console.log(props)
   }
-
+  function recentEmployee() {
+    axiosConfig.get(`/employee/recent/${currentUser.userId}`).then((res) => {
+      setUserList(res.data.data);
+    });
+  }
   function searchHandler() {
     setUserList((prev) => []);
     setIssearch(true);
   }
   function arrowclickHandler() {
     setIssearch(false);
-
-    axiosConfig.get(`/employee/recent/${currentUser.userId}`).then((res) => {
-      setUserList(res.data.data);
-    });
+    recentEmployee()
   }
 
   // function Fetchuser(){
@@ -34,11 +35,7 @@ export function ChatList(props) {
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    axiosConfig.get(`/employee/recent/${currentUser.userId}`).then((res) => {
-      console.log(userList);
-      setUserList(res.data.data);
-      // console.log(res.data.data)
-    });
+    recentEmployee()
   }, []);
   // }
 
@@ -80,8 +77,8 @@ export function ChatList(props) {
             />
           )}
         </div>
-      </div>
-      {issearch ? <SearchComp onChatClick={props.onChatClick} /> : ListRecent}
+      </div >
+      {issearch ? <SearchComp  onChatClick={props.onChatClick} /> : ListRecent}
     </div>
   );
 }

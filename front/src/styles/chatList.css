@@ -107,26 +107,43 @@ body {
   margin-top: 30px;
   margin-left: 60px;
 }
-
-.recentChatBox {
+.recentChatBox{
   background-color: whitesmoke;
   height: 70px;
-  width: 95%;
-  margin-top: 1px;
+  width: 97%;
+  margin-top: 0px;
   padding-left: 5px;
   padding-top: 10px;
+  margin-left: -1%;
   cursor: pointer;
   border: none;
 }
-/* styles.css */
 
+.recentChatBox:focus{
+  background-color: lightgrey;
+}
 .recentChatBox:hover {
   transition: all 0.3s linear;
   background-color: lightgrey;
-  /* height: 75px;   */
+  /* height: 75px;   */}
+/* styles.css */
+/* 
 
-  justify-content: center;
-}
+
+  /* justify-content: center;
+} */ */
+/* .recentChatBox:active{
+
+  background-color: rgb(70, 25, 25);
+} */
+
+/* .recentChatBox:onclick {
+    transition: all 0.3s linear;
+    background-color: rgb(158, 28, 28);
+    /* height: 75px;   */
+/*   
+    justify-content: center;
+} */ */
 .recentChatBox.selected {
   background-color: lightgrey;
 }
@@ -230,7 +247,7 @@ body {
   height: 50px;
   width: 65%;
   margin-left: 32%;
-  margin-bottom: 25px;
+  margin-bottom: 0px;
 }
 
 .chatInputDiv input {
@@ -241,12 +258,14 @@ body {
 .chatInputField {
   bottom: 0;
   height: 50px;
-  width: 80%;
+  width: 92%;
   border: solid 10px gray;
   border-radius: 80px;
-  padding-left: 10px;
-  border-start-start-radius: 10px;
-  border-top-left-radius: 10px;
+  padding-left: 20px;
+  /* border-start-start-radius: 10px;
+  border-top-left-radius: 10px; */
+  border-radius: 20px;
+  margin-left: 9%;
 }
 
 .chatInputField:focus {
@@ -258,7 +277,7 @@ body {
   background-color: #1d1f34;
   border-radius: 100%;
   margin-top: 3px;
-  margin-left: 85%;
+  margin-left: 98%;
   width: 40px;
   height: 40px;
   position: absolute;
@@ -332,7 +351,7 @@ body {
 .messageViewReciver {
   display: block;
   color: black;
-  background-color: #ccc;
+  background-color: #9294b0;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -494,4 +513,38 @@ body {
 }
 .notificationIcon:active {
   color: red;
+}
+.contextmenu{
+  position: absolute;
+     width: 170px;
+     color: #1d1f34;
+    background-color: whitesmoke;
+     border-radius: 8px;
+     box-sizing: border-box;
+     z-index: 100;
+   
+}
+.contextmenu ul{
+
+    box-sizing: border-box;
+    /* padding: 10px; */
+    margin: 0;
+    text-align: left;
+    list-style: none;
+
+}
+.contextmenu  ul li {
+  padding: 10px 12px;
+  
+  
+  /* width: 170px; */
+}
+.contextmenu  ul li:hover {
+  cursor: pointer;
+  background-color: #e7e5ff;
+
+}
+
+.searchlist{
+  margin-top: -7%;
 }

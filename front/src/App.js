@@ -104,7 +104,12 @@ function Home(props) {
     };
   }, [])
   return (
-    <>
+    < div 
+    
+     
+    >
+      
+      
       <CatagoryList />
       <ChatList onChatClick={props.onChatClick} />
       {/* <SearchComp onChatClick={props.onChatClick}/> */}
@@ -119,7 +124,8 @@ function Home(props) {
       ) : (
         <EmptyScreen />
       )}
-    </>
+    </div>
+    
   );
 }
 

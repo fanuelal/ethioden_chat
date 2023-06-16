@@ -4,6 +4,7 @@ import {MessageView} from './singleChatMessage'
 import {currentUser} from '../model/currentUserData'
 
 export function ChatListContainer({ messages }){
+  // console.log(messages)
     const messageDisplayRef = useRef(null);
     const [message,setMessage]=useState([])
     const scrollToBottom = () => {
@@ -21,7 +22,7 @@ export function ChatListContainer({ messages }){
         <div className='MessageDisplay' ref={messageDisplayRef}>
            {messages.length === 0 ? <div className='emptyError'></div>: messages.map((message, index) => (
 
-        <MessageView key={index} message={message.text} isSenders={currentUser.userId === message.senderId} />
+        <MessageView key={index} messageID={message.id} message={message.text} isSenders={currentUser.userId === message.senderId} />
       ))}
         </div>
     );

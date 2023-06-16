@@ -1,15 +1,21 @@
 import React from "react";
 import "../styles/chatList.css"
+import { style } from "@mui/system";
+
 
 export function RecentChat(prop) {
     // const [clickedUser, setClickedUser] = useState();
+    
+    
     const buttonClickHandler = () => {
         prop.onClick(prop.userId);
+        
     }
+   
 
     return(
         <>
-        <button className="recentChatBox" onClick={buttonClickHandler} key={prop.userId}>
+        <button className="recentChatBox" id="btn" onClick={buttonClickHandler }key={prop.userId}>
             <div className="recentChatuserName">{prop.username}</div>
             <img 
             width={50}
