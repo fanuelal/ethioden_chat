@@ -63,7 +63,9 @@ function App() {
           //  console.log(value.data.data)
           // if(value.data.data.length > messagesData.length){
             setMessageData(value.data.data)
+console.log(value.data.data)
           // }
+
           })
       
             axiosInstance.get(`/employee/${userId}`).then((value) => {
@@ -88,7 +90,7 @@ function App() {
       <Routes>
         <Route  element ={<PrivateRoutes isLogin= {isLogin} />}>
             {/* <Route path='/' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  /> */}
-            <Route path='/' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
+            <Route path='/' element={<Home sele={selectedUser.id} onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
 
         </Route>
         <Route path='/login' element={<Login />} />
@@ -102,15 +104,17 @@ function App() {
 function Home(props) {
 
   useEffect(() => {
-    const refreshTokenInterval = setInterval(refreshToken, 18*1000); 
+    const refreshTokenInterval = setInterval(refreshToken, 55*60*1000); 
     return () => {
       clearInterval(refreshTokenInterval);
     };
   }, [])
   return (
     <>
-      <CatagoryList />
-      <ChatList onChatClick={props.onChatClick} />
+    
+        <CatagoryList />  
+      <ChatList sele={props.sele} onChatClick={props.onChatClick} />
+      
       {/* <SearchComp onChatClick={props.onChatClick}/> */}
       {props.selected !== -1 ? (
         <ActiveData
@@ -123,6 +127,7 @@ function Home(props) {
       ) : (
         <EmptyScreen />
       )}
+       
     </>
   );
 }
