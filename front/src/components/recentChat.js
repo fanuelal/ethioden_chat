@@ -2,28 +2,6 @@ import React, { useState } from "react";
 import "../styles/chatList.css"
 
 export function RecentChat(prop) {
-<<<<<<< HEAD
-
-    const buttonClickHandler = () => {
-        prop.onClick(prop.userId);
-    }
-
-    return(
-        <>
-        <button className="recentChatBox" onClick={buttonClickHandler} key={prop.userId}>
-            <div className="recentChatuserName">{prop.username}</div>
-            <img 
-            width={50}
-            height={50}
-            className="recentChatProfile" src={prop.profileImg} alt="recent chat"/>
-            <div className={prop.status === 'online' ? "chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div>
-            <div className="recentMessageContent"><p >{prop.recentChat}</p>  </div>
-            <div className="recentSentAt">{prop.lastMessageD}</div>      
-        </button>
-        {/* {clickedUser !== null ? <ActiveData userId = {prop.userId}/>: <div> hello clicked user null</div>} */}
-        </>
-    );
-=======
   const [clicked, setClicked] = useState(false);
 
   const buttonClickHandler = () => {
@@ -43,10 +21,9 @@ const cc = prop.sele===prop.userId?clicked:false
           className="recentChatProfile" src={prop.profileImg} alt="recent chat"/>
         <div className={prop.status === 'online' ? "chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div>
         <div className="recentMessageContent"><p >{prop.recentChat}</p></div>
-        <div className="recentSentAt">2 min</div>      
+        <div className="recentSentAt">{prop.created_at}</div>      
       </button>
       {/* {clickedUser !== null ? <ActiveData userId = {prop.userId}/>: <div> hello clicked user null</div>} */}
     </>
   );
->>>>>>> ed5107517befa9f7bb58663667784ec95953dd6a
 }
