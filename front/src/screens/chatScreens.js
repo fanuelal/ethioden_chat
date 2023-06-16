@@ -12,7 +12,7 @@ import axiosConfig from '../config/axiosConfig'
 import { StatusPopUp } from './StatusPopUp'
 // import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props){
-
+    // console.log(props.copiedtext)
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     
@@ -39,6 +39,7 @@ export function ChatUI(props){
             "roomId": null,
             "reciverId": props.user,
             "senderId": currentUser.userId
+            
         }).then((response) => {
             console.log(response.data);
             setMessages([...props.messages, newmessage]);
@@ -66,7 +67,11 @@ export function ChatUI(props){
   
 
     return(
-        <div className='ChatRoom'>
+        <div className='ChatRoom'   onContextMenu={(e) => {
+            e.preventDefault(); // prevent the default behaviour when right clicked
+            console.log("Right Click");
+            // console.log(props.isedited)
+          }}>
         <div className='profileNav'>
             {props.user.profileImg ? <img alt='user profile' className='chatProfile' src={props.user.profileImg} />: <img alt='user profile' className='chatProfile' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU" />}
             <p className='profilename'>{props.username }</p>

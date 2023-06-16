@@ -9,11 +9,13 @@ import '../styles/chatList.css';
 import Popup from 'reactjs-popup';
 // import { StatusPopUp } from './StatusPopUp';
 import { DropDown } from "./DropDown";
+import { makeStyles } from '@mui/material';
 export function CatagoryList() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAllNotifications, setShowAllNotifications] = useState(false);
   const navigate = useNavigate();
   const [selected, setSelected] = useState(" ");
+  const [isselected, setIsselected] = useState(false);
   const logoutHandler = () => {
     
     localStorage.removeItem('currentUser');
@@ -35,7 +37,7 @@ export function CatagoryList() {
 
   const handleMenuItemClick = (menu) => {
     setSelected(menu.Status);
-    
+  
   }
    const Status=[
     { 
@@ -104,8 +106,10 @@ export function CatagoryList() {
                        
      <div className="listofstatus ">
      <ul>
+     
      {Status.map((menu)=>(
-                        <li   className="" 
+                       
+                       <li   className="" 
                         onClick={() => handleMenuItemClick(menu)}
                         key={menu}> {menu.icon} <span>   </span> {menu.Status}<p  className='ppp'>{menu.time}</p></li>
 

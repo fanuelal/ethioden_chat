@@ -11,6 +11,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import SearchComp from "../components/searchComp.js";
 
 import Ably from 'ably'
+import { useScrollTrigger } from "@mui/material";
 
 export function ChatList(props) {
   const [lastMessages, setLastMessages] = useState({});
@@ -48,7 +49,11 @@ export function ChatList(props) {
   function recentClickHandler(userId) {
     props.onChatClick(userId);
   }
-
+  function recentEmployee() {
+    axiosInstance.get(`/employee/recent/${currentUser.userId}`).then((res) => {
+      setUserList(res.data.data);
+    });
+  }
   function searchHandler() {
     setUserList((prev) => []);
     setIssearch(true);
@@ -56,19 +61,14 @@ export function ChatList(props) {
 
   function arrowclickHandler() {
     setIssearch(false);
-
-    // axiosInstance.get(`/employee/recent/${currentUser.userId}`).then((res) => {
-    //   setUserList(res.data.data);
-    // });
+    recentEmployee()
   }
 
 
-
-  // useEffect(() => {
-  //   axiosInstance.get(`/employee/recent/${currentUser.userId}`).then((res) => {
-  //     setUserList(res.data.data);
-  //   });
-  // }, [userList]);
+  useEffect(() => {
+    recentEmployee()
+  }, []);
+  // }
 
   const ListRecent = userList.map((user) => {
     if (user.id !== currentUser.userId) {
@@ -76,6 +76,7 @@ export function ChatList(props) {
 
       return (
         <RecentChat
+        sele={props.sele}
           key={user.id}
           onClick={recentClickHandler}
           userId={user.id}
@@ -110,8 +111,8 @@ export function ChatList(props) {
             />
           )}
         </div>
-      </div>
-      {issearch ? <SearchComp onChatClick={props.onChatClick} /> : ListRecent}
+      </div >
+      {issearch ? <SearchComp sele={props.sele} onChatClick={props.onChatClick} /> : ListRecent}
     </div>
   );
 }

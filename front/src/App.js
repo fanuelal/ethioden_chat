@@ -64,10 +64,10 @@ function App() {
     
      channel.subscribe('chat-message', (message) => {
         
-      //  if(message.data.senderId!==currentUser.userId){
+       if(message.data.senderId!==currentUser.userId){
         setMessageData((prev) => [...prev, message.data]);
         console.log('Received chat message:', message.data);
-      //  }
+       }
       
      });
 

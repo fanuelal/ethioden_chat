@@ -3,7 +3,7 @@ import {ChatUI} from '../screens/chatScreens'
 
 
 export function ActiveData (props) {
-
+    // console.log(props.copiedtext)
     // console.log(props.username);
     if(props.username !== undefined){
         return (
