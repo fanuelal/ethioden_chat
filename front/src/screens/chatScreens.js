@@ -28,6 +28,8 @@ export function ChatUI(props){
             text:message,
             reciverId: props.user,
             senderId: currentUser.userId,
+            created_at:new Date()
+            
         }
 
         axiosConfig.post("/chat/",

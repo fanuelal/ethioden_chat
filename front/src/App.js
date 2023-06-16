@@ -84,7 +84,7 @@ function App() {
       <Routes>
         <Route  element ={<PrivateRoutes isLogin= {isLogin} />}>
             {/* <Route path='/' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  /> */}
-            <Route path='/' element={<Home  onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
+            <Route path='/' element={<Home sele={selectedUser.id} onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
 
         </Route>
         <Route path='/login' element={<Login />} />
@@ -105,8 +105,10 @@ function Home(props) {
   }, [])
   return (
     <>
-      <CatagoryList />
-      <ChatList  onChatClick={props.onChatClick} />
+    
+        <CatagoryList />  
+      <ChatList sele={props.sele} onChatClick={props.onChatClick} />
+      
       {/* <SearchComp onChatClick={props.onChatClick}/> */}
       {props.selected !== -1 ? (
         <ActiveData
@@ -119,6 +121,7 @@ function Home(props) {
       ) : (
         <EmptyScreen />
       )}
+       
     </>
   );
 }

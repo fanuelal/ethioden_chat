@@ -148,6 +148,10 @@ body {
   border-bottom: var(--white) solid 1px;
   /* justify-content: center; */
 }
+.recentChatBox.clicked {
+  background-color:lightgrey ;
+}
+
 .catagoryNav {
   font-family: Sans-serif;
   position: absolute;
@@ -169,10 +173,10 @@ body {
   position: absolute;
   float: right;
   border-radius: 100%;
-  width: 35px;
-  height: 35px;
-  float: left;
-  margin-left: 15%;
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+  margin-left: 7%;
 }
 .recentChatBox p {
   color: black;
@@ -235,18 +239,20 @@ body {
 
 .chatInputDiv input {
   border: none;
+  /* background-color: red; */
   box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
 }
 
 .chatInputField {
   bottom: 0;
   height: 50px;
-  width: 80%;
-  border: solid 10px gray;
-  border-radius: 80px;
-  padding-left: 10px;
-  border-start-start-radius: 10px;
-  border-top-left-radius: 10px;
+  width: 89%;
+   border: solid 1px gray; 
+  border-radius: 20px;
+  padding-left: 13px; 
+  margin-left: 100px;
+  margin-top: 27px;
+   
 }
 
 .chatInputField:focus {
@@ -257,8 +263,8 @@ body {
   padding-left: 5px;
   background-color: #1d1f34;
   border-radius: 100%;
-  margin-top: 3px;
-  margin-left: 85%;
+  margin-top: 29px;
+  margin-left: 95%;
   width: 40px;
   height: 40px;
   position: absolute;
@@ -317,6 +323,28 @@ body {
   padding: 15px;
   animation: fadeInRight 0.3s ease-in-out;
 }
+.whole-message{
+  display: flex;
+  align-items: flex-start;
+  
+}
+.message-text{
+  margin-right: 1px;
+  align-self: flex-start;
+ margin-top: 0px;
+}
+.message-time{
+  font-size: 10px;
+  color:lightgray;
+ margin-top: 5px;
+  margin-right: -10px;
+  align-self: flex-end;
+   padding-bottom: 0px; 
+   padding-left: 3px;
+  
+}
+
+
 
 @keyframes fadeInRight {
   0% {
@@ -331,15 +359,16 @@ body {
 
 .messageViewReciver {
   display: block;
-  color: black;
-  background-color: #ccc;
+  color: white;
+  width: fit-content;
+  background-color: #717495;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  margin-top: 40px;
-  margin-left: 10px;
+  margin-top: 10px;
+  margin-left: 1px;
   margin-right: 75%;
-  padding: 20px;
+  padding: 15px;
   box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.3);
 }
 
@@ -489,8 +518,9 @@ body {
   color: var(--white);
 }
 .username {
-  margin-top: 20px;
-  color: var(--white);
+  margin-top: 65px;
+  margin-right: 55%;
+  color:white;
 }
 .notificationIcon:active {
   color: red;
