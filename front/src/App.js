@@ -16,7 +16,7 @@ import { currentUser } from './model/currentUserData';
 // import SearchComp from "./components/searchComp.js";
 
 const ably = new Ably.Realtime('nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0');
-const channel = ably.channels.get('message');
+const channel = ably.channels.get('private_chat');
 ably.connection.once('connected');
 console.log('Connected to Ably!');
 
@@ -62,7 +62,11 @@ function App() {
      console.log(currentUser.userId)
      
     
-     channel.subscribe('chat-message', (message) => {
+     const ids = [currentUser.userId, userId];
+     const sortedId = ids.sort()
+
+      
+     channel.subscribe(`${sortedId[0]}${sortedId[1]}`, (message) => {
         
        if(message.data.senderId!==currentUser.userId){
         setMessageData((prev) => [...prev, message.data]);
