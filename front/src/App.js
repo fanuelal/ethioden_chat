@@ -11,14 +11,20 @@ import axiosInstance from './config/axiosConfig';
 import PrivateRoutes from './components/privateRoutes';
 import { getToken,refreshToken } from './config/tokenManager';
 import {Userstatus} from './model/Status.js'
+import Ably from 'ably'
+import { currentUser } from './model/currentUserData';
 // import SearchComp from "./components/searchComp.js";
+
+const ably = new Ably.Realtime('nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0');
+const channel = ably.channels.get('message');
+ably.connection.once('connected');
+console.log('Connected to Ably!');
+
 function App() {
+
   const [selected, setSelected] = useState(-1);
   const [messagesData, setMessageData] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
-
-  const [newMessage, setNewMessage] = useState(false);
-  const [fetchingMessages, setFetchingMessages] = useState(false);
 
   const isLogin = () => {
     const token = getToken();
@@ -28,63 +34,57 @@ function App() {
     return true;
   };
 
-  const fetchNewMessages = async () => {
-    try {
-      const response = await axiosInstance.get(`/chat?userId=${selected}`);
-      const data = response.data.data;
 
-      if (data.length > messagesData.length) {
-        setMessageData(data);
-        setNewMessage(true);
-      }
+
+
+  const chatSelectHandler = async (userId) => {
+    try {
+      axiosInstance.get(`/chat?senderId=${ currentUser.userId}&reciverId=${userId}`).then((value) => {
+        setMessageData(value.data.data);
+      });
+      axiosInstance.get(`/employee/${userId}`).then((value) => {
+        console.log(value.data.data.first_name);
+        setSelectedUser(value.data.data);
+         console.log(selectedUser.id)
+        console.log(userId)
+
+        axiosInstance.get(`/status/${userId}`).then((resStatus) => {
+          // console.log(resStatus.data.data);
+          if (resStatus.data.data.length > 0) {
+            Userstatus[0].content = resStatus.data.data[0].label;
+          } else {
+            Userstatus[0].content = "No status!";
+          }
+        });
+       
+      });
+
+     console.log(currentUser.userId)
+     
+    
+     channel.subscribe('chat-message', (message) => {
+        
+       if(message.data.senderId!==currentUser.userId){
+        setMessageData((prev) => [...prev, message.data]);
+        console.log('Received chat message:', message.data);
+       }
+      
+     });
+
+      setSelected(userId);
     } catch (error) {
       console.log(error);
-    } finally {
-      setFetchingMessages(false);
     }
+  
   };
-
-
- 
-  const  chatSelectHandler = async (userId) => {
-    try{
-         axiosInstance.get(`/chat?userId=${userId}`).then((value)=>{
-            setMessageData(value.data.data)
-          // }
-          })
-      
-            axiosInstance.get(`/employee/${userId}`).then((value) => {
-              console.log(value.data.data.first_name)
-              axiosInstance.get(`/status/${userId}`).then((resStatus) => {
-                console.log(resStatus.data.data);
-                if(resStatus.data.data.length > 0){
-                  Userstatus[0].content = resStatus.data.data[0].label;
-                }else{
-                  Userstatus[0].content = "No status!";
-                }
-              });
-            setSelectedUser(value.data.data);
-          })
-
-          var userMessages = messages.filter(message => message.senderId === userId || message.reciverId === userId);
-              
-              setMessageData((prev) => [...userMessages]);
-              
-            
-          setSelected(userId);
-      // } , 2000)
-    }catch(error){
-      console.log(error)
-    }
-
-  }
+  
 
   return (
     <div className="App">
       <Routes>
         <Route  element ={<PrivateRoutes isLogin= {isLogin} />}>
             {/* <Route path='/' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  /> */}
-            <Route path='/' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
+            <Route path='/' element={<Home sele={selectedUser.id} onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
 
         </Route>
         <Route path='/login' element={<Login />} />
@@ -104,14 +104,11 @@ function Home(props) {
     };
   }, [])
   return (
-    < div 
+    <>
     
-     
-    >
+        <CatagoryList />  
+      <ChatList sele={props.sele} onChatClick={props.onChatClick} />
       
-      
-      <CatagoryList />
-      <ChatList onChatClick={props.onChatClick} />
       {/* <SearchComp onChatClick={props.onChatClick}/> */}
       {props.selected !== -1 ? (
         <ActiveData
@@ -124,8 +121,8 @@ function Home(props) {
       ) : (
         <EmptyScreen />
       )}
-    </div>
-    
+       
+    </>
   );
 }
 

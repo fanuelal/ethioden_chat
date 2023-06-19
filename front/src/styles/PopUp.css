@@ -28,23 +28,25 @@ button {
 
 .popup {
   background-color: white;
-  padding: 70px;
+  padding: 80px;
+  padding-bottom: 50px;
   margin-bottom: 80px;
   border-radius: 10px;
-  max-width: 400px;
+  max-width: 500px;
  
 }
 
 .popup-body {
-  margin-top: -50px;
+  margin-top: -60px;
   float: left;
   background-color: white;
-  margin-left: -50px;
+  margin-left: -70px;
+ 
 }
 .popup-body p {
   float: right;
   margin-top: -20px;
-  margin-right: -350px;
+  margin-right: -330px;
   max-width: 600px;
   color: lightgray;
 
@@ -58,13 +60,14 @@ button {
 }
 
 .popup-header input {
-  padding: 13px;
+  padding: 15px;
   border: 2px solid lightskyblue;
-  box-shadow: light;
-  margin-left: -30px;
+   box-shadow: light;
+  margin-left: -50px;
   height: 10px;
-  margin-bottom: 10px;
+  margin-top: -20px;
   width: 400px;
+  
 }
 
 .listofstatus {
@@ -72,54 +75,51 @@ button {
   padding: -10px;
   float: left;
   color: black;
-  margin-left: -10px;
+  margin-left: -25px;
   
 }
 
 .listofstatus ul {
   list-style-type: none;
-  padding: -1px;
-  padding-top: 3px;
-padding-bottom: -70px;
-   
-  margin-top: -5px;
+   padding: -10px; 
+  padding-top: 5px;
+margin-top: -5px;
   margin-bottom: 0px;
- /* margin-left: 5px; */
+  margin-left: 5px; 
 }
 
 .listofstatus li {
-    margin-bottom: -13px; 
-    margin-top: 0px;
+    margin-bottom: 13px; 
+    margin-top: 10px;
  align-items: flex-start; 
-  /* margin-left: 30px;  */
-  width: fit-content;
-  /* padding: -20px;  */
-  color: black;
-
+   width: fit-content;
+ color: black;
   
 }
 .listofstatus li:hover {
-  background-color: white;
+  background-color:lightgrey;
   cursor: pointer;
 }
 .ppp {
   /* margin-bottom: 10px; */
   align-items: flex-start;
-  margin-left: -10px;
+  margin-left: 3px;
   width: fit-content;
   float: right;
   color: lightslategray;
+  
 }
 
 .btn {
   float: right;
-  margin-right: -160px;
+  margin-right: -135px;
   margin-bottom: -100px;
  
 }
 .btn p {
   float: left;
-  margin-left: -450px;
+  margin-left: -400px;
+   
   color: black;
   
 }
@@ -130,33 +130,28 @@ padding-bottom: -70px;
 .ll p {
   float: right;
   margin-left: 10px;
- 
 }
 
 .menu {
   position: absolute;
   top: 29px;
-  left: -90px;
-  margin-bottom: 90px;
-  background-color:white;
+  left: -70px;
   list-style-type: none;
-  margin-left: 60px;
-  padding: 0px;
   width: max-content;
   border-radius: 5px;
+  background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .list {
-   padding-left: 60px; 
-   margin-bottom: 10px;
+   padding-left: 20px; 
+   margin-bottom: 20px;
    justify-content: space-between;
  
-  /* margin-left: 200px; */
 }
 .DropDown ul li:hover {
   cursor: pointer;
-  background-color: white;
+  background-color: lightgrey;
  
 }
 

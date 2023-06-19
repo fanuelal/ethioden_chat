@@ -19,7 +19,7 @@ export function ChatUI(props){
     useEffect(()=>{
         setMessages([])
     }, [props.user])
-     const onMessageAdd = (message) => {
+        const onMessageAdd = (message) => {
         const messageUUid = uuid();
         // console.log(props.user)
 
@@ -28,6 +28,8 @@ export function ChatUI(props){
             text:message,
             reciverId: props.user,
             senderId: currentUser.userId,
+            created_at:new Date()
+            
         }
 
         axiosConfig.post("/chat/",
@@ -37,14 +39,15 @@ export function ChatUI(props){
             "roomId": null,
             "reciverId": props.user,
             "senderId": currentUser.userId
+            
         }).then((response) => {
             console.log(response.data);
             setMessages([...props.messages, newmessage]);
         }).catch((error) => {
             throw(error)});
         }
-  
-    const onMessageSend = () =>{
+
+        const onMessageSend = () =>{
         if(message.trim() !== ''){
             onMessageAdd(message)
             setMessage('')

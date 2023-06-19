@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import "../styles/chatList.css";
 import "../styles/search.css";
-import axiosConfig from "../config/axiosConfig";
+import axiosInstance from "../config/axiosConfig";
 import { RecentChat } from "../components/recentChat";
 import { currentUser } from "../model/currentUserData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,15 +9,48 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import SearchComp from "../components/searchComp.js";
-// import { ArrowBack } from "@mui/icons-material";
+
+import Ably from 'ably'
+import { useScrollTrigger } from "@mui/material";
 
 export function ChatList(props) {
+  const [lastMessages, setLastMessages] = useState({});
+  const [issearch, setIssearch] = useState(false);
+  const [userList, setUserList] = useState([]);
+
+  useEffect(() => {
+    axiosInstance.get(`/employee/recent/${currentUser.userId}`).then((res) => {
+      setUserList(res.data.data);
+
+      const fetchLastMessages = async () => {
+        const Users = userList.map((user) =>
+          axiosInstance.get(`/chat/last?senderId=${currentUser.userId}&reciverId=${user.id}`)
+        );
+
+        const responses = await Promise.all(Users);
+
+        const lastMessagesData = responses.map((response, index) => {
+          const lastMessage = response.data.data;
+          return { userId: userList[index].id, lastMessage };
+        });
+
+        const lastMessageData = lastMessagesData.reduce((obj, item) => {
+          obj[item.userId] = item.lastMessage;
+          return obj;
+        }, {});
+
+        setLastMessages(lastMessageData);
+      };
+
+      fetchLastMessages();
+    });
+  }, []);
+
   function recentClickHandler(userId) {
     props.onChatClick(userId);
-    // console.log(props)
   }
   function recentEmployee() {
-    axiosConfig.get(`/employee/recent/${currentUser.userId}`).then((res) => {
+    axiosInstance.get(`/employee/recent/${currentUser.userId}`).then((res) => {
       setUserList(res.data.data);
     });
   }
@@ -25,14 +58,12 @@ export function ChatList(props) {
     setUserList((prev) => []);
     setIssearch(true);
   }
+
   function arrowclickHandler() {
     setIssearch(false);
     recentEmployee()
   }
 
-  // function Fetchuser(){
-  const [issearch, setIssearch] = useState(false);
-  const [userList, setUserList] = useState([]);
 
   useEffect(() => {
     recentEmployee()
@@ -40,22 +71,25 @@ export function ChatList(props) {
   // }
 
   const ListRecent = userList.map((user) => {
-    console.log(user.id);
     if (user.id !== currentUser.userId) {
+      const lastMessage = lastMessages[user.id];
+
       return (
         <RecentChat
+        sele={props.sele}
+          key={user.id}
           onClick={recentClickHandler}
           userId={user.id}
-          profileImg={
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-          }
-          recentChat={"hello there"}
+          profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
+          recentChat={(user.id === lastMessage?.senderId || lastMessage?.reciverId === user.id) && lastMessage?.text}
+          lastMessageD={(user.id === lastMessage?.senderId || lastMessage?.reciverId === user.id) && new Date(lastMessage?.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           status={true}
           username={user.first_name}
         />
       );
     }
   });
+
   return (
     <div className="chatList">
       <div className="header">
@@ -78,7 +112,7 @@ export function ChatList(props) {
           )}
         </div>
       </div >
-      {issearch ? <SearchComp  onChatClick={props.onChatClick} /> : ListRecent}
+      {issearch ? <SearchComp sele={props.sele} onChatClick={props.onChatClick} /> : ListRecent}
     </div>
   );
 }

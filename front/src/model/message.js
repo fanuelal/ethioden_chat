@@ -4,6 +4,7 @@ export var messages = [
         messageContent: "hi surafel from fanuel",
         reciverId: 1,
         senderId: 5,
+        
     },
     {
         messageId: "message2",

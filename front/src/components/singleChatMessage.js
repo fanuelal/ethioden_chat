@@ -9,6 +9,13 @@ import { ChatUI } from '../screens/chatScreens.js'
 import{ActiveData} from '../controller/activeChatData'
 import axiosConfig from "../config/axiosConfig";
 export function MessageView(props){
+
+  const date = new Date(props.created_at);
+  const messageTime =date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+
+
+
         const [clicked, setClicked] = useState(false);
         // const [isedit, setIsedit] = useState(false);
         const [copy,setCopy] = useState();
@@ -43,7 +50,10 @@ export function MessageView(props){
             console.log("Right Click", e.pageX, e.pageY);
           }}
         >   
-            <p className='p1'>{props.message}</p>
+               <div className='whole-message'> 
+          <p className='message-text'>{props.message}</p>
+          <div className='message-time'>{new Date(props.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+         </div>
         
              {clicked && (
                 <div className='contextmenu contextmenucontainer'  >
