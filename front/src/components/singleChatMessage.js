@@ -24,7 +24,6 @@ export function MessageView(props){
             console.log(props.messageID)
           }
 
-    
           useEffect(() => {
             const handleClick = () => setClicked(false);
             window.addEventListener("click", handleClick);
@@ -52,7 +51,7 @@ export function MessageView(props){
                     {props.isSenders?
                     <li ><FontAwesomeIcon icon={ faPen }/> Edit</li>
                     :""}
-                    <li ><FontAwesomeIcon icon={ faCopy }/> Copy</li>
+                    <li><FontAwesomeIcon icon={ faCopy }/> Copy</li>
                     <li onClick={DeleteclickHandler}><FontAwesomeIcon icon={ faTrash }/> Delete</li>
                     </ul>
                 </div>
