@@ -65,8 +65,9 @@ const EmployeeModel = class{
           return new Promise((resolve, reject) => {con.query(`SELECT employees.id, employees.first_name, employees.last_name, MAX(chats.created_at) AS last_message_time
           FROM employees 
           INNER JOIN chats 
-          ON employees.id = chats.reciverId AND '${currentUserId}' = chats.senderId 
-             OR employees.id = chats.senderId AND '${currentUserId}' = chats.reciverId
+             ON (employees.id = chats.reciverId AND '${currentUserId}' = chats.senderId 
+             OR employees.id = chats.senderId AND '${currentUserId}' = chats.reciverId)
+          WHERE chats.isDeleted = false
           GROUP BY employees.id, employees.first_name, employees.last_name
           ORDER BY last_message_time DESC`, (err, result, fields) => {
             if (err) reject(err);
