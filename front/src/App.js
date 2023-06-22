@@ -14,6 +14,7 @@ import {Userstatus} from './model/Status.js'
 import Ably from 'ably'
 import { currentUser } from './model/currentUserData';
 // import SearchComp from "./components/searchComp.js";
+import {MiniDrawer} from './screens/burgerMenu'
 
 const ably = new Ably.Realtime('nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0');
 // const channel = ably.channels.get('private_chat');
@@ -62,7 +63,32 @@ function App() {
     //  console.log(`currentUser.userId: ${currentUser.userId}`)
      
     
-     
+     const ids = [currentUser.userId, userId];
+     const sortedIds = ids.sort()
+console.log(ids)
+const channel = ably.channels.get(`${sortedIds[0]}${sortedIds[1]}`);
+console.log(channel)
+channel.history({ limit: 1 }, (err, result) => {
+  if (err) {
+    throw err;
+  }
+
+  const lastMessage = result.items[0];
+ 
+  console.log(lastMessage);
+});
+     channel.subscribe(`${sortedIds[0]}${sortedIds[1]}`, (message) => {
+        
+       if(message.data.senderId!==currentUser.userId){
+        setMessageData((prev) => [...prev, message.data]);
+        console.log('Received chat message:', message.data);
+       }
+      
+     });
+
+
+      // Do something with the last message
+    
 
       setSelected(userId);
     } catch (error) {
@@ -99,7 +125,8 @@ function Home(props) {
   return (
     <>
     
-        <CatagoryList />  
+        <CatagoryList /> 
+        {/* <MiniDrawer/>  */}
       <ChatList sele={props.sele} onChatClick={props.onChatClick} />
       
       {/* <SearchComp onChatClick={props.onChatClick}/> */}

@@ -7,15 +7,19 @@ import { faCommentDots, faUsers, faBullhorn, faCog, faInfoCircle, faQuestionCirc
 import Notification from '../components/Notification';
 import '../styles/chatList.css';
 import Popup from 'reactjs-popup';
-// import { StatusPopUp } from './StatusPopUp';
+import { StatusPopUp } from './StatusPopUp';
 import { DropDown } from "./DropDown";
 import { makeStyles } from '@mui/material';
+import axiosInstance from '../config/axiosConfig';
+import { format } from 'date-fns';
 export function CatagoryList() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAllNotifications, setShowAllNotifications] = useState(false);
   const navigate = useNavigate();
   const [selected, setSelected] = useState(" ");
-  const [isselected, setIsselected] = useState(false);
+  const [statusContent, setStatusContent] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+
   const logoutHandler = () => {
     
     localStorage.removeItem('currentUser');
@@ -65,9 +69,28 @@ export function CatagoryList() {
     },
 
   ]
-  
-  
-  
+  const setStatus =()=>{
+    const body = {
+      "userId":currentUser.userId,
+      "label":statusContent,
+      "ends_at":selectedDate
+     }
+     axiosInstance.post('/status',body)
+
+  }
+  const handleInputChange = (event) => {
+    setStatusContent(event.target.value);
+
+  };
+
+  const handleDateSelection = (date) => {
+    const formattedDate = format(date, 'yyyy-MM-dd HH:mm:ss');
+  console.log(formattedDate);
+    setSelectedDate(formattedDate);
+  };
+  console.log(selectedDate);
+
+  console.log(statusContent)
    return (
     <div className="catagoryNav">
       <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />
@@ -91,43 +114,29 @@ export function CatagoryList() {
         <div className=" Status_icon" > 
       <div>
         {popup?
-        <div className="mainn">
+          <div className="mainn">
             <div className="popup">
-               
-                <div className="popup-body">
+              <div className="popup-body">
                 <h3>Set a status</h3> 
-              <p><FontAwesomeIcon icon={faClose}onClick={closepopup}  /></p>
-                 </div>
-               
-                <div className="popup-header">
-                     <input type="text" placeholder={selected} />
-                     
-                     </div>
-                       
-     <div className="listofstatus ">
-     <ul>
-     
-     {Status.map((menu)=>(
-                       
-                       <li   className="" 
-                        onClick={() => handleMenuItemClick(menu)}
-                        key={menu}> {menu.icon} <span>   </span> {menu.Status}<p  className='ppp'>{menu.time}</p></li>
-
-                    ))
-                    }
-      
-
-     </ul> 
-     <div className="btn">
-        <p>Clear after: <DropDown/></p>
-    <button>Save</button>
-     </div>
+                <p><FontAwesomeIcon icon={faClose}onClick={closepopup}  /></p>
+              </div>
+              <div className="popup-header">
+                <input type="text"  onChange={handleInputChange} />
+              </div>
+              <div className="listofstatus ">
+        <ul>
+         {Status.map((menu)=>(
+          <li className=""  onClick={() => handleMenuItemClick(menu)}
+            key={menu}> {menu.icon} <span>   </span> {menu.Status}<p  className='ppp'>{menu.time}</p></li>))}
+        </ul> 
+       <div className="btn">
+        <p>Clear after: <DropDown onDateSelection={handleDateSelection} />
+</p>
+        <button  onClick={setStatus}>Save</button>
       </div>
-     
-  
-
-</div>
-    </div>:""}
+    </div>
+  </div> 
+  </div>:""}
     </div>
     </div>
     </div>

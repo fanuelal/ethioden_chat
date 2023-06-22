@@ -20,8 +20,9 @@ import { DropDown } from "./DropDown";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots, faUsers, faBullhorn, faCog, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear } from '@fortawesome/free-solid-svg-icons';
-
-const drawerWidth = 240;
+import axiosInstance from '../config/axiosConfig';
+import { format } from 'date-fns';
+const drawerWidth = 230;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -98,7 +99,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = useState(" ");
+  const [statusContent, setStatusContent] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -115,7 +117,7 @@ export function MiniDrawer() {
       setpop(false);
   }
   const handleMenuItemClick = (menu) => {
-    setSelected(menu.Status);
+    setStatusContent(menu.Status);
     
   }
   const Status=[
@@ -144,6 +146,28 @@ export function MiniDrawer() {
     },
 
   ]
+  const setStatus =()=>{
+    const body = {
+      "userId":currentUser.userId,
+      "label":statusContent,
+      "ends_at":selectedDate
+     }
+     axiosInstance.post('/status',body)
+
+  }
+  const handleInputChange = (event) => {
+    setStatusContent(event.target.value);
+
+  };
+
+  const handleDateSelection = (date) => {
+    const formattedDate = format(date, 'yyyy-MM-dd HH:mm:ss');
+    setSelectedDate(formattedDate);
+  };
+  console.log(selectedDate);
+
+  console.log(statusContent)
+
   const navigate = useNavigate();
   const logoutHandler = () => {
     localStorage.removeItem('currentUser');
@@ -166,7 +190,7 @@ export function MiniDrawer() {
                               </div>
 
                               <div className="popup-header">
-                                  <input type="text" placeholder={selected} />
+                                  <input type="text" value={statusContent}  onChange={handleInputChange} />
 
                               </div>
 
@@ -175,15 +199,15 @@ export function MiniDrawer() {
                                       {Status.map((menu) => (
                                           <li className=""
                                               onClick={() => handleMenuItemClick(menu)}
-                                              key={menu}> {menu.icon} <span>   </span> {menu.Status}<p className='ppp'>{menu.time}</p></li>
+                                              > {menu.icon} <span>   </span> {menu.Status}</li>
 
                                       ))}
 
 
                                   </ul>
                                   <div className="btn">
-                                      <p>Clear after: <DropDown /></p>
-                                      <button>Save</button>
+                                      <div>Clear after: <DropDown onDateSelection={handleDateSelection} /></div>
+                                      <button onClick={setStatus}>Save</button>
                                   </div>
                               </div>
 

@@ -7,7 +7,7 @@ dotenv.config({ path: '../../.env' })
 const ably = new Ably.Realtime(process.env.ABLY_API_KEY);
 await ably.connection.once('connected');
 console.log('Connected to Ably!');
-const channel = ably.channels.get('private_chat');
+
 export const createChat = async (req, res) => {
     const body = req.body;
     try {
@@ -20,12 +20,15 @@ export const createChat = async (req, res) => {
         roomId: body.roomId,
         senderId: body.senderId,
         reciverId: body.reciverId,
+       
       };
   
       const ids = [body.senderId, body.reciverId]
       const sortedIds =  ids.sort()
-
-      channel.publish({ name: `${sortedIds[0]}${sortedIds[1]}`, data: messageData });      console.log(messageData);
+      const channel = ably.channels.get(`${sortedIds[0]}${sortedIds[1]}`);
+      console.log(channel)
+      channel.publish({ name: `${sortedIds[0]}${sortedIds[1]}`, data: messageData }); 
+           console.log(messageData);
       return res.status(200).json({ success: true, data: chatId, message: 'Chat created successfully' });
     } catch (error) {
       throw error;
