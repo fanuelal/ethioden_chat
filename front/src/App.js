@@ -14,6 +14,7 @@ import {Userstatus} from './model/Status.js'
 import Ably from 'ably'
 import { currentUser } from './model/currentUserData';
 // import SearchComp from "./components/searchComp.js";
+import {MiniDrawer} from './screens/burgerMenu'
 
 const ably = new Ably.Realtime('nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0');
 ably.connection.once('connected');
@@ -123,7 +124,8 @@ function Home(props) {
   return (
     <>
     
-        <CatagoryList />  
+        <CatagoryList /> 
+        {/* <MiniDrawer/>  */}
       <ChatList sele={props.sele} onChatClick={props.onChatClick} />
       
       {/* <SearchComp onChatClick={props.onChatClick}/> */}
