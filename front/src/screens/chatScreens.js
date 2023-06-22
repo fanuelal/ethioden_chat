@@ -16,6 +16,7 @@ export function ChatUI(props){
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [channel, setChannel] = useState(null);
+    const [editedMessage, setEditedMessage] = useState(null);
     // const channel = props.ably.channels.get('private_chat');
     useEffect(()=>{
         setMessages([])
@@ -40,48 +41,67 @@ export function ChatUI(props){
       }
     };
   }, [props.user, props.ably.channels, channel]);
-
         const onMessageAdd = (message) => {
-        const messageUUid = uuid();
-        // console.log(props.user)
-
-        const newmessage={
-            messageId: messageUUid,
-            text:message,
+          const messageUUID = uuid();
+      
+          const newMessage = {
+            messageId: messageUUID,
+            text: message,
             reciverId: props.user,
             senderId: currentUser.userId,
-            created_at:new Date()
-            
-        }
+            created_at: new Date(),
+          };
+      
+          axiosConfig
+            .post('/chat/', {
+              text: message,
+              inRoom: 0,
+              roomId: null,
+              reciverId: props.user,
+              senderId: currentUser.userId,
+            })
+            .then((response) => {
+              console.log(response.data);
+             setMessages([...props.messages, newMessage]);
+            })
+            .catch((error) => {
+              throw error;
+            });
+        };
+    const onUpdateMessage = (messageID, updatedText) => {
+      const body = {
+        text: updatedText,
+      };
+  
+      axiosConfig
+        .patch(`/chat/${messageID}`, body)
+        .then((response) => {
+          console.log('Chat updated successfully:', response.data);
+          const updatedMessages = messages.map((msg) => {
+            if (msg.messageId === messageID) {
+              return { ...msg, text: updatedText };
+            }
+            return msg;
+          });
+          setMessages(updatedMessages);
+        })
+        .catch((error) => {
+          console.log('Error updating chat:', error);
+        });
+    };
 
-        axiosConfig.post("/chat/",
-        {
-            "text": message,
-            "inRoom": 0,
-            "roomId": null,
-            "reciverId": props.user,
-            "senderId": currentUser.userId
-            
-        }).then((response) => {
-            console.log(response.data);
-            setMessages([...props.messages, newmessage]);
-            // setMessages((prevMessages) => [...prevMessages, newmessage]);
-        }).catch((error) => {
-            throw(error)});
-            const ids = [currentUser.userId, props.user];
-            const sortedId = ids.sort()
-            console.log(`currentUser: ${currentUser.userId}, selected User: ${props.user}`)
-          // console.log(sortedId);
-             channel.publish({ name: `private_chat:${sortedId[0]}${sortedId[1]}`, data: newmessage });
-
+    const onMessageSend = () => {
+      if (message.trim() !== '') {
+        if (editedMessage) {
+          onUpdateMessage(editedMessage.messageID, message);
+          setEditedMessage(null);
+        } else {
+          onMessageAdd(message);
         }
-        const onMessageSend = () =>{
-        if(message.trim() !== ''){
-            onMessageAdd(message)
-            setMessage('')
-        }
-    }
-
+  
+        setMessage('');
+      }
+    };
 
     const handleInputChange = (event) => {
         setMessage(event.target.value);
@@ -92,11 +112,15 @@ export function ChatUI(props){
             onMessageSend();
         }
     }
+    const handleEdit = (messageID, message) => {
+      setEditedMessage({ messageID, message });
+      setMessage(message)
+    };
   
 
     return(
         <div className='ChatRoom'   onContextMenu={(e) => {
-            e.preventDefault(); // prevent the default behaviour when right clicked
+            e.preventDefault(); 
             console.log("Right Click");
             // console.log(props.isedited)
           }}>
@@ -110,7 +134,7 @@ export function ChatUI(props){
 
             </div>
             </div> 
-        <ChatListContainer messages={messages.length === 0? props.messages : messages} />
+        <ChatListContainer onEdit={handleEdit} messages={messages.length === 0? props.messages : messages} />
         <div> 
             
         <div className='chatInputDiv'>
