@@ -49,7 +49,7 @@ export function MessageView(props){
         >   
                <div className='whole-message'> 
           <p className='message-text'>{props.message}</p>
-          <div className='message-time'>{props.created_at}</div>
+          {/* <div className='message-time'>{props.created_at}</div> */}
          </div>
         
              {clicked && (
