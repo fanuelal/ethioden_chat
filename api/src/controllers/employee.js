@@ -7,30 +7,7 @@ import con from '../config/database.js'
 
 dotenv.config({ path: '../../.env' })
 const ably = new Ably.Realtime(process.env.ABLY_API_KEY);
-// await ably.connection.once('connected');
 
-
-// console.log('Connected to Ably!');
-
-
-
-// channel.attach((err) => {
-//     if (err) {
-//       return console.error("Error attaching to the channel.");
-//     }
-//   });
-
-// Enter the presence set of the "chatroom" channel
-// try {
-//  channel.presence.enter("hello");
-//   console.log(currentUser.username + " has entered the presence set.");
-// } catch (err) {
-//   console.error("Error entering presence set.", err);
-// }
-// channel.presence.update("howdy!", (err) => {
-//   if(err) { return console.error("Error updating presence data"); }
-//   console.log("Update OK");
-// })
 
 export const createEmployee = async(req, res) => {
     const body  = req.body;
@@ -79,41 +56,6 @@ export const getSingleEmployee = async(req, res) => {
 }
 
 const channel = ably.channels.get('status-channels');
-// export const updateEmployee = async(req, res) => {
-//     console.log("backendupdat")
-//     const userId = req.params.id
-//     const body = req.body
-//     // const statusChannel = ably.channels.get('status-channels:userId');
-//     // console.log(body.isActive)
-//     try{
-
-//         const fetchedEmployee = await EmployeeModel.getSingle(userId);
-//         // console.log(fetchAllEmployee)
-//         // if(fetchedEmployee == undefined) return res.status(400).json({succes: false, data: null, message: `User not found`});
-//         console.log("employee the update: ");
-//         const bodyEmployee = new EmployeeModel(
-//             body.first_name == undefined ? fetchedEmployee.first_name: body.first_name, 
-//             body.last_name == undefined ? fetchedEmployee.last_name: body.last_name, 
-//             body.phone_num == undefined ? fetchedEmployee.phone_num: body.phone_num, 
-//             body.email == undefined ? fetchedEmployee.email: body.email, 
-//             body.password == undefined ? fetchedEmployee.password: body.password, 
-//             body.department == undefined ? fetchedEmployee.department: body.department, 
-//             body.role == undefined ? fetchedEmployee.role: body.role,
-//             body.isDeleted == undefined ? fetchedEmployee.isDeleted: body.isDeleted,
-//             body.isActive == undefined ? fetchedEmployee.isActive: body.isActive
-//             );
-
-//             bodyEmployee.updateEmployee(userId);
-//             const result = await EmployeeModel.getSingle(userId);
-            
-//             channel.publish({name: 'status-message',data: body.isActive });
-//             console.log(body.isActive);
-//         return res.status(200).json({success: true, data: result, message: `your updated data`}); 
-//     } catch(error) {
-//         return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`});
-//     }
-// }
-
 
 
 export const updateEmployee = async(req, res) => {
@@ -123,11 +65,12 @@ export const updateEmployee = async(req, res) => {
     // const statusChannel = ably.channels.get('status-channels:userId');
     // console.log(body.isActive)
     try{
-
+        console.log(body.last_name);
         const fetchedEmployee = await EmployeeModel.getSingle(userId);
         // console.log(fetchAllEmployee)
         // if(fetchedEmployee == undefined) return res.status(400).json({succes: false, data: null, message: `User not found`});
         console.log("employee the update: ");
+        if(fetchedEmployee == undefined) return res.status(400).json({succes: false, data: null, message: `User not found`});
         const bodyEmployee = new EmployeeModel(
             body.first_name == undefined ? fetchedEmployee.first_name: body.first_name, 
             body.last_name == undefined ? fetchedEmployee.last_name: body.last_name, 
@@ -139,7 +82,7 @@ export const updateEmployee = async(req, res) => {
             body.isDeleted == undefined ? fetchedEmployee.isDeleted: body.isDeleted,
             body.isActive == undefined ? fetchedEmployee.isActive: body.isActive
             );
-
+            
             bodyEmployee.updateEmployee(userId);
             const result = await EmployeeModel.getSingle(userId);
             

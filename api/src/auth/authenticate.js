@@ -30,7 +30,6 @@ try{
     return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`})
 }
 
-
 }
 
 export const accessTokenGenerator = (employee) => {
@@ -43,11 +42,11 @@ export const accessTokenGenerator = (employee) => {
     )
 }
 
+
  export const RefreshTokenGenerator = (employee)=>{
     return jwt.sign(
         {employee},process.env.REFRESH_TOKEN_SECRET,{
             expiresIn: '7d'
-
         }
     )
 }

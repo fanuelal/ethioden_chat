@@ -17,6 +17,7 @@ import { currentUser } from './model/currentUserData';
 import {MiniDrawer} from './screens/burgerMenu'
 
 const ably = new Ably.Realtime('nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0');
+// const channel = ably.channels.get('private_chat');
 ably.connection.once('connected');
 console.log('Connected to Ably!');
 
@@ -43,10 +44,10 @@ function App() {
         setMessageData(value.data.data);
       });
       axiosInstance.get(`/employee/${userId}`).then((value) => {
-        console.log(value.data.data.first_name);
+        // console.log(value.data.data.first_name);
         setSelectedUser(value.data.data);
-         console.log(selectedUser.id)
-        console.log(userId)
+        //  console.log(`selectedUser.id: ${selectedUser.id}`)
+        // console.log(`userId: ${userId}`)
 
         axiosInstance.get(`/status/${userId}`).then((resStatus) => {
           // console.log(resStatus.data.data);
@@ -59,7 +60,7 @@ function App() {
        
       });
 
-     console.log(currentUser.userId)
+    //  console.log(`currentUser.userId: ${currentUser.userId}`)
      
     
      const ids = [currentUser.userId, userId];
@@ -131,6 +132,7 @@ function Home(props) {
       {/* <SearchComp onChatClick={props.onChatClick}/> */}
       {props.selected !== -1 ? (
         <ActiveData
+          ably = {ably}
           userId={props.selected}
           username={props.selectedUser}
           messages={props.messagesData}
