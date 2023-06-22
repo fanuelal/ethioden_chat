@@ -59,17 +59,17 @@ export const updateEmployee = async(req, res) => {
     const body = req.body
 
     try{
-
+        console.log(body.last_name);
         const fetchedEmployee = await EmployeeModel.getSingle(userId);
-        if(fetchedEmployee[0] == undefined) return res.status(400).json({succes: false, data: null, message: `User not found`});
+        if(fetchedEmployee == undefined) return res.status(400).json({succes: false, data: null, message: `User not found`});
         const bodyEmployee = new EmployeeModel(
-            body.first_name == null ? fetchedEmployee[0].first_name: body.first_name, 
-            body.last_name == null ? fetchedEmployee[0].last_name: body.last_name, 
-            body.phone_num == null ? fetchedEmployee[0].phone_num: body.phone_num, 
-            body.email == null ? fetchedEmployee[0].email: body.email, 
-            body.password == null ? fetchedEmployee[0].password: body.password, 
-            body.department == null ? fetchedEmployee[0].department: body.department, 
-            body.role == null ? fetchedEmployee[0].role: body.role);
+            body.first_name == undefined ? fetchedEmployee.first_name: body.first_name, 
+            body.last_name == undefined ? fetchedEmployee.last_name: body.last_name, 
+            body.phone_num == undefined ? fetchedEmployee.phone_num: body.phone_num, 
+            body.email == undefined ? fetchedEmployee.email: body.email, 
+            body.password == undefined ? fetchedEmployee.password: body.password, 
+            body.department == undefined ? fetchedEmployee.department: body.department, 
+            body.role == undefined ? fetchedEmployee.role: body.role);
             bodyEmployee.updateEmployee(userId);
             const result = await EmployeeModel.getSingle(userId);
         return res.status(200).json({success: true, data: result, message: `your updated data`}); 

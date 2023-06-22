@@ -8,17 +8,39 @@ import { useState, useEffect } from 'react'
 import { currentUser } from '../model/currentUserData'
 import { v4 as uuid } from 'uuid';
 import axiosConfig from '../config/axiosConfig'
-// import Suggestionbox from '../components/suggestionbox'
 import { StatusPopUp } from './StatusPopUp'
 // import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props){
     // console.log(props.copiedtext)
+    
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    
+    const [channel, setChannel] = useState(null);
+    // const channel = props.ably.channels.get('private_chat');
     useEffect(()=>{
         setMessages([])
     }, [props.user])
+
+  useEffect(() => {
+    const ids = [currentUser.userId, props.user];
+    const sortedId = ids.sort();
+
+    const newChannel = props.ably.channels.get(`private_chat:${sortedId[0]}${sortedId[1]}`);
+    setChannel(newChannel);
+
+    newChannel.subscribe((message) => {
+      if (message.data.senderId !== currentUser.userId) {
+        setMessages((prevMessages) => [...prevMessages, message.data]);
+      }
+    });
+
+    return () => {
+      if (channel) {
+        channel.unsubscribe();
+      }
+    };
+  }, [props.user, props.ably.channels, channel]);
+
         const onMessageAdd = (message) => {
         const messageUUid = uuid();
         // console.log(props.user)
@@ -43,10 +65,16 @@ export function ChatUI(props){
         }).then((response) => {
             console.log(response.data);
             setMessages([...props.messages, newmessage]);
+            // setMessages((prevMessages) => [...prevMessages, newmessage]);
         }).catch((error) => {
             throw(error)});
-        }
+            const ids = [currentUser.userId, props.user];
+            const sortedId = ids.sort()
+            console.log(`currentUser: ${currentUser.userId}, selected User: ${props.user}`)
+          // console.log(sortedId);
+             channel.publish({ name: `private_chat:${sortedId[0]}${sortedId[1]}`, data: newmessage });
 
+        }
         const onMessageSend = () =>{
         if(message.trim() !== ''){
             onMessageAdd(message)
