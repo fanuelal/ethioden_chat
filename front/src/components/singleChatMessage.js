@@ -7,14 +7,8 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { ChatUI } from '../screens/chatScreens.js'
 import{ActiveData} from '../controller/activeChatData'
-import axiosConfig from "../config/axiosConfig";
+import axiosInstance from '../config/axiosConfig';
 export function MessageView(props){
-
-  const date = new Date(props.created_at);
-  const messageTime =date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
-
-
 
         const [clicked, setClicked] = useState(false);
         // const [isedit, setIsedit] = useState(false);
@@ -26,11 +20,14 @@ export function MessageView(props){
         })
         
         function DeleteclickHandler(){
-          axiosConfig.delete(`/chat/${props.messageID}`)
-            console.log('delet');
+          axiosInstance.delete(`/chat/${props.messageID}`)
+            console.log('edit');
             console.log(props.messageID)
           }
-
+          function EditclickHandler() {
+            props.onEdit(props.messageID, props.message);
+          }
+          
           useEffect(() => {
             const handleClick = () => setClicked(false);
             window.addEventListener("click", handleClick);
@@ -52,14 +49,14 @@ export function MessageView(props){
         >   
                <div className='whole-message'> 
           <p className='message-text'>{props.message}</p>
-          <div className='message-time'>{new Date(props.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+          <div className='message-time'>{props.created_at}</div>
          </div>
         
              {clicked && (
                 <div className='contextmenu contextmenucontainer'  >
                   <ul>
                     {props.isSenders?
-                    <li ><FontAwesomeIcon icon={ faPen }/> Edit</li>
+                    <li onClick={EditclickHandler}><FontAwesomeIcon icon={ faPen }/> Edit</li>
                     :""}
                     <li><FontAwesomeIcon icon={ faCopy }/> Copy</li>
                     <li onClick={DeleteclickHandler}><FontAwesomeIcon icon={ faTrash }/> Delete</li>

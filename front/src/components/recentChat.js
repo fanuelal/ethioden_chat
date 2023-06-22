@@ -5,6 +5,8 @@ import Ably from 'ably'
 import { currentUser } from '../../src/model/currentUserData';
 // import dotenv from 'dotenv'
 export function RecentChat(prop) {
+  console.log(prop.isActive)
+
   const [clicked, setClicked] = useState(false);
 
  
@@ -34,7 +36,7 @@ const cc = prop.sele===prop.userId?clicked:false
           width={50}
           height={50}
           className="recentChatProfile" src={prop.profileImg} alt="recent chat"/>
-        <div className={true ? "chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div>
+        <div className={prop.isActive ? "chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div>
         <div className="recentMessageContent"><p >{prop.recentChat}</p></div>
         <div className="recentSentAt">{prop.lastMessageD}</div>      
       </button>

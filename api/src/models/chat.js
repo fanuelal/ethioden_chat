@@ -45,27 +45,12 @@ static getLast = async(senderId,reciverId)=>{
     })
   })
 }
-    // static getAll = async (reciverId) => {
-    //        var query = 'SELECT * FROM `chats` WHERE isDeleted = false'; 
-           
-    //        if(reciverId) {
-    //         query = `SELECT * FROM chats WHERE isDeleted = false AND inRoom = false AND (reciverId = '${reciverId}' OR senderId = '${reciverId}' ) ORDER BY created_at`;
-    //        }
-    //       return new Promise((resolve, reject) => {
-    //         con.query(query, (err, result, fields) => {
-    //         if (err) reject(err);
-    //         resolve(result);
-    //       });
-         
-    //   }).then((value) => {
-    //     return value
-    // })
-    // }
+ 
     static getAll = async (senderId, reciverId) => {
         let query = `SELECT * FROM chats WHERE isDeleted = false`;
         
         if (senderId && reciverId) {
-          query = `SELECT * FROM chats WHERE isDeleted = false AND inRoom = false AND ((senderId = '${senderId}' AND reciverId = '${reciverId}') OR (senderId = '${reciverId}' AND reciverId = '${senderId}')) ORDER BY created_at`;
+         query = `SELECT * FROM chats WHERE isDeleted = false AND inRoom = false AND ((senderId = '${senderId}' AND reciverId = '${reciverId}') OR (senderId = '${reciverId}' AND reciverId = '${senderId}')) ORDER BY created_at`;
         }
         
         return new Promise((resolve, reject) => {

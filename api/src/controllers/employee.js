@@ -79,6 +79,43 @@ export const getSingleEmployee = async(req, res) => {
 }
 
 const channel = ably.channels.get('status-channels');
+// export const updateEmployee = async(req, res) => {
+//     console.log("backendupdat")
+//     const userId = req.params.id
+//     const body = req.body
+//     // const statusChannel = ably.channels.get('status-channels:userId');
+//     // console.log(body.isActive)
+//     try{
+
+//         const fetchedEmployee = await EmployeeModel.getSingle(userId);
+//         // console.log(fetchAllEmployee)
+//         // if(fetchedEmployee == undefined) return res.status(400).json({succes: false, data: null, message: `User not found`});
+//         console.log("employee the update: ");
+//         const bodyEmployee = new EmployeeModel(
+//             body.first_name == undefined ? fetchedEmployee.first_name: body.first_name, 
+//             body.last_name == undefined ? fetchedEmployee.last_name: body.last_name, 
+//             body.phone_num == undefined ? fetchedEmployee.phone_num: body.phone_num, 
+//             body.email == undefined ? fetchedEmployee.email: body.email, 
+//             body.password == undefined ? fetchedEmployee.password: body.password, 
+//             body.department == undefined ? fetchedEmployee.department: body.department, 
+//             body.role == undefined ? fetchedEmployee.role: body.role,
+//             body.isDeleted == undefined ? fetchedEmployee.isDeleted: body.isDeleted,
+//             body.isActive == undefined ? fetchedEmployee.isActive: body.isActive
+//             );
+
+//             bodyEmployee.updateEmployee(userId);
+//             const result = await EmployeeModel.getSingle(userId);
+            
+//             channel.publish({name: 'status-message',data: body.isActive });
+//             console.log(body.isActive);
+//         return res.status(200).json({success: true, data: result, message: `your updated data`}); 
+//     } catch(error) {
+//         return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`});
+//     }
+// }
+
+
+
 export const updateEmployee = async(req, res) => {
     console.log("backendupdat")
     const userId = req.params.id
@@ -106,13 +143,16 @@ export const updateEmployee = async(req, res) => {
             bodyEmployee.updateEmployee(userId);
             const result = await EmployeeModel.getSingle(userId);
             
-            channel.publish({name: 'status-message',data: body.isActive });
+            channel.publish({data: body.isActive });
             console.log(body.isActive);
         return res.status(200).json({success: true, data: result, message: `your updated data`}); 
     } catch(error) {
         return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`});
     }
 }
+
+
+
 
 export const deleteEmployee = async(req, res) => {
     const userId = req.params.id

@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/chatList.css";
 import "../styles/search.css";
 import axiosInstance from "../config/axiosConfig";
@@ -7,9 +7,11 @@ import { currentUser } from "../model/currentUserData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-// import axiosInstance from './config/axiosConfig';
+import {formatMessageDate} from '../common/Common'
+
 import SearchComp from "../components/searchComp.js";
-// import { currentUser } from "../model/currentUserData";
+
+import Ably from "ably";
 import { useScrollTrigger } from "@mui/material";
 
 export function ChatList(props) {
@@ -19,46 +21,45 @@ export function ChatList(props) {
   const channel = props.ably.channels.get('status-channels');
   const [isactive, setIsactive]= useState(false);
 
-
-
-
-
-  // let isActive = false;
-  // dotenv.config({ path: '../../.env' })
-  // const ably = new Ably.Realtime(process.env.ABLY_API_KEY);
-  // await ably.connection.once('connected');
   props.ably.connection.on('connected', function() {
       // Update the variable to indicate that the connection is active
-      console.log(currentUser.userId)
+      // console.log(currentUser.userId)
      axiosInstance.patch(`/employee/${currentUser.userId}`,{isActive: 1}).then((value)=> console.log(value))
       // isActive = true;
       console.log("frontend connected")
-      // console.log(channel)
-      
-      // channel.subscribe('status-message', (message) =>{
-      //   console.log("subscribing the channel")
-      //   setIsactive(message.data === 1 ? true: false)
-      // })
-      // console.log('Connected to Ably!');
-    });
-  
-  props.ably.connection.on('disconnected', function() {
-      // Update the variable to indicate that the connection is no longer active
+
+    //  channel.subscribe( (message) => {
+    //     console.log("subscribing the channel")
+    //     setIsactive(message.data === 1 ? true : false)
+       
+    //     })
+       });
+props.ably.connection.on('disconnected', function() {
      axiosInstance.patch(`/employee/${currentUser.userId}`,{isActive: 0}).then((value)=> console.log(value))
      console.log("frontend disconnected")
-      
-      // isActive = false;
     });
 
 
 
-  useEffect(() => {
+  
+  const recentEmployee = () => {
     axiosInstance.get(`/employee/recent/${currentUser.userId}`).then((res) => {
       setUserList(res.data.data);
+    });
+  };
+  useEffect(() => {
+   
 
-      const fetchLastMessages = async () => {
+    recentEmployee();
+  }, [userList]);
+
+  useEffect(() => {
+    const fetchLastMessages = async () => {
+      if (userList.length > 0) {
         const Users = userList.map((user) =>
-          axiosInstance.get(`/chat/last?senderId=${currentUser.userId}&reciverId=${user.id}`)
+          axiosInstance.get(
+            `/chat/last?senderId=${currentUser.userId}&reciverId=${user.id}`
+          )
         );
 
         const responses = await Promise.all(Users);
@@ -73,50 +74,52 @@ export function ChatList(props) {
           return obj;
         }, {});
 
-        setLastMessages(lastMessageData);
-      };
+        setLastMessages((prevLastMessages) => ({
+          ...prevLastMessages,
+          ...lastMessageData,
+        }));
+      }
+    };
 
-      fetchLastMessages();
-    });
-  }, []);
+    fetchLastMessages();
+  }, [userList]);
 
-  function recentClickHandler(userId) {
+  const recentClickHandler = (userId) => {
     props.onChatClick(userId);
-  }
-  function recentEmployee() {
-    axiosInstance.get(`/employee/recent/${currentUser.userId}`).then((res) => {
-      setUserList(res.data.data);
-    });
-  }
-  function searchHandler() {
-    setUserList((prev) => []);
+  };
+
+  const searchHandler = () => {
+    setUserList([]);
     setIssearch(true);
-  }
+  };
 
-  function arrowclickHandler() {
+  const arrowclickHandler = () => {
     setIssearch(false);
-    recentEmployee()
-  }
-
-
-  useEffect(() => {
-    recentEmployee()
-  }, []);
-  // }
+    recentEmployee();
+  };
 
   const ListRecent = userList.map((user) => {
     if (user.id !== currentUser.userId) {
       const lastMessage = lastMessages[user.id];
-      console.log(user)
+      // console.log(user)
+
+      const lastMessageDate =
+        lastMessage &&
+        formatMessageDate(new Date(lastMessage.created_at));
+
       return (
         <RecentChat
-        sele={props.sele}
+          sele={props.sele}
           key={user.id}
           onClick={recentClickHandler}
           userId={user.id}
           profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-          recentChat={(user.id === lastMessage?.senderId || lastMessage?.reciverId === user.id) && lastMessage?.text}
-          lastMessageD={(user.id === lastMessage?.senderId || lastMessage?.reciverId === user.id) && new Date(lastMessage?.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          recentChat={
+            (user.id === lastMessage?.senderId ||
+              lastMessage?.reciverId === user.id) &&
+            lastMessage?.text
+          }
+          lastMessageD={lastMessageDate}
           status={true}
           username={user.first_name}
           isActive = {user.isActive}
@@ -129,9 +132,7 @@ export function ChatList(props) {
   return (
     <div className="chatList">
       <div className="header">
-        <div className="roomHeader">
-          {issearch ? "" : <h2>Private Chat</h2>}
-        </div>
+        <div className="roomHeader">{issearch ? "" : <h2>Private Chat</h2>}</div>
         <div>
           {issearch ? (
             <FontAwesomeIcon
@@ -147,7 +148,7 @@ export function ChatList(props) {
             />
           )}
         </div>
-      </div >
+      </div>
       {issearch ? <SearchComp sele={props.sele} onChatClick={props.onChatClick} /> : ListRecent}
     </div>
   );
