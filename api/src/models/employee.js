@@ -33,7 +33,7 @@ const EmployeeModel = class{
         console.log("creating ...")
         var encryptedPass = passwordEncryptor(this.password)
         const query = `INSERT INTO employees (id, first_name, last_name, phone_num, email, password, department, role) 
-               VALUES ('${uuidv4()}', '${this.first_name}', '${this.last_name}', '${this.phone_num}', '${this.email}', '${encryptedPass}', '${this.department}', '${this.role}')`;
+               VALUES ('${uuidv4()}', '${this.first_name}', '${this.last_name}', '${this.phone_num}', '${this.email}', '${encryptedPass}', '${this.department}', '${this.role}'))`;
         con.query(query, (error, result, failed) => {
             if(error) throw(error)
             return result
@@ -62,7 +62,7 @@ const EmployeeModel = class{
         console.log(currentUserId);
            var fetchedData; 
             // ,chat.id,chat.reciverid,chat.senderid
-          return new Promise((resolve, reject) => {con.query(`SELECT employees.id, employees.first_name, employees.last_name, MAX(chats.created_at) AS last_message_time
+          return new Promise((resolve, reject) => {con.query(`SELECT employees.id, employees.first_name, employees.last_name, employees.MAX(chats.created_at) AS last_message_time
           FROM employees 
           INNER JOIN chats 
           ON employees.id = chats.reciverId AND '${currentUserId}' = chats.senderId 
@@ -118,6 +118,7 @@ const EmployeeModel = class{
         });
     }
      updateEmployee = async(userId) => {
+        // console.log(`${userId} + ${this.isActive}`);
         return new Promise((resolve, reject) => {
             con.query(`UPDATE employees SET  first_name = '${this.first_name}', 
             last_name = '${this.last_name}', 
@@ -130,6 +131,7 @@ const EmployeeModel = class{
                 resolve(result)
             })
         }).then((data) => {
+            console.log(data)
             return data;
         })
     }

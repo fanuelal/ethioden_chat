@@ -107,7 +107,7 @@ function Home(props) {
     <>
     
         <CatagoryList />  
-      <ChatList sele={props.sele} onChatClick={props.onChatClick} />
+      <ChatList sele={props.sele} onChatClick={props.onChatClick} ably={ably}/>
       
       {/* <SearchComp onChatClick={props.onChatClick}/> */}
       {props.selected !== -1 ? (

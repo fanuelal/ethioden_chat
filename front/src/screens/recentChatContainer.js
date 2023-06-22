@@ -7,16 +7,50 @@ import { currentUser } from "../model/currentUserData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-
+// import axiosInstance from './config/axiosConfig';
 import SearchComp from "../components/searchComp.js";
-
-import Ably from 'ably'
+// import { currentUser } from "../model/currentUserData";
 import { useScrollTrigger } from "@mui/material";
 
 export function ChatList(props) {
   const [lastMessages, setLastMessages] = useState({});
   const [issearch, setIssearch] = useState(false);
   const [userList, setUserList] = useState([]);
+  const channel = props.ably.channels.get('status-channels');
+  const [isactive, setIsactive]= useState(false);
+
+
+
+
+
+  // let isActive = false;
+  // dotenv.config({ path: '../../.env' })
+  // const ably = new Ably.Realtime(process.env.ABLY_API_KEY);
+  // await ably.connection.once('connected');
+  props.ably.connection.on('connected', function() {
+      // Update the variable to indicate that the connection is active
+      console.log(currentUser.userId)
+     axiosInstance.patch(`/employee/${currentUser.userId}`,{isActive: 1}).then((value)=> console.log(value))
+      // isActive = true;
+      console.log("frontend connected")
+      // console.log(channel)
+      
+      // channel.subscribe('status-message', (message) =>{
+      //   console.log("subscribing the channel")
+      //   setIsactive(message.data === 1 ? true: false)
+      // })
+      // console.log('Connected to Ably!');
+    });
+  
+  props.ably.connection.on('disconnected', function() {
+      // Update the variable to indicate that the connection is no longer active
+     axiosInstance.patch(`/employee/${currentUser.userId}`,{isActive: 0}).then((value)=> console.log(value))
+     console.log("frontend disconnected")
+      
+      // isActive = false;
+    });
+
+
 
   useEffect(() => {
     axiosInstance.get(`/employee/recent/${currentUser.userId}`).then((res) => {
@@ -73,7 +107,7 @@ export function ChatList(props) {
   const ListRecent = userList.map((user) => {
     if (user.id !== currentUser.userId) {
       const lastMessage = lastMessages[user.id];
-
+      console.log(user)
       return (
         <RecentChat
         sele={props.sele}
@@ -85,6 +119,8 @@ export function ChatList(props) {
           lastMessageD={(user.id === lastMessage?.senderId || lastMessage?.reciverId === user.id) && new Date(lastMessage?.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           status={true}
           username={user.first_name}
+          isActive = {user.isActive}
+          ably={props.ably}
         />
       );
     }
