@@ -31,7 +31,7 @@ export function ChatUI(props){
 
     newChannel.subscribe((message) => {
       if (message.data.senderId !== currentUser.userId) {
-        setMessages((prevMessages) => [...prevMessages, message.data]);
+        setMessages([...props.prevMessages, message.data]);
       }
     });
 

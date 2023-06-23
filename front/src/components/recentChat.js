@@ -5,28 +5,24 @@ import Ably from 'ably'
 import { currentUser } from '../../src/model/currentUserData';
 // import dotenv from 'dotenv'
 export function RecentChat(prop) {
-  console.log(prop.isActive)
-
+  console.log(`${prop.username} ${prop.isActive}`)
   const [clicked, setClicked] = useState(false);
-
- 
-  // useEffect(() => {
-
-  // }, [])
+  const [isActive, setIsActive] = useState(false);
 
 const buttonClickHandler = () => {
     prop.onClick(prop.userId);
     setClicked(true);
   }
 
-
-
-
+ const channel = prop.ably.channels.get('chat-status');
+ channel.subscribe((message) => {
+    console.log(message.data);
+    setIsActive(message.data);
+  
+});
 
 const cc = prop.sele===prop.userId?clicked:false
   const chatBoxClass = cc ? "recentChatBox clicked" : "recentChatBox";
-  //  console.log(isOnline)
-  //  console.log(isactive)
    
   return (
     <>

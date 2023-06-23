@@ -59,9 +59,6 @@ function App() {
         });
        
       });
-
-    //  console.log(`currentUser.userId: ${currentUser.userId}`)
-     
     
      const ids = [currentUser.userId, userId];
      const sortedIds = ids.sort()

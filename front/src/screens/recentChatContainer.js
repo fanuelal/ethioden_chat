@@ -28,11 +28,6 @@ export function ChatList(props) {
       // isActive = true;
       console.log("frontend connected")
 
-    //  channel.subscribe( (message) => {
-    //     console.log("subscribing the channel")
-    //     setIsactive(message.data === 1 ? true : false)
-       
-    //     })
        });
 props.ably.connection.on('disconnected', function() {
      axiosInstance.patch(`/employee/${currentUser.userId}`,{isActive: 0}).then((value)=> console.log(value))
@@ -51,7 +46,7 @@ props.ably.connection.on('disconnected', function() {
    
 
     recentEmployee();
-  }, [userList]);
+  }, []);
 
   useEffect(() => {
     const fetchLastMessages = async () => {
