@@ -62,7 +62,7 @@ const EmployeeModel = class{
         console.log(currentUserId);
            var fetchedData; 
             // ,chat.id,chat.reciverid,chat.senderid
-          return new Promise((resolve, reject) => {con.query(`SELECT employees.id, employees.first_name, employees.last_name, MAX(chats.created_at) AS last_message_time
+          return new Promise((resolve, reject) => {con.query(`SELECT employees.id, employees.first_name, employees.last_name, isActive, MAX(chats.created_at) AS last_message_time
           FROM employees 
           INNER JOIN chats 
              ON (employees.id = chats.reciverId AND '${currentUserId}' = chats.senderId 
@@ -131,6 +131,7 @@ const EmployeeModel = class{
                 resolve(result)
             })
         }).then((data) => {
+            // console.log(data)
             return data;
         })
     }

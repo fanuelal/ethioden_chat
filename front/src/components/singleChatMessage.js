@@ -58,7 +58,7 @@ export function MessageView(props){
                     {props.isSenders?
                     <li onClick={EditclickHandler}><FontAwesomeIcon icon={ faPen }/> Edit</li>
                     :""}
-                    <li ><FontAwesomeIcon icon={ faCopy }/> Copy</li>
+                    <li><FontAwesomeIcon icon={ faCopy }/> Copy</li>
                     <li onClick={DeleteclickHandler}><FontAwesomeIcon icon={ faTrash }/> Delete</li>
                     </ul>
                 </div>

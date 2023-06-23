@@ -59,9 +59,6 @@ function App() {
         });
        
       });
-
-    //  console.log(`currentUser.userId: ${currentUser.userId}`)
-     
     
      const ids = [currentUser.userId, userId];
      const sortedIds = ids.sort()
@@ -127,7 +124,7 @@ function Home(props) {
     
         <CatagoryList /> 
         {/* <MiniDrawer/>  */}
-      <ChatList sele={props.sele} onChatClick={props.onChatClick} />
+      <ChatList sele={props.sele} onChatClick={props.onChatClick} ably={ably}/>
       
       {/* <SearchComp onChatClick={props.onChatClick}/> */}
       {props.selected !== -1 ? (

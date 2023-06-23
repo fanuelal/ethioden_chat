@@ -18,6 +18,24 @@ export function ChatList(props) {
   const [lastMessages, setLastMessages] = useState({});
   const [issearch, setIssearch] = useState(false);
   const [userList, setUserList] = useState([]);
+  const channel = props.ably.channels.get('status-channels');
+  const [isactive, setIsactive]= useState(false);
+
+  props.ably.connection.on('connected', function() {
+      // Update the variable to indicate that the connection is active
+      // console.log(currentUser.userId)
+     axiosInstance.patch(`/employee/${currentUser.userId}`,{isActive: 1}).then((value)=> console.log(value))
+      // isActive = true;
+      console.log("frontend connected")
+
+       });
+props.ably.connection.on('disconnected', function() {
+     axiosInstance.patch(`/employee/${currentUser.userId}`,{isActive: 0}).then((value)=> console.log(value))
+     console.log("frontend disconnected")
+    });
+
+
+
   
   const recentEmployee = () => {
     axiosInstance.get(`/employee/recent/${currentUser.userId}`).then((res) => {
@@ -28,7 +46,7 @@ export function ChatList(props) {
    
 
     recentEmployee();
-  }, [userList]);
+  }, []);
 
   useEffect(() => {
     const fetchLastMessages = async () => {
@@ -78,6 +96,7 @@ export function ChatList(props) {
   const ListRecent = userList.map((user) => {
     if (user.id !== currentUser.userId) {
       const lastMessage = lastMessages[user.id];
+      // console.log(user)
 
       const lastMessageDate =
         lastMessage &&
@@ -98,6 +117,8 @@ export function ChatList(props) {
           lastMessageD={lastMessageDate}
           status={true}
           username={user.first_name}
+          isActive = {user.isActive}
+          ably={props.ably}
         />
       );
     }
