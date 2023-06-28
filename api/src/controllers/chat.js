@@ -25,9 +25,9 @@ export const createChat = async (req, res) => {
   
       const ids = [body.senderId, body.reciverId]
       const sortedIds =  ids.sort()
-      const channel = ably.channels.get(`${sortedIds[0]}${sortedIds[1]}`);
+      const channel = ably.channels.get(`private_chat:${sortedIds[0]}${sortedIds[1]}`);
       console.log(channel)
-      channel.publish({ name: `${sortedIds[0]}${sortedIds[1]}`, data: messageData }); 
+      channel.publish({ name:'private_chat', data: messageData }); 
            console.log(messageData);
       return res.status(200).json({ success: true, data: chatId, message: 'Chat created successfully' });
     } catch (error) {
