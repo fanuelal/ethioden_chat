@@ -375,6 +375,7 @@ body {
 }
 
 .messageViewReciver {
+  position: relative;
   display: block;
   color: white;
   width: fit-content;
@@ -460,11 +461,7 @@ body {
   width: 20px;
 
 }
-/* .popup-arrow {
-  color: rgb(255, 255, 255);
-  margin-left: -192px;
-  
-} */
+
 [role="tooltip"].popup-content {
   width: 185px;
   box-shadow: 0px 0px 1px 1px #d0cdcd;
@@ -549,13 +546,12 @@ body {
     background-color: whitesmoke;
      border-radius: 8px;
      box-sizing: border-box;
-     z-index: 100;
+     z-index: 10;
    
 }
 .contextmenu ul{
 
     box-sizing: border-box;
-    /* padding: 10px; */
     margin: 0;
     text-align: left;
     list-style: none;
@@ -565,21 +561,13 @@ body {
   padding: 10px 12px;
   
   
-  /* width: 170px; */
 }
 .contextmenu  ul li:hover {
   cursor: pointer;
   background-color: #e7e5ff;
 
 }
-/* .contextmenucontainer{
-  border: 1px solid #ffffff2d;
-  border-radius: 4px;
-  padding: 18px;
-  margin: 5px 0;
-  box-sizing: border-box;
 
-} */
 .searchlist{
   margin-top: -8%;
 }
