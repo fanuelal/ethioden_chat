@@ -65,7 +65,7 @@ function SearchComp(props) {
           className="search"
           endAdornment={
             <InputAdornment  position="end">
-              <SearchIcon />
+              
             </InputAdornment>
           }
           onChange={(event) => filteredUser(event)}

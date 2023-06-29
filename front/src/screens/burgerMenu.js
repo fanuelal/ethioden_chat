@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { ChatList } from './recentChatContainer';
 import { ActiveData } from '../controller/activeChatData';
 import { EmptyScreen } from './emptyChat';
@@ -25,6 +25,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots, faUsers, faBullhorn, faCog, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../config/axiosConfig';
 import { format } from 'date-fns';
+import Bots from '../components/Bot';
 const drawerWidth = 230;
 
 const openedMixin = (theme) => ({
@@ -105,6 +106,31 @@ export function MiniDrawer(props) {
   const [statusContent, setStatusContent] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [activeMenu, setActiveMenu] = useState(null);
+const [component, setComponent] = useState(null);
+
+
+const renderComponent = () => {
+  switch (activeMenu) {
+    case 'Private Chat':
+      return <ChatList name={activeMenu} sele={props.sele} onChatClick={props.onChatClick} ably={props.ably} />;
+    case 'Group Chat':
+      return <div>Groups</div>;
+    case 'Announcement':
+      return <div>Channels</div> ;
+    case 'Bot':
+      return <Bots name={activeMenu} />;
+    case 'Settings':
+      return null;
+    case 'About':
+      return null;
+    case 'Help':
+      return null;
+    case 'Logout':
+      return null
+    default:
+      return <ChatList sele={props.sele} onChatClick={props.onChatClick} ably={props.ably} />;
+  }
+};
 
 
   const handleDrawerOpen = () => {
@@ -126,7 +152,11 @@ export function MiniDrawer(props) {
   }
   const handleMenuListClick = (menu) => {
     setActiveMenu(menu);
+
   };
+  useEffect(() => {
+    setComponent(renderComponent());
+  }, [activeMenu])
   
  const menuLists= ['Private Chat', 'Group Chat', 'Announcement', 'Status', 'Bot', 'Settings', 'About', 'Help', 'Logout']
   const Status=[
@@ -211,16 +241,12 @@ export function MiniDrawer(props) {
                                               > {menu.icon} <span>   </span> {menu.Status}</li>
 
                                       ))}
-
-
                                   </ul>
-                                  <div className="btn">
+                                  <div className="flex justify-around align-baseline">
                                       <div>Clear after: <DropDown onDateSelection={handleDateSelection} /></div>
-                                      <button className='transition ease-in-out hover:translate-y-9' onClick={setStatus}>Save</button>
+                                      <button className='transition ease-in-out hover:-translate-y-3 rounded-lg ml-4' onClick={setStatus}>Save</button>
                                   </div>
                               </div>
-
-
 
                           </div>
                       </div> : ""}
@@ -250,7 +276,7 @@ export function MiniDrawer(props) {
               <Drawer variant="permanent" open={open}>
                   <DrawerHeader>
                   
-                  { open && <div className='flex flex-col mt-3'>
+                  { open && <div className='flex flex-col mt-3 '>
                   <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />
                   <p className='text-white mr-20 pl-3' >{currentUser.username}</p></div>}
                      {!open ? <MenuIcon  onClick={handleDrawerOpen} className='mr-4' style={{color:'white',cursor:"pointer"}}/>: <IconButton onClick={handleDrawerClose}style={{color:'white'}}>
@@ -271,7 +297,7 @@ export function MiniDrawer(props) {
                                       color:'white',
                                       justifyContent: open ? 'initial' : 'center',
                                       px: 2.5,
-                                  }}    onClick={text === 'Status' ? handleClickOpen : text === 'Logout' ? logoutHandler : undefined}
+                                  }}    onClick={()=>{text === 'Status' ? handleClickOpen() : text === 'Logout' ? logoutHandler() : handleMenuListClick(text)}}
                                   >
                                   <ListItemIcon
                                       sx={{
@@ -297,11 +323,11 @@ export function MiniDrawer(props) {
 
               </Drawer>
               <Box component="main" sx={{ flexGrow: 1,flexShrink:1 }}>
-                  
-
+    
               <div className="flex shrink h-screen" >
                  <div className="w-2/6 ">
-          <ChatList sele={props.sele} onChatClick={props.onChatClick} ably={props.ably} />
+          {component}
+          
         </div>
         <div className="w-4/6">{props.selected !==-1 ?
           <ActiveData
