@@ -31,8 +31,9 @@ export function MessageView(props) {
     };
   }, []);
   return (
+    <div className='flex flex-col' >
     <div
-      className={props.isSenders ? "messageViewSender" : "messageViewReciver"}
+ className={props.isSenders ? ' self-end mt-1 mr-1 p-2  rounded-tr-xl rounded-tl-xl rounded-bl-xl bg-messagesender text-white max-w-xl text-base relative ' : 'messageViewReciver'}
       onContextMenu={(e) => {
         e.preventDefault();
         setClicked(true);
@@ -40,23 +41,21 @@ export function MessageView(props) {
           x: e.pageX,
           y: e.pageY,
         });
-        console.log("Right Click", e.pageX, e.pageY);
+        console.log('Right Click', e.pageX, e.pageY);
       }}
     >
       <div className="whole-message">
-        <p className="message-text">{props.message}</p>
-        {/* <div className='message-time'>{props.created_at}</div> */}
+        <div className="message-text">{props.message}</div>
+        <div className="message-time">{props.created_at}</div>
       </div>
 
       {clicked && (
-        <div className="contextmenu contextmenucontainer">
+        <div className="contextmenu">
           <ul>
-            {props.isSenders ? (
+            {props.isSenders && (
               <li onClick={EditclickHandler}>
                 <FontAwesomeIcon icon={faPen} /> Edit
               </li>
-            ) : (
-              ""
             )}
             <li>
               <FontAwesomeIcon icon={faCopy} /> Copy
@@ -68,5 +67,7 @@ export function MessageView(props) {
         </div>
       )}
     </div>
+    </div>
+    
   );
 }

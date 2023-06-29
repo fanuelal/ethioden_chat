@@ -59,9 +59,6 @@ function App() {
         });
        
       });
-
-    //  console.log(`currentUser.userId: ${currentUser.userId}`)
-     
     
      const ids = [currentUser.userId, userId];
      const sortedIds = ids.sort()
@@ -125,24 +122,16 @@ function Home(props) {
   return (
     <>
     
-        <CatagoryList /> 
-        {/* <MiniDrawer/>  */}
-      <ChatList sele={props.sele} onChatClick={props.onChatClick} ably={ably}/>
-      
-      {/* <SearchComp onChatClick={props.onChatClick}/> */}
-      {props.selected !== -1 ? (
-        <ActiveData
-          ably = {ably}
-          userId={props.selected}
-          username={props.selectedUser}
-          messages={props.messagesData}
-          newMessage={props.newMessage}
-          setNewMessage={props.setNewMessage}
-        />
-      ) : (
-        <EmptyScreen />
-      )}
-       
+        {/* <CatagoryList />  */}
+        <MiniDrawer 
+      ably={ably}
+      selected={props.selected}
+      selectedUser={props.selectedUser}
+      messagesData={props.messagesData}
+      sele={props.sele}
+      onChatClick={props.onChatClick}
+        /> 
+     
     </>
   );
 }

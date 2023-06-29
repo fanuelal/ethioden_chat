@@ -1,46 +1,40 @@
-import React, { useState, useEffect, useRef} from "react";
+import React, { useState } from "react";
 import "../styles/chatList.css"
 import { style } from "@mui/system";
-import Ably from 'ably'
-import { currentUser } from '../../src/model/currentUserData';
-// import dotenv from 'dotenv'
-export function RecentChat(prop) {
-  console.log(prop.isActive)
 
+
+export function RecentChat(prop) {
   const [clicked, setClicked] = useState(false);
 
- 
-  // useEffect(() => {
-
-  // }, [])
-
-const buttonClickHandler = () => {
+  const buttonClickHandler = () => {
     prop.onClick(prop.userId);
     setClicked(true);
   }
-
-
-
-
-
 const cc = prop.sele===prop.userId?clicked:false
   const chatBoxClass = cc ? "recentChatBox clicked" : "recentChatBox";
-  //  console.log(isOnline)
-  //  console.log(isactive)
    
   return (
-    <>
-      <button className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
-        <div className="recentChatuserName">{prop.username}</div>
-        <img 
+    <div className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
+      {/* <button className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}> */}
+        <div className=" flex w-2/12">
+          <img 
           width={50}
           height={50}
-          className="recentChatProfile" src={prop.profileImg} alt="recent chat"/>
-        <div className={prop.isActive ? "chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div>
-        <div className="recentMessageContent"><p >{prop.recentChat}</p></div>
-        <div className="recentSentAt">{prop.lastMessageD}</div>      
-      </button>
+          className="rounded-full h-12 w-12 " src={prop.profileImg} alt="recent chat"/>
+          <div className={prop.status === 'online' ? "chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div>
+        
+        </div>
+        <div className="flex flex-col w-10/12  "> 
+            <div className=" flex justify-between">
+               <div className="text-xs lg:text-base font-semibold ml-1 ">{prop.username}</div>
+               <div className="text-xs mr-2">{prop.lastMessageD}</div>      
+            </div> 
+            <div className=" mt-2 text-xs truncate ml-1">{prop.recentChat}</div>
+          </div>
+        
+        
+      {/* </button> */}
       {/* {clickedUser !== null ? <ActiveData userId = {prop.userId}/>: <div> hello clicked user null</div>} */}
-    </>
+    </div>
   );
 }

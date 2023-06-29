@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import {formatMessageDate} from '../common/Common'
-
+import { Bot } from "../model/Bot";
 import SearchComp from "../components/searchComp.js";
 
 import Ably from "ably";
@@ -28,11 +28,6 @@ export function ChatList(props) {
       // isActive = true;
       console.log("frontend connected")
 
-    //  channel.subscribe( (message) => {
-    //     console.log("subscribing the channel")
-    //     setIsactive(message.data === 1 ? true : false)
-       
-    //     })
        });
 props.ably.connection.on('disconnected', function() {
      axiosInstance.patch(`/employee/${currentUser.userId}`,{isActive: 0}).then((value)=> console.log(value))
@@ -51,7 +46,7 @@ props.ably.connection.on('disconnected', function() {
    
 
     recentEmployee();
-  }, [userList]);
+  }, []);
 
   useEffect(() => {
     const fetchLastMessages = async () => {
@@ -109,6 +104,7 @@ props.ably.connection.on('disconnected', function() {
 
       return (
         <RecentChat
+        
           sele={props.sele}
           key={user.id}
           onClick={recentClickHandler}
@@ -121,7 +117,7 @@ props.ably.connection.on('disconnected', function() {
           }
           lastMessageD={lastMessageDate}
           status={true}
-          username={user.first_name}
+          username={ user.first_name}
           isActive = {user.isActive}
           ably={props.ably}
         />
@@ -130,20 +126,24 @@ props.ably.connection.on('disconnected', function() {
   });
 
   return (
-    <div className="chatList">
-      <div className="header">
-        <div className="roomHeader">{issearch ? "" : <h2>Private Chat</h2>}</div>
-        <div>
+    <div className=" font-bold  text-base md:text-sm shadow-md">
+      <div className={issearch ? " flex-row-reverse justify-around  items-center h-14 w -full bg-profile":"flex justify-around items-center h-14 w -full bg-profile"}>
+        
+          {issearch ? "" : <div className="text-white lg:text-xl"> Private Chat</div>}
+        
+        <div className="">
           {issearch ? (
-            <FontAwesomeIcon
+           <div className=" items-start align-baseline -ml-72 pt-4 text-white ">
+             <FontAwesomeIcon
               icon={faArrowLeft}
-              className="backarrow"
+              className=" "
               onClick={arrowclickHandler}
             />
+            </div>
           ) : (
             <FontAwesomeIcon
               icon={faSearch}
-              className="searchicon"
+              className="text-white h-5 w-4 cursor-pointer"
               onClick={searchHandler}
             />
           )}
