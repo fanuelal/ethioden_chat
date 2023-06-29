@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { ChatList } from './recentChatContainer';
+import { ActiveData } from '../controller/activeChatData';
+import { EmptyScreen } from './emptyChat';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -96,11 +99,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
 
-export function MiniDrawer() {
+export function MiniDrawer(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [statusContent, setStatusContent] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
+  const [activeMenu, setActiveMenu] = useState(null);
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -118,8 +123,12 @@ export function MiniDrawer() {
   }
   const handleMenuItemClick = (menu) => {
     setStatusContent(menu.Status);
-    
   }
+  const handleMenuListClick = (menu) => {
+    setActiveMenu(menu);
+  };
+  
+ const menuLists= ['Private Chat', 'Group Chat', 'Announcement', 'Status', 'Bot', 'Settings', 'About', 'Help', 'Logout']
   const Status=[
     { 
       Status:"In a meeting",
@@ -207,7 +216,7 @@ export function MiniDrawer() {
                                   </ul>
                                   <div className="btn">
                                       <div>Clear after: <DropDown onDateSelection={handleDateSelection} /></div>
-                                      <button onClick={setStatus}>Save</button>
+                                      <button className='transition ease-in-out hover:translate-y-9' onClick={setStatus}>Save</button>
                                   </div>
                               </div>
 
@@ -217,9 +226,10 @@ export function MiniDrawer() {
                       </div> : ""}
               </div>
           </div>
-      </div><Box sx={{ display: 'flex' }}>
+      </div>
+      <Box sx={{ display: 'flex' }}>
               <CssBaseline />
-              <AppBar position="fixed" open={open}>
+              {/* <AppBar position="fixed" open={open}>
                   <Toolbar>
                     
                       <IconButton
@@ -236,21 +246,24 @@ export function MiniDrawer() {
                       </IconButton>
 
                   </Toolbar>
-              </AppBar>
+              </AppBar> */}
               <Drawer variant="permanent" open={open}>
                   <DrawerHeader>
-                    <p className='username'>{currentUser.username}</p>
-                      <IconButton onClick={handleDrawerClose}style={{color:'white'}}>
+                  
+                  { open && <div className='flex flex-col mt-3'>
+                  <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />
+                  <p className='text-white mr-20 pl-3' >{currentUser.username}</p></div>}
+                     {!open ? <MenuIcon  onClick={handleDrawerOpen} className='mr-4' style={{color:'white',cursor:"pointer"}}/>: <IconButton onClick={handleDrawerClose}style={{color:'white'}}>
                           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                      
-                      </IconButton>
+                      </IconButton>}
                       
                   </DrawerHeader>
-                  <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />
+                  {/* {open ? <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />:<MenuIcon  onClick={handleDrawerOpen} style={{color:'white'}} />} */}
                       
                   <Divider />
                   <List>
-                      {['Private Chat', 'Group Chat', 'Announcement', 'Status', 'Bot', 'Settings', 'About', 'Help', 'Logout'].map((text, index) => (
+                      {menuLists.map((text, index) => (
                           <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                               <ListItemButton
                                   sx={{
@@ -283,10 +296,21 @@ export function MiniDrawer() {
                   <Divider />
 
               </Drawer>
-              <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                  <DrawerHeader />
+              <Box component="main" sx={{ flexGrow: 1,flexShrink:1 }}>
+                  
 
-
+              <div className="flex shrink h-screen" >
+                 <div className="w-2/6 ">
+          <ChatList sele={props.sele} onChatClick={props.onChatClick} ably={props.ably} />
+        </div>
+        <div className="w-4/6">{props.selected !==-1 ?
+          <ActiveData
+            ably={props.ably}
+            userId={props.selected}
+            username={props.selectedUser}
+            messages={props.messagesData}
+          />:<EmptyScreen/>}
+      </div></div>
               </Box>
           </Box></>
   );

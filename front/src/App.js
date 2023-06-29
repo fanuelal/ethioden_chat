@@ -122,24 +122,16 @@ function Home(props) {
   return (
     <>
     
-        <CatagoryList ably={ably} /> 
-        {/* <MiniDrawer/>  */}
-      <ChatList sele={props.sele} onChatClick={props.onChatClick} ably={ably}/>
-      
-      {/* <SearchComp onChatClick={props.onChatClick}/> */}
-      {props.selected !== -1 ? (
-        <ActiveData
-          ably = {ably}
-          userId={props.selected}
-          username={props.selectedUser}
-          messages={props.messagesData}
-          newMessage={props.newMessage}
-          setNewMessage={props.setNewMessage}
-        />
-      ) : (
-        <EmptyScreen />
-      )}
-       
+        {/* <CatagoryList />  */}
+        <MiniDrawer 
+      ably={ably}
+      selected={props.selected}
+      selectedUser={props.selectedUser}
+      messagesData={props.messagesData}
+      sele={props.sele}
+      onChatClick={props.onChatClick}
+        /> 
+     
     </>
   );
 }
