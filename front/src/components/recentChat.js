@@ -7,6 +7,9 @@ export function RecentChat(prop) {
   const [clicked, setClicked] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const buttonClickHandler = () => {
+    if(prop.type === "bot") {
+      return;
+    }
     prop.onClick(prop.userId);
     setClicked(true);
   }
@@ -22,6 +25,9 @@ const cc = prop.sele===prop.userId?clicked:false
   const chatBoxClass = cc ? "recentChatBox clicked" : "recentChatBox";
    
   return (
+
+
+    
     <div className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
       {/* <button className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}> */}
         <div className=" flex w-2/12">

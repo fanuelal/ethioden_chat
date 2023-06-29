@@ -32,7 +32,7 @@ export function ChatListContainer({ messages,onEdit ,bot, onDelete}) {
         messages.map((message, index) => (
           <MessageView 
             key={index}
-            created_at={formatMessageDate(new Date(message.created_at))}
+            // created_at={formatMessageDate(new Date(message.created_at))}
             messageID={message.id}
             message={message.text}
             isSenders={currentUser.userId === message.senderId}
