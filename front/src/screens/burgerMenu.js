@@ -128,7 +128,7 @@ const renderComponent = () => {
     case 'Logout':
       return null
     default:
-      return <ChatList sele={props.sele} onChatClick={props.onChatClick} ably={props.ably} />;
+      return <ChatList name={activeMenu} sele={props.sele} onChatClick={props.onChatClick} ably={props.ably} />;
   }
 };
 
