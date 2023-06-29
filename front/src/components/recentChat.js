@@ -15,8 +15,8 @@ const buttonClickHandler = () => {
   }
 
  const channel = prop.ably.channels.get('chat-status');
- channel.subscribe((message) => {
-    console.log(message.data);
+ channel.subscribe('chat-status', (message) => {
+    console.log("message.data");
     setIsActive(message.data);
   
 });

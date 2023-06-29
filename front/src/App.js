@@ -122,7 +122,7 @@ function Home(props) {
   return (
     <>
     
-        <CatagoryList /> 
+        <CatagoryList ably={ably} /> 
         {/* <MiniDrawer/>  */}
       <ChatList sele={props.sele} onChatClick={props.onChatClick} ably={ably}/>
       

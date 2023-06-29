@@ -12,7 +12,7 @@ import { DropDown } from "./DropDown";
 import { makeStyles } from '@mui/material';
 import axiosInstance from '../config/axiosConfig';
 import { format } from 'date-fns';
-export function CatagoryList() {
+export function CatagoryList(props) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAllNotifications, setShowAllNotifications] = useState(false);
   const navigate = useNavigate();
@@ -20,11 +20,14 @@ export function CatagoryList() {
   const [statusContent, setStatusContent] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const logoutHandler = () => {
-    
+  const logoutHandler = async() =>{
+    // Remove user-related data from localStorage
+    // props.ably.connection.close();
+    // console.log('i am logging out');
+     await axiosInstance.patch(`/employee/${currentUser.userId}`,{"isActive": false});
+    // console.log(value)
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
-  
     navigate('/');
   };
 
@@ -41,7 +44,6 @@ export function CatagoryList() {
 
   const handleMenuItemClick = (menu) => {
     setSelected(menu.Status);
-  
   }
    const Status=[
     { 
@@ -176,9 +178,9 @@ export function CatagoryList() {
         
         </li>
       
-        <li>
+        <li onClick={logoutHandler}>
           <FontAwesomeIcon icon={faSignOut}  />
-          <p onClick={logoutHandler}>Logout</p>
+          <p >Logout</p>
         </li>
       </ul>
     </div>

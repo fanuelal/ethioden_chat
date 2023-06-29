@@ -30,7 +30,7 @@ export function ChatList(props) {
 
        });
 props.ably.connection.on('disconnected', function() {
-     axiosInstance.patch(`/employee/${currentUser.userId}`,{isActive: 0}).then((value)=> console.log(value))
+     axiosInstance.patch(`/employee/${currentUser.userId}`,{"isActive": 0}).then((value)=> console.log(value))
      console.log("frontend disconnected")
     });
 
