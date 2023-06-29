@@ -5,7 +5,9 @@ module.exports = {
     extend: {
   colors:{
     profile:'#1d1f34',
-    messagesender:"#4e527b"
+    messagesender:"#4e527b",
+    lightgrey:'#d3d3d3'
+
   }
     },
   },

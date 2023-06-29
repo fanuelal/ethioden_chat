@@ -22,7 +22,7 @@ import { currentUser } from '../model/currentUserData';
 import { DropDown } from "./DropDown";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentDots, faUsers, faBullhorn, faCog, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear } from '@fortawesome/free-solid-svg-icons';
+import { faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../config/axiosConfig';
 import { format } from 'date-fns';
 const drawerWidth = 230;
@@ -77,7 +77,7 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
-const listIcon = [ <FontAwesomeIcon icon={faCommentDots} />,  <FontAwesomeIcon icon={faUsers} />, <FontAwesomeIcon icon={faBullhorn} />,<FontAwesomeIcon icon={faFaceSmileWink}  />, <FontAwesomeIcon icon={faRobot} />,<FontAwesomeIcon icon={faCog} />, <FontAwesomeIcon icon={faInfoCircle} />, <FontAwesomeIcon icon={faQuestionCircle} />,  <FontAwesomeIcon icon={faSignOut} /> ]
+const listIcon = [ <FontAwesomeIcon icon={faCommentDots} />,  <FontAwesomeIcon icon={faUsers} />, <FontAwesomeIcon icon={faBullhorn} />,<FontAwesomeIcon icon={faFaceSmileWink}  />, <FontAwesomeIcon icon={faRobot} />,<FontAwesomeIcon icon={faUser} />, <FontAwesomeIcon icon={faInfoCircle} />, <FontAwesomeIcon icon={faQuestionCircle} />,  <FontAwesomeIcon icon={faSignOut} /> ]
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     width: drawerWidth,
@@ -128,7 +128,7 @@ export function MiniDrawer(props) {
     setActiveMenu(menu);
   };
   
- const menuLists= ['Private Chat', 'Group Chat', 'Announcement', 'Status', 'Bot', 'Settings', 'About', 'Help', 'Logout']
+ const menuLists= ['Private Chat', 'Group Chat', 'Announcement', 'Status', 'Bot', 'Profile', 'About', 'Help', 'Logout']
   const Status=[
     { 
       Status:"In a meeting",
@@ -271,7 +271,7 @@ export function MiniDrawer(props) {
                                       color:'white',
                                       justifyContent: open ? 'initial' : 'center',
                                       px: 2.5,
-                                  }}    onClick={text === 'Status' ? handleClickOpen : text === 'Logout' ? logoutHandler : undefined}
+                                  }}    onClick={ text==='Profile'?handleClickOpen:text === 'Status' ? handleClickOpen : text === 'Logout' ? logoutHandler : undefined}
                                   >
                                   <ListItemIcon
                                       sx={{
@@ -300,7 +300,7 @@ export function MiniDrawer(props) {
                   
 
               <div className="flex shrink h-screen" >
-                 <div className="w-2/6 ">
+                 <div className="w-2/6  ">
           <ChatList sele={props.sele} onChatClick={props.onChatClick} ably={props.ably} />
         </div>
         <div className="w-4/6">{props.selected !==-1 ?

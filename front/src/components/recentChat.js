@@ -29,7 +29,7 @@ const cc = prop.sele===prop.userId?clicked:false
                <div className="text-xs lg:text-base font-semibold ml-1 ">{prop.username}</div>
                <div className="text-xs mr-2">{prop.lastMessageD}</div>      
             </div> 
-            <div className=" mt-2 text-xs truncate ml-1">{prop.recentChat}</div>
+            <div className="self-start mt-2 text-xs truncate ml-1">{prop.recentChat}</div>
           </div>
         
         
