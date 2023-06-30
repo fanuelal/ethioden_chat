@@ -27,12 +27,14 @@ function recentClickHandler(botId) {
 
   return (<RecentChat
   name={props.name}
-    onClick={recentClickHandler}
+  type={"bot"}
+    // onClick={recentClickHandler}
     userId={bot.id}
     profileImg={bot.image }
     recentChat={"ask me"}
     status={true}
     username={bot.name}
+    ably={props.ably}
   />
   )
 })

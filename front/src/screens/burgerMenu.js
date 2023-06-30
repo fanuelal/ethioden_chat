@@ -22,7 +22,7 @@ import { currentUser } from '../model/currentUserData';
 import { DropDown } from "./DropDown";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear } from '@fortawesome/free-solid-svg-icons';
+import { faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../config/axiosConfig';
 import { format } from 'date-fns';
 import Bots from '../components/Bot';
@@ -118,7 +118,7 @@ const renderComponent = () => {
     case 'Announcement':
       return <div>Channels</div> ;
     case 'Bot':
-      return <Bots name={activeMenu} />;
+      return <Bots name={activeMenu} ably={props.ably}/>;
     case 'Settings':
       return null;
     case 'About':
@@ -147,6 +147,15 @@ const renderComponent = () => {
   const closepopup=()=>{
       setpop(false);
   }
+  
+  const [Profilepopup,Profilesetpop]=useState(false)
+  const handleClickProfileOpen=()=>{
+    Profilesetpop(!Profilepopup);
+  }
+  const closeProfilepopup=()=>{
+    Profilesetpop(false);
+}
+
   const handleMenuItemClick = (menu) => {
     setStatusContent(menu.Status);
   }
@@ -216,7 +225,48 @@ const renderComponent = () => {
   };
 
   return (
-    <><div className="status ">
+    <>
+    <div className="profile ">
+          <div className=" profile_icon">
+              <div>
+                  {Profilepopup ?
+                      <div className="mainn">
+                          <div className="popup">
+                         <div className="popup-body">
+                          <h1><FontAwesomeIcon icon={faClose} onClick={closeProfilepopup} /></h1>
+                             
+                              <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />
+                               <h1 className='username' >{currentUser.username}</h1>
+                                  </div>
+
+                              <span><FontAwesomeIcon icon={faUser}  />  Name
+                                   <h4>{currentUser.username}</h4>
+                                   </span>
+                                   <span><FontAwesomeIcon icon={faPhone}  />  Phone number
+                                   <h4>{currentUser.phone_num}</h4>
+                                   </span>  
+                                   <span><FontAwesomeIcon icon={faEnvelope}  />  Email
+                                   <h4>{currentUser.email}</h4>
+                                   </span>  
+                                   <span><FontAwesomeIcon icon={faStar}  />  Role
+                                   <h4>{currentUser.role}</h4>
+                                   </span> 
+                                   <span><FontAwesomeIcon icon={faSmile}  />  Status
+                                   <h4>{currentUser.Status}</h4>
+                                   </span> 
+
+
+                              
+
+            </div>
+                      </div> : ""}
+              </div>
+          </div>
+      </div>
+    
+    
+    
+    <div className="status ">
           <div className=" Status_icon">
               <div>
                   {popup ?
@@ -297,7 +347,7 @@ const renderComponent = () => {
                                       color:'white',
                                       justifyContent: open ? 'initial' : 'center',
                                       px: 2.5,
-                                  }}    onClick={()=>{text === 'Status' ? handleClickOpen() : text === 'Logout' ? logoutHandler() : handleMenuListClick(text)}}
+                                  }}    onClick={()=>{text === 'Status' ? handleClickOpen() :text === 'Profile' ? handleClickProfileOpen(): text === 'Logout' ? logoutHandler() : handleMenuListClick(text)}}
                                   >
                                   <ListItemIcon
                                       sx={{

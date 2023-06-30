@@ -22,8 +22,6 @@ button {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
-  
-
 }
 
 .popup {
@@ -41,7 +39,6 @@ button {
   float: left;
   background-color: white;
   margin-left: -70px;
- 
 }
 .popup-body p {
   float: right;
@@ -56,7 +53,6 @@ button {
   float: left;
   margin-top: -9px;
   margin-bottom: 3px;
- 
 }
 
 .popup-header input {
@@ -67,7 +63,6 @@ button {
   height: 10px;
   margin-top: -20px;
   width: 400px;
-  
 }
 
 .listofstatus {

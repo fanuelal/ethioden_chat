@@ -1,37 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/chatList.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPen, faCopy } from '@fortawesome/free-solid-svg-icons';
-import { ChatUI } from '../screens/chatScreens.js';
-import { ActiveData } from '../controller/activeChatData';
-import axiosInstance from '../config/axiosConfig';
-
+import React from "react";
+import { useState, useEffect } from "react";
+import "../styles/chatList.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { ChatUI } from "../screens/chatScreens.js";
+import { ActiveData } from "../controller/activeChatData";
+import axiosInstance from "../config/axiosConfig";
 export function MessageView(props) {
   const [clicked, setClicked] = useState(false);
-  const [points, setPoints] = useState({ x: 0, y: 0 });
+  const [points, setPoints] = useState({
+    x: 0,
+    y: 0,
+  });
 
   function DeleteclickHandler() {
-    axiosInstance.delete(`/chat/${props.messageID}`);
-    console.log('edit');
+    props.onDelete(props.messageID);
     console.log(props.messageID);
   }
-
   function EditclickHandler() {
     props.onEdit(props.messageID, props.message);
   }
 
   useEffect(() => {
     const handleClick = () => setClicked(false);
-    window.addEventListener('click', handleClick);
+    window.addEventListener("click", handleClick);
     return () => {
-      window.removeEventListener('click', handleClick);
+      window.removeEventListener("click", handleClick);
     };
   }, []);
-
   return (
     <div className='flex flex-col' >
-         <div
-      className={props.isSenders ? ' self-end mt-1 mr-1 p-2  rounded-tr-xl rounded-tl-xl rounded-bl-xl bg-messagesender text-white max-w-xl text-base ' : 'messageViewReciver'}
+    <div
+ className={props.isSenders ? ' self-end mt-1 mr-1 p-2  rounded-tr-xl rounded-tl-xl rounded-bl-xl bg-messagesender text-white max-w-xl text-base relative ' : 'messageViewReciver'}
       onContextMenu={(e) => {
         e.preventDefault();
         setClicked(true);

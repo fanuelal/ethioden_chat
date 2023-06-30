@@ -7,7 +7,8 @@ import con from '../config/database.js'
 
 dotenv.config({ path: '../../.env' })
 const ably = new Ably.Realtime(process.env.ABLY_API_KEY);
-
+await ably.connection.once('connected');
+console.log('Connected to Ably!');
 
 export const createEmployee = async(req, res) => {
     const body  = req.body;
@@ -59,17 +60,18 @@ const channel = ably.channels.get('status-channels');
 
 
 export const updateEmployee = async(req, res) => {
-    console.log("backendupdat")
+    console.log("update Employee called")
+
     const userId = req.params.id
     const body = req.body
     // const statusChannel = ably.channels.get('status-channels:userId');
-    // console.log(body.isActive)
+    console.log(body.isActive)
     try{
-        console.log(body.last_name);
+        console.log(body.isActive);
         const fetchedEmployee = await EmployeeModel.getSingle(userId);
         // console.log(fetchAllEmployee)
         // if(fetchedEmployee == undefined) return res.status(400).json({succes: false, data: null, message: `User not found`});
-        console.log("employee the update: ");
+        // console.log(body.isActive == undefined ? fetchedEmployee.isActive: body.isActive)
         if(fetchedEmployee == undefined) return res.status(400).json({succes: false, data: null, message: `User not found`});
         const bodyEmployee = new EmployeeModel(
             body.first_name == undefined ? fetchedEmployee.first_name: body.first_name, 
@@ -85,9 +87,10 @@ export const updateEmployee = async(req, res) => {
             
             bodyEmployee.updateEmployee(userId);
             const result = await EmployeeModel.getSingle(userId);
-            
-            channel.publish({data: body.isActive });
-            console.log(body.isActive);
+                  const channel = ably.channels.get('chat-status');
+        // console.log("channel chat-status has been created")
+        // channel.publish({ name: 'chat-status', data: body.isActive }); 
+        
         return res.status(200).json({success: true, data: result, message: `your updated data`}); 
     } catch(error) {
         return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`});

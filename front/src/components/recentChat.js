@@ -5,11 +5,22 @@ import { style } from "@mui/system";
 
 export function RecentChat(prop) {
   const [clicked, setClicked] = useState(false);
-
+  const [isActive, setIsActive] = useState(false);
   const buttonClickHandler = () => {
+    if(prop.type === "bot") {
+      return;
+    }
     prop.onClick(prop.userId);
     setClicked(true);
   }
+
+ const channel = prop.ably.channels.get('chat-status');
+ channel.subscribe('chat-status', (message) => {
+    console.log("message.data");
+    setIsActive(message.data);
+  
+});
+
 const cc = prop.sele===prop.userId?clicked:false
   const chatBoxClass = cc ? "recentChatBox clicked" : "recentChatBox";
    

@@ -9,9 +9,6 @@ import { currentUser } from '../model/currentUserData'
 import { v4 as uuid } from 'uuid';
 import axiosConfig from '../config/axiosConfig'
 import { StatusPopUp } from './StatusPopUp'
-import { Bot } from '../model/Bot'
-import IconButton from '@mui/material/IconButton';
-import SendIcon from '@mui/icons-material/Send';
 // import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props){
     // console.log(props.copiedtext)
@@ -32,9 +29,9 @@ export function ChatUI(props){
     const newChannel = props.ably.channels.get(`private_chat:${sortedId[0]}${sortedId[1]}`);
     setChannel(newChannel);
 
-    newChannel.subscribe('private_chat',(message) => {
+    newChannel.subscribe((message) => {
       if (message.data.senderId !== currentUser.userId) {
-        setMessages([...messages, message.data]);
+        setMessages([...props.messages, message.data]);
       }
     });
 
@@ -43,7 +40,7 @@ export function ChatUI(props){
         channel.unsubscribe();
       }
     };
-  }, [messages,props.user, props.ably.channels, channel]);
+  }, [props.user, props.ably.channels, channel]);
         const onMessageAdd = (message) => {
           const messageUUID = uuid();
       
@@ -122,51 +119,32 @@ export function ChatUI(props){
   
 
     return(
-        <div className='h-screen'   onContextMenu={(e) => {
+        <div className='ChatRoom'   onContextMenu={(e) => {
             e.preventDefault(); 
             console.log("Right Click");
             // console.log(props.isedited)
           }}>
-             <div className='w-full
-                h-14
-             bg-profile
-               flex
-              items-center
-              rounded-0
-              border-b
-            border-white
-              border-1'>
-             <div className='w-1/12'> {props.user.profileImg ? 
-            <img alt='user profile' className='chatProfile' src={props.user.profileImg} />:
-             <img alt='user profile' className='chatProfile' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU" />}</div>
-            <div className='flex flex-col w-10/12 items-start'>
-              <div className='profilename'>{props.username }</div>
-              <div class="recentSentAt1">last seen recently</div>
-            </div>
-            
-             <div className='w-2/12'>
+        <div className='profileNav'>
+            {props.user.profileImg ? <img alt='user profile' className='chatProfile' src={props.user.profileImg} />: <img alt='user profile' className='chatProfile' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU" />}
+            <p className='profilename'>{props.username }</p>
+            <div class="recentSentAt1">lastseen recently</div>
+            <div className='setstatus'>
                  <StatusPopUp/>  
-             </div>
-            </div>  
-              <ChatListContainer onEdit={handleEdit} messages={messages.length === 0? props.messages : messages} />
-             <div> 
-            
-           <div className='flex w-full bottom-2  '>
-           <input type="text" className="w-11/12 rounded-2xl h-12 mt-6 border-2 border-grey-500  " value={message} placeholder='Type something here ...' onChange={handleInputChange} onKeyDown={onkeyPressHandler}/>
-           <div className='w-1/10 bg-profile rounded-full shadow-md pt-1  -ml-10 mt-7 '>
-        <IconButton  className="" aria-label="Send Message" component="label" onClick={onMessageSend}>
-        <SendIcon style={{
-          color: 'white',
-          width: 20,
-          height: 20}}/>
-        </IconButton>
-      </div>
-           
-           {/* <ChatSend onClick={onMessageSend}/> */}
-            
-                   </div>
-           
+                
+
             </div>
-         </div>
+            </div> 
+        <ChatListContainer onEdit={handleEdit} messages={messages.length === 0? props.messages : messages} />
+        <div> 
+            
+        <div className='chatInputDiv'>
+
+
+            <ChatSend onClick={onMessageSend}/>
+            <input type="text" className="chatInputField" value={message} placeholder='Type something here ...' onChange={handleInputChange} onKeyDown={onkeyPressHandler}/>
+</div>
+           
+        </div>
+        </div>
     )
 }
