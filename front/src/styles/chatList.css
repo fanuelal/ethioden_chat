@@ -223,8 +223,8 @@ position:absolute;
   color: #44b700;
   height: 13px;
   width: 13px;
-  /* margin-top: 10%; */
-  margin-right: 15px;
+  margin-top: 45%;
+  margin-left: -10%;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
   animation: ripple 1.5s infinite ease-in-out;
 }

@@ -23,6 +23,7 @@ export function RecentChat(prop) {
 
 const cc = prop.sele===prop.userId?clicked:false
   const chatBoxClass = cc ? "recentChatBox clicked" : "recentChatBox";
+  console.log(isActive)
    
   return (
 
@@ -35,7 +36,7 @@ const cc = prop.sele===prop.userId?clicked:false
           width={50}
           height={50}
           className="rounded-full h-12 w-12 " src={prop.profileImg} alt="recent chat"/>
-          <div className={prop.status === 'online' ? "chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div>
+          <div className={prop.isActive ?"chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div>
         
         </div>
         <div className="flex flex-col w-10/12  "> 
@@ -44,6 +45,7 @@ const cc = prop.sele===prop.userId?clicked:false
                <div className="text-xs mr-2">{prop.lastMessageD}</div>      
             </div> 
             <div className=" mt-2 text-xs truncate ml-1">{prop.recentChat}</div>
+        
           </div>
         
         
