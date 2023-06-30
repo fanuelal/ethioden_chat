@@ -12,6 +12,7 @@ import { StatusPopUp } from './StatusPopUp'
 import { Bot } from '../model/Bot'
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
+import axiosInstance from '../config/axiosConfig'
 // import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props){
     // console.log(props.copiedtext)
@@ -119,7 +120,16 @@ export function ChatUI(props){
       setEditedMessage({ messageID, message });
       setMessage(message)
     };
-  
+    const handleDelete = (messageID) => {
+      axiosInstance.delete(`/chat/${messageID}`)
+        .then((response) => {
+          const notDeletedMessages = props.messages.filter((msg) => msg.id !== messageID);
+          setMessages(notDeletedMessages);
+        })
+        .catch((error) => {
+          console.log("Error deleting message:", error);
+        });
+    }
 
     return(
         <div className='h-screen'   onContextMenu={(e) => {
@@ -148,7 +158,7 @@ export function ChatUI(props){
                  <StatusPopUp/>  
              </div>
             </div>  
-              <ChatListContainer onEdit={handleEdit} messages={messages.length === 0? props.messages : messages} />
+              <ChatListContainer onEdit={handleEdit} onDelete={handleDelete} messages={messages.length === 0? props.messages : messages} />
              <div> 
             
            <div className='flex w-full bottom-2  '>
