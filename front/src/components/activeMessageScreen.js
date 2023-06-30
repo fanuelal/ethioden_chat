@@ -4,7 +4,7 @@ import { MessageView } from "./singleChatMessage";
 import { currentUser } from "../model/currentUserData";
 import { formatMessageDate } from "../common/Common";
 
-export function ChatListContainer({ messages,onEdit ,bot, onDelete}) {
+export function ChatListContainer({ messages, onEdit , bot, onDelete}) {
   const messageDisplayRef = useRef(null);
   const [message, setMessage] = useState([]);
 

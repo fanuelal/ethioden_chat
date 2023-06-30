@@ -386,6 +386,7 @@ position:absolute;
 }
 
  .messageViewReciver {
+  position: relative;
   display: block;
   color: white;
   width: fit-content;

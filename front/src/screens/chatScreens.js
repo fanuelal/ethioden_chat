@@ -74,15 +74,15 @@ export function ChatUI(props){
       };
   
       axiosConfig
-        .patch(`/chat/${messageID}`, body)
-        .then((response) => {
-          console.log('Chat updated successfully:', response.data);
-          const updatedMessages = messages.map((msg) => {
-            if (msg.messageId === messageID) {
-              return { ...msg, text: updatedText };
-            }
-            return msg;
-          });
+      .patch(`/chat/${messageID}`, body)
+      .then((response) => {
+        console.log('Chat updated successfully:', response.data);
+        const updatedMessages = props.messages.map((msg) => {
+          if (msg.id === messageID) {
+            return { ...msg, text: updatedText };
+          }
+          return msg;
+        });
           setMessages(updatedMessages);
         })
         .catch((error) => {
@@ -116,7 +116,16 @@ export function ChatUI(props){
       setEditedMessage({ messageID, message });
       setMessage(message)
     };
-  
+    const handleDelete = (messageID) => {
+      axiosConfig.delete(`/chat/${messageID}`)
+        .then((response) => {
+          const notDeletedMessages = props.messages.filter((msg) => msg.id !== messageID);
+          setMessages(notDeletedMessages);
+        })
+        .catch((error) => {
+          console.log("Error deleting message:", error);
+        });
+    }
 
     return(
         <div className='ChatRoom'   onContextMenu={(e) => {
@@ -134,7 +143,7 @@ export function ChatUI(props){
 
             </div>
             </div> 
-        <ChatListContainer onEdit={handleEdit} messages={messages.length === 0? props.messages : messages} />
+        <ChatListContainer onEdit={handleEdit} onDelete={handleDelete} messages={messages.length === 0? props.messages : messages} />
         <div> 
             
         <div className='chatInputDiv'>
