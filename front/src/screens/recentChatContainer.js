@@ -115,7 +115,7 @@ props.ably.connection.on('disconnected', function() {
               lastMessage?.reciverId === user.id) &&
             lastMessage?.text
           }
-          // lastMessageD={lastMessageDate}
+          lastMessageD={lastMessageDate}
           status={true}
           username={ user.first_name}
           isActive = {user.isActive}

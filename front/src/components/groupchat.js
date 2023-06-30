@@ -7,21 +7,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import SearchComp from "./searchComp";
+import Popup from 'reactjs-popup';
 
 const GroupChat = (props) => {
   const [issearch, setIssearch] = useState(false);
-  // const [showPopup, setShowPopup] = useState(false);
-
-  // const handleIconClick = () => {
-  //   setShowPopup(true);
-  //   console.log(showPopup)
-  // };
+  const [showpopup, setShowpopup] = useState(false)
   // function recentClickHandler(botId) {
   //     props.onChatClick(botId);
   //   }
-
+  const handlePopup = () =>{
+    setShowpopup(true)
+  } 
   const searchHandler = () => {
     setIssearch(true);
   };
@@ -84,28 +82,52 @@ const GroupChat = (props) => {
         ""
       )}
     </div>
-    {/* <div>hello</div> */}
-<div className="add-group1 " >
-<FontAwesomeIcon
-                icon={faPlus}
-                className="add-group "
-                // onClick={handleIconClick}
-                // onClick={arrowclickHandler}
-              />
-</div>
-{/* {showPopup && (
-        <div className="popup">
-          {/* <div className="popup-content"> */}
-            {/* <div className="close-icon" onClick={() => setShowPopup(false)}>
-              <FontAwesomeIcon icon={faTimes} />
+
+
+<Popup
+        trigger={
+          <div className="add-group1">
+            <FontAwesomeIcon
+              icon={faPlus}
+              className="add-group"
+              onClick={handlePopup}
+            />
+          </div>
+        }
+        content={<div className="popuppage"><p>creat a group</p></div>}
+        position="right center"
+        modal
+        closeOnEscape
+        closeOnDocumentClick
+      />
+      
+      <div className="status ">
+        <div className=" Status_icon" > 
+      <div>
+        {showpopup &&
+          <div className="mainn">
+            <div className="popup">
+              <div className="popup-body">
+              <div className="close-icon" onClick={() => setShowpopup(false)}>
+              <FontAwesomeIcon className="clear" icon={faTimes} />
             </div>
-            <div className="popup-body">
-              <p>Hello, this is the popup content!</p>
-            </div>
-          </div> */}
-        {/* // </div> */}
-      {/* // )} */} 
+                <h3 className="header1">create a group</h3> 
+              </div>
+              <div className="popup-header">
+                <input type="text"  />
+              </div>
+            
+       <div >
+        <button className="nextbutton">next</button>
+      </div>
+    </div>
+  </div> 
+  }
+    </div>
+    </div>
+    </div>
     </>    
+    
   );
 };
 
