@@ -34,7 +34,7 @@ export function ChatUI(props){
 
     newChannel.subscribe('private_chat',(message) => {
       if (message.data.senderId !== currentUser.userId) {
-        setMessages([...messages, message.data]);
+        setMessages([...props.messages, message.data]);
       }
     });
 
@@ -43,7 +43,7 @@ export function ChatUI(props){
         channel.unsubscribe();
       }
     };
-  }, [messages,props.user, props.ably.channels, channel]);
+  }, [props.user, props.ably.channels, channel]);
         const onMessageAdd = (message) => {
           const messageUUID = uuid();
       
