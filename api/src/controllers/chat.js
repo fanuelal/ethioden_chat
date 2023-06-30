@@ -20,6 +20,7 @@ export const createChat = async (req, res) => {
         roomId: body.roomId,
         senderId: body.senderId,
         reciverId: body.reciverId,
+        created_at: new Date()
        
       };
   
