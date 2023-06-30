@@ -217,7 +217,8 @@ const renderComponent = () => {
   console.log(statusContent)
 
   const navigate = useNavigate();
-  const logoutHandler = () => {
+  const logoutHandler = async() => {
+    await axiosInstance.patch(`/employee/${currentUser.userId}`,{"isActive": false});
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
   
