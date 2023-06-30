@@ -12,6 +12,7 @@ import { StatusPopUp } from './StatusPopUp'
 import { Bot } from '../model/Bot'
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
+import axiosInstance from '../config/axiosConfig'
 // import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props){
     // console.log(props.copiedtext)
@@ -157,12 +158,12 @@ export function ChatUI(props){
                  <StatusPopUp/>  
              </div>
             </div>  
-              <ChatListContainer onEdit={handleEdit} messages={messages.length === 0? props.messages : messages} />
+              <ChatListContainer onEdit={handleEdit} onDelete={handleDelete} messages={messages.length === 0? props.messages : messages} />
              <div> 
             
            <div className='flex w-full bottom-2  '>
-           <input type="text" className="w-10/12 rounded-2xl h-12 mt-6" value={message} placeholder='Type something here ...' onChange={handleInputChange} onKeyDown={onkeyPressHandler}/>
-           <div className='w-1/12 bg-profile rounded-full shadow-md pt-1 mt-5 '>
+           <input type="text" className="w-11/12 rounded-2xl h-12 border-4 border-white-500/100  mt-6 outline-none" value={message} placeholder='Type something here ...' onChange={handleInputChange} onKeyDown={onkeyPressHandler}/>
+           <div className='w-1/13 bg-profile rounded-full shadow-md pt-1  -ml-11 mt-6 '>
         <IconButton color="white" className="sendBtnIcon" aria-label="Send Message" component="label" onClick={onMessageSend}>
         <SendIcon style={{
           color: 'white',

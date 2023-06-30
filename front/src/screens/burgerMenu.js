@@ -21,26 +21,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { currentUser } from "../model/currentUserData";
 import { DropDown } from "./DropDown";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCommentDots,
-  faUsers,
-  faBullhorn,
-  faCog,
-  faInfoCircle,
-  faQuestionCircle,
-  faRobot,
-  faSignOut,
-  faFaceSmileWink,
-  faClose,
-  faHouseChimneyUser,
-  faTree,
-  faFaceSadTear,
-} from "@fortawesome/free-solid-svg-icons";
-import axiosInstance from "../config/axiosConfig";
-import { format } from "date-fns";
-import Bots from "../components/Bot";
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
+import axiosInstance from '../config/axiosConfig';
+import { format } from 'date-fns';
+import Bots from '../components/Bot';
 const drawerWidth = 230;
 
 const openedMixin = (theme) => ({
@@ -93,29 +79,23 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
-const listIcon = [
-  <FontAwesomeIcon icon={faCommentDots} />,
-  <FontAwesomeIcon icon={faUsers} />,
-  <FontAwesomeIcon icon={faBullhorn} />,
-  <FontAwesomeIcon icon={faFaceSmileWink} />,
-  <FontAwesomeIcon icon={faRobot} />,
-  <FontAwesomeIcon icon={faCog} />,
-  <FontAwesomeIcon icon={faInfoCircle} />,
-  <FontAwesomeIcon icon={faQuestionCircle} />,
-  <FontAwesomeIcon icon={faSignOut} />,
-];
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  backgroundColor: "white",
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
-  ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
-  }),
+const listIcon = [ <FontAwesomeIcon icon={faCommentDots} />,  <FontAwesomeIcon icon={faUsers} />, <FontAwesomeIcon icon={faBullhorn} />,<FontAwesomeIcon icon={faFaceSmileWink}  />, <FontAwesomeIcon icon={faRobot} />,<FontAwesomeIcon icon={faUser} />, <FontAwesomeIcon icon={faInfoCircle} />, <FontAwesomeIcon icon={faQuestionCircle} />,  <FontAwesomeIcon icon={faSignOut} /> ]
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    backgroundColor:'white',
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
+  // }),
   ...(!open && {
     ...closedMixin(theme),
     "& .MuiDrawer-paper": closedMixin(theme),
@@ -174,13 +154,22 @@ export function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [popup, setpop] = useState(false);
-  const handleClickOpen = () => {
-    setpop(!popup);
-  };
-  const closepopup = () => {
-    setpop(false);
-  };
+  const [popup,setpop]=useState(false)
+  const handleClickOpen=()=>{
+      setpop(!popup);
+  }
+  const closepopup=()=>{
+      setpop(false);
+  }
+  
+  const [Profilepopup,Profilesetpop]=useState(false)
+  const handleClickProfileOpen=()=>{
+    Profilesetpop(!Profilepopup);
+  }
+  const closeProfilepopup=()=>{
+    Profilesetpop(false);
+}
+
   const handleMenuItemClick = (menu) => {
     setStatusContent(menu.Status);
   };
@@ -189,29 +178,20 @@ export function MiniDrawer(props) {
   };
   useEffect(() => {
     setComponent(renderComponent());
-  }, [activeMenu]);
+  }, [activeMenu])
+  
+ const menuLists= ['Private Chat', 'Group Chat', 'Announcement', 'Status', 'Bot', 'Profile', 'About', 'Help', 'Logout']
+  const Status=[
+    { 
+      Status:"In a meeting",
+      icon:<FontAwesomeIcon icon={faUsers} style={{color:'blue',fontSize:'20px'}}/>,
+      time: "- 1 hour"
+     },
 
-  const menuLists = [
-    "Private Chat",
-    "Group Chat",
-    "Announcement",
-    "Status",
-    "Bot",
-    "Settings",
-    "About",
-    "Help",
-    "Logout",
-  ];
-  const Status = [
-    {
-      Status: "In a meeting",
-      icon: (
-        <FontAwesomeIcon
-          icon={faUsers}
-          style={{ color: "blue", fontSize: "20px" }}
-        />
-      ),
-      time: "- 1 hour",
+     { 
+      Status:"Vacationing",
+     icon:<FontAwesomeIcon icon={faTree}style={{color:'green',fontSize:'20px'}}/>,
+     time:"- 4 hours"
     },
 
     {
@@ -268,69 +248,95 @@ export function MiniDrawer(props) {
   console.log(statusContent);
 
   const navigate = useNavigate();
-  const logoutHandler = () => {
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("token");
-
-    navigate("/");
+  const logoutHandler = async() => {
+    await axiosInstance.patch(`/employee/${currentUser.userId}`,{"isActive": false});
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
+  
+    navigate('/');
   };
 
   return (
     <>
-      <div className="status ">
-        <div className=" Status_icon">
-          <div>
-            {popup ? (
-              <div className="mainn">
-                <div className="popup">
-                  <div className="popup-body">
-                    <h3>Set a status</h3>
-                    <p>
-                      <FontAwesomeIcon icon={faClose} onClick={closepopup} />
-                    </p>
-                  </div>
+    <div className="profile ">
+          <div className=" profile_icon">
+              <div>
+                  {Profilepopup ?
+                      <div className="mainn">
+                          <div className="popup">
+                         <div className="popup-body">
+                          <h1><FontAwesomeIcon icon={faClose} onClick={closeProfilepopup} /></h1>
+                             
+                              <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />
+                               <h1 className='username' >{currentUser.username}</h1>
+                                  </div>
 
-                  <div className="popup-header">
-                    <input
-                      type="text"
-                      value={statusContent}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+                              <span><FontAwesomeIcon icon={faUser}  />  Name
+                                   <h4>{currentUser.username}</h4>
+                                   </span>
+                                   <span><FontAwesomeIcon icon={faPhone}  />  Phone number
+                                   <h4>{currentUser.phone_num}</h4>
+                                   </span>  
+                                   <span><FontAwesomeIcon icon={faEnvelope}  />  Email
+                                   <h4>{currentUser.email}</h4>
+                                   </span>  
+                                   <span><FontAwesomeIcon icon={faStar}  />  Role
+                                   <h4>{currentUser.role}</h4>
+                                   </span> 
+                                   <span><FontAwesomeIcon icon={faSmile}  />  Status
+                                   <h4>{currentUser.Status}</h4>
+                                   </span> 
 
-                  <div className="listofstatus ">
-                    <ul>
-                      {Status.map((menu) => (
-                        <li
-                          className=""
-                          onClick={() => handleMenuItemClick(menu)}
-                        >
-                          {" "}
-                          {menu.icon} <span> </span> {menu.Status}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="flex justify-around align-baseline">
-                      <div>
-                        Clear after:{" "}
-                        <DropDown onDateSelection={handleDateSelection} />
-                      </div>
-                      <button
-                        className="transition ease-in-out hover:-translate-y-3 rounded-lg ml-4"
-                        onClick={setStatus}
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
-                </div>
+
+                              
+
+            </div>
+                      </div> : ""}
               </div>
-            ) : (
-              ""
-            )}
+          </div>
+      </div>
+    
+    
+    
+    <div className="status ">
+          <div className=" Status_icon">
+              <div>
+                  {popup ?
+                      <div className="mainn">
+                          <div className="popup">
+
+                              <div className="popup-body">
+                                  <h3>Set a status</h3>
+                                  <p><FontAwesomeIcon icon={faClose} onClick={closepopup} /></p>
+                              </div>
+
+                              <div className="popup-header">
+                                  <input type="text" value={statusContent}  onChange={handleInputChange} />
+
+                              </div>
+
+                              <div className="listofstatus ">
+                                  <ul>
+                                      {Status.map((menu) => (
+                                          <li className=""
+                                              onClick={() => handleMenuItemClick(menu)}
+                                              > {menu.icon} <span>   </span> {menu.Status}</li>
+
+                                      ))}
+                                  </ul>
+                                  <div className="flex justify-around align-baseline">
+                                      <div>Clear after: <DropDown onDateSelection={handleDateSelection} /></div>
+                                      <button className='transition ease-in-out hover:-translate-y-3 rounded-lg ml-4' onClick={setStatus}>Save</button>
+                                  </div>
+                              </div>
+
+                          </div>
+                      </div> : ""}
+              </div>
+            
           </div>
         </div>
-      </div>
+      
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         {/* <AppBar position="fixed" open={open}>
@@ -351,98 +357,71 @@ export function MiniDrawer(props) {
 
                   </Toolbar>
               </AppBar> */}
-        <Drawer variant="permanent" open={open}>
-          <DrawerHeader>
-            {open && (
-              <div className="flex flex-col mt-3 ">
-                <img
-                  className="chatProfile"
-                  alt="profileImage"
-                  src={currentUser.profileImg}
-                />
-                <p className="text-white mr-20 pl-3">{currentUser.username}</p>
-              </div>
-            )}
-            {!open ? (
-              <MenuIcon
-                onClick={handleDrawerOpen}
-                className="mr-4"
-                style={{ color: "white", cursor: "pointer" }}
-              />
-            ) : (
-              <IconButton
-                onClick={handleDrawerClose}
-                style={{ color: "white" }}
-              >
-                {theme.direction === "rtl" ? (
-                  <ChevronRightIcon />
-                ) : (
-                  <ChevronLeftIcon />
-                )}
-              </IconButton>
-            )}
-          </DrawerHeader>
-          {/* {open ? <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />:<MenuIcon  onClick={handleDrawerOpen} style={{color:'white'}} />} */}
+              <Drawer variant="permanent" open={open}>
+                  <DrawerHeader>
+                  
+                  { open && <div className='flex flex-col mt-3 '>
+                  <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />
+                  <p className='text-white mr-20 pl-3' >{currentUser.username}</p></div>}
+                     {!open ? <MenuIcon  onClick={handleDrawerOpen} className='mr-4' style={{color:'white',cursor:"pointer"}}/>: <IconButton onClick={handleDrawerClose}style={{color:'white'}}>
+                          {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                     
+                      </IconButton>}
+                      
+                  </DrawerHeader>
+                  {/* {open ? <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />:<MenuIcon  onClick={handleDrawerOpen} style={{color:'white'}} />} */}
+                      
+                  <Divider />
+                  <List>
+                      {menuLists.map((text, index) => (
+                          <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                              <ListItemButton
+                                  sx={{
+                                      minHeight: 60,
+                                      color:'white',
+                                      justifyContent: open ? 'initial' : 'center',
+                                      px: 2.5,
+                                  }}    onClick={()=>{text === 'Status' ? handleClickOpen() :text === 'Profile' ? handleClickProfileOpen(): text === 'Logout' ? logoutHandler() : handleMenuListClick(text)}}
+                                  >
+                                  <ListItemIcon
+                                      sx={{
+                                          minWidth: 0,
+                                          color:'white',
+                                         fontSize:'20px',
+                                          mr: open ? 3 : 'auto',
+                                          justifyContent: 'center',
+                                      }}
+                                  >
 
-          <Divider />
-          <List>
-            {menuLists.map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 60,
-                    color: "white",
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                  onClick={() => {
-                    text === "Status"
-                      ? handleClickOpen()
-                      : text === "Logout"
-                      ? logoutHandler()
-                      : handleMenuListClick(text);
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      color: "white",
-                      fontSize: "20px",
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {listIcon[index]}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={text}
-                    sx={{ opacity: open ? 1 : 0 }}
-                    button
-                  />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-        </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, flexShrink: 1 }}>
-          <div className="flex shrink h-screen">
-            <div className="w-2/6 ">{component}</div>
-            <div className="w-4/6">
-              {props.selected !== -1 ? (
-                <ActiveData
-                  ably={props.ably}
-                  userId={props.selected}
-                  username={props.selectedUser}
-                  messages={props.messagesData}
-                />
-              ) : (
-                <EmptyScreen />
-              )}
-            </div>
-          </div>
-        </Box>
-      </Box>
-    </>
+                                      {listIcon[index]}
+                                      </ListItemIcon>
+                                      <ListItemText
+                                    primary={text}
+                                sx={{ opacity: open ? 1 : 0 }}
+                                button />
+                           </ListItemButton>
+                       </ListItem>
+                      ))}
+                  </List>
+                  <Divider />
+
+              </Drawer>
+              <Box component="main" sx={{ flexGrow: 1,flexShrink:1 }}>
+    
+              <div className="flex shrink h-screen" >
+                 <div className="w-2/6 ">
+          {component}
+          
+        </div>
+        <div className="w-4/6">{props.selected !==-1 ?
+          <ActiveData
+            ably={props.ably}
+            userId={props.selected}
+            username={props.selectedUser}
+            messages={props.messagesData}
+          />:<EmptyScreen/>}
+      </div></div>
+              </Box>
+          </Box></>
   );
 }
