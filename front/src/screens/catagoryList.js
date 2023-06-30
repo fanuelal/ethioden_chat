@@ -7,9 +7,7 @@ import { faCommentDots, faUsers, faBullhorn, faCog, faInfoCircle, faQuestionCirc
 import Notification from '../components/Notification';
 import '../styles/chatList.css';
 import Popup from 'reactjs-popup';
-import { StatusPopUp } from './StatusPopUp';
 import { DropDown } from "./DropDown";
-import { makeStyles } from '@mui/material';
 import axiosInstance from '../config/axiosConfig';
 import { format } from 'date-fns';
 export function CatagoryList(props) {

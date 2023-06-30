@@ -18,12 +18,10 @@ export function RecentChat(prop) {
  channel.subscribe('chat-status', (message) => {
     console.log("message.data");
     setIsActive(message.data);
-  
 });
 
 const cc = prop.sele===prop.userId?clicked:false
   const chatBoxClass = cc ? "recentChatBox clicked" : "recentChatBox";
-   
   return (
 
 
