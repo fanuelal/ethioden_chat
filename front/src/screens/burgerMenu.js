@@ -122,7 +122,7 @@ export function MiniDrawer(props) {
           />
         );
       case "Group Chat":
-        return <GroupChat />;
+        return <GroupChat ably={props.ably}/>;
       case "Announcement":
         return <div>Channels</div>;
       case "Bot":
