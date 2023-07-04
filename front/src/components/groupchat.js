@@ -17,11 +17,22 @@ const GroupChat = (props) => {
   const [showpopup, setShowpopup] = useState(false);
   const [showuserlist, setShowuserlist] = useState(false);
   const [userList, setUserList] = useState([]);
-
+  const [useradded, setUseradded] = useState([]);
+  const dictionary = {};
   axiosConfig.get("/employee").then((res) => {
     setUserList(res.data.data);
   });
 
+  const useraddHandler = (id) => {
+    if (!useradded.includes(id)) {
+      if(useradded.length !== 0 ) {
+      setUseradded([...useradded, id]);
+      console.log(useradded);
+    }else{
+          setUseradded([id]);
+        }
+    }};
+ 
   const handlePopup = () => {
     setShowpopup(true);
   };
@@ -36,6 +47,7 @@ const GroupChat = (props) => {
     .filter((user) => user.id !== currentUser.userId)
     .map((user) => (
       <RecentChat
+        onClick={() => useraddHandler(user.id)}
         ably={props.ably}
         key={user.id}
         userId={user.id}
@@ -91,14 +103,16 @@ const GroupChat = (props) => {
 
       <Popup
         trigger={
-          <div className="add-group1">
+          <div class="bg-[#1d1f34] mt-[47ch] h-[50px] w-[50px] ml-[83%] rounded-full">
             <FontAwesomeIcon
               icon={faPlus}
-              className="add-group"
+              // class="text-[#fa8072] h-8 w-8 "
+              class="text-[aliceblue] pt-[25%] h-[40px] w-[45px]"
               onClick={handlePopup}
             />
           </div>
         }
+        
         content={
           <div className="popuppage">
             <p>creat a group</p>
@@ -110,29 +124,31 @@ const GroupChat = (props) => {
         closeOnDocumentClick
       />
 
-      <div className="status ">
-        <div className=" Status_icon">
+      <div >
+        <div >
           <div>
             {showpopup && (
-              <div className="mainn">
-                <div className="popup">
-                  <div className="popup-body">
+              <div className="w-[100%] h-[120vh] fixed left-0 top-[-10px] flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
+                <div className="p-[80px] pb-[50px] mb-[80px] max-w-[500px] bg-[white] rounded-lg">
+                  <div className=" mt-[-60px] bg-[white] ml-[-70px] float-left">
                     <div
                       className="close-icon"
                       onClick={() => setShowpopup(false)}
                     >
-                      <FontAwesomeIcon className="clear" icon={faTimes} />
+                      <FontAwesomeIcon className="pl-[180%]" icon={faTimes} />
                     </div>
-                    <h3 className="header1">create a group</h3>
+                    <h3 className="pb-[15%] pl-[5%] w-[250px]">create a group</h3>
                   </div>
-                  <div className="popup-header">
-                    <input type="text" />
+                  <div className="float-left mt-[-9px] mb-[3px] bg-[black]">
+                    {/* <input className="p-[15px] ml-[-50px] h-[10px] mt-[-20px] w-[400px] rounded-[2px] border-[lightskyblue]" type="text" /> */}
+                    <input className="groupname" type="text" />
+
                   </div>
 
                   <div>
                     {/* <button className="nextbutton" onClick={() => {setShowpopup(false),setShowuserlist(true)}}>next</button> */}
                     <button
-                      className="nextbutton"
+                      className="mt-[5vh] mb-[-10vh] ml-[95%] rounded-lg "
                       onClick={() => {
                         setShowpopup(false);
                         setShowuserlist(true);
@@ -148,28 +164,28 @@ const GroupChat = (props) => {
         </div>
       </div>
 
-      <div className="status ">
-        <div className=" Status_icon">
+      <div >
+        <div >
           <div>
             {showuserlist && (
-              <div className="mainn">
-                <div className="popup">
-                  <div className="popup-body">
+              <div className="w-[100%] h-[120vh] fixed left-0 top-0 flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
+                <div className="p-[80px] pb-[50px] mb-[80px] max-w-[500px] bg-[white] rounded-lg mt-[-10px] h-[75%]">
+                  <div className="mt-[-60px] float-left bg-[white] ml-[-70px]">
                     <div
                       className="close-icon"
                       onClick={() => setShowuserlist(false)}
                     >
-                      <FontAwesomeIcon className="clear" icon={faTimes} />
+                      <FontAwesomeIcon className="pl-[115%]"  icon={faTimes} />
                     </div>
                     <h3 className="header1">choose a user</h3>
-                    {/* <div className="searchlist"> */}
+                    <div className="w-[250px] pl-[10%] max-h-[60vh] overflow-auto no-scrollbar">
                     {ListRecent}
-                    {/* </div> */}
+                    </div>
                   </div>
 
                   <div>
                     <button
-                      className="nextbutton"
+                      className="rounded-lg ml-[100%] mt-[25%] "
                       onClick={() => setShowuserlist(false)}
                     >
                       Add

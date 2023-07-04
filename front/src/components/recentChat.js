@@ -23,7 +23,7 @@ export function RecentChat(prop) {
 
 const cc = prop.sele===prop.userId?clicked:false
   const chatBoxClass = cc ? "recentChatBox clicked" : "recentChatBox";
-  console.log(isActive)
+  // console.log(isActive)
    
   return (
 
