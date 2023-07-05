@@ -1,31 +1,35 @@
-import './styles/App.css';
-import { ChatList } from './screens/recentChatContainer';
-import { ActiveData } from './controller/activeChatData';
-import { useState, useEffect, useRef } from 'react';
-import { messages } from './model/message';
-import { EmptyScreen } from './screens/emptyChat';
-import Login from './screens/loginScreen';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import { CatagoryList } from './screens/catagoryList';
-import axiosInstance from './config/axiosConfig';
-import PrivateRoutes from './components/privateRoutes';
-import { getToken,refreshToken } from './config/tokenManager';
-import {Userstatus} from './model/Status.js'
-import Ably from 'ably'
-import { currentUser } from './model/currentUserData';
+import "./styles/App.css";
+import { ChatList } from "./screens/recentChatContainer";
+import { ActiveData } from "./controller/activeChatData";
+import { useState, useEffect, useRef } from "react";
+import { messages } from "./model/message";
+import { EmptyScreen } from "./screens/emptyChat";
+import Login from "./screens/loginScreen";
+import { Route, Routes, Navigate } from "react-router-dom";
+import { CatagoryList } from "./screens/catagoryList";
+import axiosInstance from "./config/axiosConfig";
+import PrivateRoutes from "./components/privateRoutes";
+import { getToken, refreshToken } from "./config/tokenManager";
+import { Userstatus } from "./model/Status.js";
+import Ably from "ably";
+import { currentUser } from "./model/currentUserData";
 // import SearchComp from "./components/searchComp.js";
-import {MiniDrawer} from './screens/burgerMenu'
+import { MiniDrawer } from "./screens/burgerMenu";
 
-const ably = new Ably.Realtime('nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0');
+const ably = new Ably.Realtime(
+  "nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0"
+);
 // const channel = ably.channels.get('private_chat');
-ably.connection.once('connected');
-console.log('Connected to Ably!');
+ably.connection.once("connected");
+console.log("Connected to Ably!");
 
 function App() {
-
   const [selected, setSelected] = useState(-1);
   const [messagesData, setMessageData] = useState([]);
-  const [selectedUser, setSelectedUser] = useState({});
+  const [channelmessagesData, setchannelMessageData] = useState([]);
+  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedChannel, setSelectedChannel] = useState({});
+  
 
   const isLogin = () => {
     const token = getToken();
@@ -35,103 +39,117 @@ function App() {
     return true;
   };
 
-
-
-
   const chatSelectHandler = async (userId) => {
     try {
-      axiosInstance.get(`/chat?senderId=${ currentUser.userId}&reciverId=${userId}`).then((value) => {
-        setMessageData(value.data.data);
+      axiosInstance.get(`/room/${userId}`).then((value) => {
+        console.log(value.data.data);
+        setSelectedUser(value.data.data.name);
+        setSelectedChannel(value.data.data);
+        console.log(`selectedUser.name: ${selectedUser}`);
+        console.log(`userId: ${userId}`);
       });
+
+      axiosInstance
+        .get(`/chat/channel?roomId=${userId}`)
+        .then((response) => {
+          console.log(response.data.data);
+          setchannelMessageData(response.data.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      axiosInstance
+        .get(`/chat?senderId=${currentUser.userId}&reciverId=${userId}`)
+        .then((value) => {
+          setMessageData(value.data.data);
+        }).catch((error) => {
+          console.error(error);
+        });
+
       axiosInstance.get(`/employee/${userId}`).then((value) => {
-        // console.log(value.data.data.first_name);
-        setSelectedUser(value.data.data);
-        //  console.log(`selectedUser.id: ${selectedUser.id}`)
-        // console.log(`userId: ${userId}`)
+        setSelectedUser(value.data.data.first_name);
 
         axiosInstance.get(`/status/${userId}`).then((resStatus) => {
-          // console.log(resStatus.data.data);
+          console.log(resStatus.data.data[0])
           if (resStatus.data.data.length > 0) {
             Userstatus[0].content = resStatus.data.data[0].label;
           } else {
-            Userstatus[0].content = "No status!";
+            Userstatus[0].content = "";
           }
         });
-       
       });
-    
-     const ids = [currentUser.userId, userId];
-     const sortedIds = ids.sort()
-console.log(ids)
-const channel = ably.channels.get(`${sortedIds[0]}${sortedIds[1]}`);
-console.log(channel)
-channel.history({ limit: 1 }, (err, result) => {
-  if (err) {
-    throw err;
-  }
 
-  const lastMessage = result.items[0];
- 
-  console.log(lastMessage);
-});
-     channel.subscribe(`${sortedIds[0]}${sortedIds[1]}`, (message) => {
-        
-       if(message.data.senderId!==currentUser.userId){
-        setMessageData((prev) => [...prev, message.data]);
-        console.log('Received chat message:', message.data);
-       }
-      
-     });
-
-
-      // Do something with the last message
-    
+      const ids = [currentUser.userId, userId];
+      const sortedIds = ids.sort();
+      console.log(ids);
+      const channel = ably.channels.get(`${sortedIds[0]}${sortedIds[1]}`);
+      console.log(channel);
+      channel.history({ limit: 1 }, (err, result) => {
+        if (err) {
+          throw err;
+        }
+        const lastMessage = result.items[0];
+        console.log(lastMessage);
+      });
+      channel.subscribe(`${sortedIds[0]}${sortedIds[1]}`, (message) => {
+        if (message.data.senderId !== currentUser.userId) {
+          setMessageData((prev) => [...prev, message.data]);
+          console.log("Received chat message:", message.data);
+        }
+      });
 
       setSelected(userId);
+      console.log(selected);
     } catch (error) {
       console.log(error);
     }
-  
   };
-  
 
   return (
     <div className="App">
       <Routes>
-        <Route  element ={<PrivateRoutes isLogin= {isLogin} />}>
-            {/* <Route path='/' element={<Home onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  /> */}
-            <Route path='/' element={<Home sele={selectedUser.id} onChatClick={chatSelectHandler} selected={selected} selectedUser={selectedUser.first_name} messagesData={messagesData}/>}  />
-
+        <Route element={<PrivateRoutes isLogin={isLogin} />}>
+          <Route
+            path="/"
+            element={
+              <Home
+                channelmessagesData={channelmessagesData}
+                selectedChannel={selectedChannel}
+                sele={selected}
+                onChatClick={chatSelectHandler}
+                selected={selected}
+                selectedUser={selectedUser}
+                messagesData={messagesData}
+              />
+            }
+          />
         </Route>
-        <Route path='/login' element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/*" element={<Navigate to="/" />} />
-          
-            </Routes>
+      </Routes>
     </div>
   );
 }
 
 function Home(props) {
-
   useEffect(() => {
-    const refreshTokenInterval = setInterval(refreshToken, 55*60*1000); 
+    const refreshTokenInterval = setInterval(refreshToken, 55 * 60 * 1000);
     return () => {
       clearInterval(refreshTokenInterval);
     };
-  }, [])
+  }, []);
   return (
     <>
-    
-        {/* <CatagoryList />  */}
-        <MiniDrawer 
-      ably={ably}
-      selected={props.selected}
-      selectedUser={props.selectedUser}
-      messagesData={props.messagesData}
-      sele={props.sele}
-      onChatClick={props.onChatClick}
-        /> 
-     
+      <MiniDrawer
+        ably={ably}
+        channelmessagesData={props.channelmessagesData}
+        selectedChannel={props.selectedChannel}
+        selected={props.selected}
+        selectedUser={props.selectedUser}
+        messagesData={props.messagesData}
+        sele={props.sele}
+        onChatClick={props.onChatClick}
+      />
     </>
   );
 }

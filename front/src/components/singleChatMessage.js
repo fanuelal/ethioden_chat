@@ -33,7 +33,12 @@ export function MessageView(props) {
   return (
     <div className='flex flex-col' >
     <div
- className={props.isSenders ? ' self-end mt-1 mr-1 p-2  rounded-tr-xl rounded-tl-xl rounded-bl-xl bg-messagesender text-white max-w-xl text-base relative ' : 'messageViewReciver'}
+  className={
+    props.isSenders
+      ? `self-end mt-1 mr-1 p-2 rounded-tr-xl rounded-tl-xl rounded-bl-xl bg-messagesender text-white text-sm 
+       ${ props.name === 'Channels' ? 'w-full self-center' : 'max-w-xl'}`
+      : `${ props.name === 'Channels' ? 'w-full' : ''} messageViewReciver`
+  }
       onContextMenu={(e) => {
         e.preventDefault();
         setClicked(true);

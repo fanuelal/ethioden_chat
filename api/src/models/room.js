@@ -50,7 +50,7 @@ const RoomModel = class{
        return new Promise((resolve, reject) => {
         con.query(`SELECT * FROM rooms WHERE id='${roomId}' AND isDeleted = 'false'`, (err, result, fields) => {
          if (err) reject(err);
-         resolve(result);
+         resolve(result[0]);
        });
       
    }).then((data) => {
