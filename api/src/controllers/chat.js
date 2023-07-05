@@ -10,6 +10,7 @@ console.log('Connected to Ably!');
 
 export const createChat = async (req, res) => {
     const body = req.body;
+    console.log(req.body)
     try {
       const chat = new ChatModel(body.text, body.inRoom, body.roomId, body.reciverId, body.senderId);
       const chatId = chat.create();
@@ -27,9 +28,9 @@ export const createChat = async (req, res) => {
       const ids = [body.senderId, body.reciverId]
       const sortedIds =  ids.sort()
       const channel = ably.channels.get(`private_chat:${sortedIds[0]}${sortedIds[1]}`);
-      console.log(channel)
+      // console.log(channel)
       channel.publish({ name:'private_chat', data: messageData }); 
-           console.log(messageData);
+          //  console.log(messageData);
       return res.status(200).json({ success: true, data: chatId, message: 'Chat created successfully' });
     } catch (error) {
       throw error;
@@ -51,9 +52,30 @@ export const createChat = async (req, res) => {
       return res.status(400).json({ success: false, data: null, message: `Error occurred: ${error}` });
     }
   }
+  export const getChannel = async (req, res) => {
+    const queryRoomId = req.query.roomId;
+    try {
+      const result = await ChatModel.getChannelChat(queryRoomId);
+      console.log(result);
+      return res.status(200).json({
+        message: 'Fetch success',
+        status: 200,
+        data: result,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        data: result,
+        message: `Error occurred: ${error}`,
+      });
+    }
+  };
+  
+  
   export const getLastChat = async(req,res)=>{
     const querySenderId = req.query.senderId;
     const queryReciverId = req.query.reciverId;
+    
     try{
 const result= await ChatModel.getLast(querySenderId,queryReciverId);
 console.log(result)

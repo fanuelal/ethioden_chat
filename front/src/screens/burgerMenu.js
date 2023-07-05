@@ -27,6 +27,7 @@ import axiosInstance from '../config/axiosConfig';
 import { format } from 'date-fns';
 import Bots from '../components/Bot';
 import {AddMember} from '../components/createMember';
+import Channel from '../components/Channel'
 const drawerWidth = 230;
 
 const openedMixin = (theme) => ({
@@ -122,9 +123,16 @@ export function MiniDrawer(props) {
           />
         );
       case "Group Chat":
-        return <GroupChat ably={props.ably}/>;
-      case "Announcement":
-        return <div>Channels</div>;
+        return <GroupChat />;
+      case "Channels":
+        return (
+          <Channel
+            name={activeMenu}
+            sele={props.selected}
+            onChatClick={props.onChatClick}
+            ably={props.ably}
+          />
+        );
       case "Bot":
         return <Bots name={activeMenu} ably={props.ably} />;
       case "Add Members":
@@ -156,21 +164,21 @@ export function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [popup,setpop]=useState(false)
-  const handleClickOpen=()=>{
-      setpop(!popup);
-  }
-  const closepopup=()=>{
-      setpop(false);
-  }
-  
-  const [Profilepopup,Profilesetpop]=useState(false)
-  const handleClickProfileOpen=()=>{
+  const [popup, setpop] = useState(false);
+  const handleClickOpen = () => {
+    setpop(!popup);
+  };
+  const closepopup = () => {
+    setpop(false);
+  };
+
+  const [Profilepopup, Profilesetpop] = useState(false);
+  const handleClickProfileOpen = () => {
     Profilesetpop(!Profilepopup);
-  }
-  const closeProfilepopup=()=>{
+  };
+  const closeProfilepopup = () => {
     Profilesetpop(false);
-}
+  };
 
   const handleMenuItemClick = (menu) => {
     setStatusContent(menu.Status);
@@ -180,20 +188,40 @@ export function MiniDrawer(props) {
   };
   useEffect(() => {
     setComponent(renderComponent());
-  }, [activeMenu])
-  
- const menuLists= ['Private Chat', 'Group Chat', 'Announcement', 'Status', 'Bot', 'Add Members', 'Profile', 'About', 'Help', 'Logout']
-  const Status=[
-    { 
-      Status:"In a meeting",
-      icon:<FontAwesomeIcon icon={faUsers} style={{color:'blue',fontSize:'20px'}}/>,
-      time: "- 1 hour"
-     },
+  }, [activeMenu]);
 
-     { 
-      Status:"Vacationing",
-     icon:<FontAwesomeIcon icon={faTree}style={{color:'green',fontSize:'20px'}}/>,
-     time:"- 4 hours"
+  const menuLists = [
+    "Private Chat",
+    "Group Chat",
+    "Channels",
+    "Status",
+    "Bot",
+    "Profile",
+    "About",
+    "Help",
+    "Logout",
+  ];
+  const Status = [
+    {
+      Status: "In a meeting",
+      icon: (
+        <FontAwesomeIcon
+          icon={faUsers}
+          style={{ color: "blue", fontSize: "20px" }}
+        />
+      ),
+      time: "- 1 hour",
+    },
+
+    {
+      Status: "Vacationing",
+      icon: (
+        <FontAwesomeIcon
+          icon={faTree}
+          style={{ color: "green", fontSize: "20px" }}
+        />
+      ),
+      time: "- 4 hours",
     },
 
     {
@@ -250,12 +278,12 @@ export function MiniDrawer(props) {
   console.log(statusContent);
 
   const navigate = useNavigate();
-  const logoutHandler = async() => {
-    await axiosInstance.patch(`/employee/${currentUser.userId}`,{"isActive": false});
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('token');
-  
-    navigate('/');
+  const logoutHandler = async () => {
+    axiosInstance.patch(`/employee/${currentUser.userId}`, { isActive: 0 });
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("token");
+
+    navigate("/");
   };
 
   const iconLister = (index) => {
@@ -268,85 +296,112 @@ export function MiniDrawer(props) {
   }
   return (
     <>
-    <div className="profile ">
-          <div className=" profile_icon">
-              <div>
-                  {Profilepopup ?
-                      <div className="mainn">
-                          <div className="popup">
-                         <div className="popup-body">
-                          <h1><FontAwesomeIcon icon={faClose} onClick={closeProfilepopup} /></h1>
-                             
-                              <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />
-                               <h1 className='username' >{currentUser.username}</h1>
-                                  </div>
+      <div className="profile ">
+        <div className=" profile_icon">
+          <div>
+            {Profilepopup ? (
+              <div className="mainn">
+                <div className="popup">
+                  <div className="popup-body">
+                    <h1>
+                      <FontAwesomeIcon
+                        icon={faClose}
+                        onClick={closeProfilepopup}
+                      />
+                    </h1>
 
-                              <span><FontAwesomeIcon icon={faUser}  />  Name
-                                   <h4>{currentUser.username}</h4>
-                                   </span>
-                                   <span><FontAwesomeIcon icon={faPhone}  />  Phone number
-                                   <h4>{currentUser.phone_num}</h4>
-                                   </span>  
-                                   <span><FontAwesomeIcon icon={faEnvelope}  />  Email
-                                   <h4>{currentUser.email}</h4>
-                                   </span>  
-                                   <span><FontAwesomeIcon icon={faStar}  />  Role
-                                   <h4>{currentUser.role}</h4>
-                                   </span> 
-                                   <span><FontAwesomeIcon icon={faSmile}  />  Status
-                                   <h4>{currentUser.Status}</h4>
-                                   </span> 
+                    <img
+                      className="chatProfile"
+                      alt="profileImage"
+                      src={currentUser.profileImg}
+                    />
+                    <h1 className="username">{currentUser.username}</h1>
+                  </div>
 
-
-                              
-
-            </div>
-                      </div> : ""}
+                  <span>
+                    <FontAwesomeIcon icon={faUser} /> Name
+                    <h4>{currentUser.username}</h4>
+                  </span>
+                  <span>
+                    <FontAwesomeIcon icon={faPhone} /> Phone number
+                    <h4>{currentUser.phone_num}</h4>
+                  </span>
+                  <span>
+                    <FontAwesomeIcon icon={faEnvelope} /> Email
+                    <h4>{currentUser.email}</h4>
+                  </span>
+                  <span>
+                    <FontAwesomeIcon icon={faStar} /> Role
+                    <h4>{currentUser.role}</h4>
+                  </span>
+                  <span>
+                    <FontAwesomeIcon icon={faSmile} /> Status
+                    <h4>{currentUser.Status}</h4>
+                  </span>
+                </div>
               </div>
-          </div>
-      </div>
-    
-    
-    
-    <div className="status ">
-          <div className=" Status_icon">
-              <div>
-                  {popup ?
-                      <div className="mainn">
-                          <div className="popup">
-
-                              <div className="popup-body">
-                                  <h3>Set a status</h3>
-                                  <p><FontAwesomeIcon icon={faClose} onClick={closepopup} /></p>
-                              </div>
-
-                              <div className="popup-header">
-                                  <input type="text" value={statusContent}  onChange={handleInputChange} />
-
-                              </div>
-
-                              <div className="listofstatus ">
-                                  <ul>
-                                      {Status.map((menu) => (
-                                          <li className=""
-                                              onClick={() => handleMenuItemClick(menu)}
-                                              > {menu.icon} <span>   </span> {menu.Status}</li>
-
-                                      ))}
-                                  </ul>
-                                  <div className="flex justify-around align-baseline">
-                                      <div>Clear after: <DropDown onDateSelection={handleDateSelection} /></div>
-                                      <button className='transition ease-in-out hover:-translate-y-3 rounded-lg ml-4' onClick={setStatus}>Save</button>
-                                  </div>
-                              </div>
-
-                          </div>
-                      </div> : ""}
-              </div>
-            
+            ) : (
+              ""
+            )}
           </div>
         </div>
-      
+      </div>
+
+      <div className="status ">
+        <div className=" Status_icon">
+          <div>
+            {popup ? (
+              <div className="mainn">
+                <div className="popup">
+                  <div className="popup-body">
+                    <h3>Set a status</h3>
+                    <p>
+                      <FontAwesomeIcon icon={faClose} onClick={closepopup} />
+                    </p>
+                  </div>
+
+                  <div className="popup-header">
+                    <input
+                      type="text"
+                      value={statusContent}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <div className="listofstatus ">
+                    <ul>
+                      {Status.map((menu) => (
+                        <li
+                          className=""
+                          onClick={() => handleMenuItemClick(menu)}
+                        >
+                          {" "}
+                          {menu.icon} <span> </span> {menu.Status}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex justify-around align-baseline">
+                      <div>
+                        Clear after:{" "}
+                        <DropDown onDateSelection={handleDateSelection} />
+                      </div>
+                      <button
+                        className="transition ease-in-out hover:-translate-y-3 rounded-lg ml-4"
+                        onClick={setStatus}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      </div>
+
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         {/* <AppBar position="fixed" open={open}>
