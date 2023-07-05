@@ -18,20 +18,35 @@ const GroupChat = (props) => {
   const [showuserlist, setShowuserlist] = useState(false);
   const [userList, setUserList] = useState([]);
   const [useradded, setUseradded] = useState([]);
-  const dictionary = {};
+  const [dictionary, setDictionary] = useState({});
+  const [inputValue, setInputValue] = useState("");
   axiosConfig.get("/employee").then((res) => {
     setUserList(res.data.data);
   });
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+  const handleNextButtonClick = () => {
+    setDictionary({ ...dictionary, [inputValue]: "some value" });
+    setInputValue("");
+  };
+  useEffect(() => {
+    console.log(dictionary);
+  }, [dictionary]);
 
-  const useraddHandler = (id) => {
-    if (!useradded.includes(id)) {
-      if(useradded.length !== 0 ) {
-      setUseradded([...useradded, id]);
+  const handleAddButtonClick = () => {
+    setDictionary({ ...dictionary, [useradded]: "some value" });
+    setInputValue("");
+  };
+    const useraddHandler = (id) => {
+      if (!useradded.includes(id)) {
+        setUseradded([...useradded, id]);
+      }
+    };
+    useEffect(() => {
       console.log(useradded);
-    }else{
-          setUseradded([id]);
-        }
-    }};
+    }, [useradded]);
+  
  
   const handlePopup = () => {
     setShowpopup(true);
@@ -47,7 +62,12 @@ const GroupChat = (props) => {
     .filter((user) => user.id !== currentUser.userId)
     .map((user) => (
       <RecentChat
-        onClick={() => useraddHandler(user.id)}
+        onClick={() => 
+          {useraddHandler(user.id);
+          console.log(user.id)
+          }
+        }
+        
         ably={props.ably}
         key={user.id}
         userId={user.id}
@@ -57,6 +77,7 @@ const GroupChat = (props) => {
         recentChat={" "}
         status={true}
         username={user.first_name}
+        
       />
     ));
 
@@ -141,8 +162,8 @@ const GroupChat = (props) => {
                   </div>
                   <div className="float-left mt-[-9px] mb-[3px] bg-[black]">
                     {/* <input className="p-[15px] ml-[-50px] h-[10px] mt-[-20px] w-[400px] rounded-[2px] border-[lightskyblue]" type="text" /> */}
-                    <input className="groupname" type="text" />
-
+                    {/* <input className="groupname" type="text" /> */}
+                    <input className="groupname" type="text" value={inputValue} onChange={handleInputChange} />
                   </div>
 
                   <div>
@@ -152,6 +173,7 @@ const GroupChat = (props) => {
                       onClick={() => {
                         setShowpopup(false);
                         setShowuserlist(true);
+                      handleNextButtonClick()
                       }}
                     >
                       next
@@ -186,7 +208,9 @@ const GroupChat = (props) => {
                   <div>
                     <button
                       className="rounded-lg ml-[100%] mt-[25%] "
-                      onClick={() => setShowuserlist(false)}
+                      onClick={() => {setShowuserlist(false);
+                        handleAddButtonClick()}
+                      }
                     >
                       Add
                     </button>
