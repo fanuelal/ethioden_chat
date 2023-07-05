@@ -23,6 +23,10 @@ button {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
 }
+.mainnn{
+background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
 
 .popup {
   background-color: white;
@@ -34,18 +38,20 @@ button {
  
 }
 
+
 .popup-body {
   margin-top: -60px;
   float: left;
   background-color: white;
   margin-left: -70px;
 }
+
 .popup-body p {
   float: right;
   margin-top: -20px;
   margin-right: -330px;
   max-width: 600px;
-  color: lightgray;
+  color: black;
 
 }
 
@@ -77,18 +83,20 @@ button {
 .listofstatus ul {
   list-style-type: none;
    padding: -10px; 
-  padding-top: 5px;
-margin-top: -5px;
+  padding-top: 1px;
+margin-top: -12px;
   margin-bottom: 0px;
-  margin-left: 5px; 
+  margin-left: -15px; 
+  
 }
 
 .listofstatus li {
-    margin-bottom: 13px; 
-    margin-top: 10px;
+    margin-bottom: 10px; 
+    margin-top: 7px;
  align-items: flex-start; 
    width: fit-content;
  color: black;
+ 
   
 }
 .listofstatus li:hover {
@@ -107,13 +115,13 @@ margin-top: -5px;
 
 .btn {
   float: right;
-  margin-right: -135px;
-  margin-bottom: -100px;
+  margin-right: -100px;
+  margin-bottom: -10px;
  
 }
 .btn p {
   float: left;
-  margin-left: -400px;
+  margin-left: -100px;
    
   color: black;
   

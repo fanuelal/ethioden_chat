@@ -162,7 +162,7 @@ export function ChatUI(props){
              <div> 
             
            <div className='flex w-full bottom-2  '>
-           <input type="text" className="w-11/12 rounded-2xl h-12 border-4 border-white-500/100  mt-6 outline-none" value={message} placeholder='Type something here ...' onChange={handleInputChange} onKeyDown={onkeyPressHandler}/>
+           <input type="text" className="w-11/12 rounded-2xl h-12 border-4 border-white-500  mt-6 outline-none" value={message} placeholder='Type something here ...' onChange={handleInputChange} onKeyDown={onkeyPressHandler}/>
            <div className='w-1/13 bg-profile rounded-full shadow-md pt-1  -ml-11 mt-6 '>
         <IconButton color="white" className="sendBtnIcon" aria-label="Send Message" component="label" onClick={onMessageSend}>
         <SendIcon style={{
