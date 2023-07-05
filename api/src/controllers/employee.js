@@ -13,9 +13,9 @@ console.log('Connected to Ably!');
 export const createEmployee = async(req, res) => {
     const body  = req.body;
     try{ 
-        const existingEmployee = EmployeeModel.checkUserExsting(body.email)
+        const existingEmployee = await EmployeeModel.checkUserExsting(body.email);
         console.log(existingEmployee)
-        if(existingEmployee[0]) return res.status(400).json({succes: true, data: null, message: ' Employee already exist!'})
+        if(existingEmployee[0]) return res.status(400).json({succes: false, data: null, message: ' Employee already exist!'})
         var employeeModel = new EmployeeModel(body.first_name, body.last_name, body.phone_num, body.email, body.password, body.department, body.role);
         employeeModel.create()
         return res.status(200).json({succes: true, data: null, message: ' Employee profile created successfuly'});

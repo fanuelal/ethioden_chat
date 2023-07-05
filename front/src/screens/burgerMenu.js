@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import GroupChat from "../components/groupchat";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
@@ -23,10 +22,11 @@ import { currentUser } from "../model/currentUserData";
 import { DropDown } from "./DropDown";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus, faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../config/axiosConfig';
 import { format } from 'date-fns';
 import Bots from '../components/Bot';
+import {AddMember} from '../components/createMember';
 const drawerWidth = 230;
 
 const openedMixin = (theme) => ({
@@ -79,7 +79,7 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
-const listIcon = [ <FontAwesomeIcon icon={faCommentDots} />,  <FontAwesomeIcon icon={faUsers} />, <FontAwesomeIcon icon={faBullhorn} />,<FontAwesomeIcon icon={faFaceSmileWink}  />, <FontAwesomeIcon icon={faRobot} />,<FontAwesomeIcon icon={faUser} />, <FontAwesomeIcon icon={faInfoCircle} />, <FontAwesomeIcon icon={faQuestionCircle} />,  <FontAwesomeIcon icon={faSignOut} /> ]
+var listIcon = [  <FontAwesomeIcon icon={faCommentDots} />,  <FontAwesomeIcon icon={faUsers} />, <FontAwesomeIcon icon={faBullhorn} />,<FontAwesomeIcon icon={faFaceSmileWink}  />, <FontAwesomeIcon icon={faRobot} />, <FontAwesomeIcon icon={faUserPlus} />, <FontAwesomeIcon icon={faUser} />, <FontAwesomeIcon icon={faInfoCircle} />, <FontAwesomeIcon icon={faQuestionCircle} />,  <FontAwesomeIcon icon={faSignOut} /> ]
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     width: drawerWidth,
@@ -127,6 +127,8 @@ export function MiniDrawer(props) {
         return <div>Channels</div>;
       case "Bot":
         return <Bots name={activeMenu} ably={props.ably} />;
+      case "Add Members":
+        return <AddMember/>;
       case "Settings":
         return null;
       case "About":
@@ -180,7 +182,7 @@ export function MiniDrawer(props) {
     setComponent(renderComponent());
   }, [activeMenu])
   
- const menuLists= ['Private Chat', 'Group Chat', 'Announcement', 'Status', 'Bot', 'Profile', 'About', 'Help', 'Logout']
+ const menuLists= ['Private Chat', 'Group Chat', 'Announcement', 'Status', 'Bot', 'Add Members', 'Profile', 'About', 'Help', 'Logout']
   const Status=[
     { 
       Status:"In a meeting",
@@ -256,6 +258,14 @@ export function MiniDrawer(props) {
     navigate('/');
   };
 
+  const iconLister = (index) => {
+    console.log(index)
+    if(currentUser.role !== 'admin' && index === 5 ){
+      return;
+    }else{
+      return listIcon[index];
+    }
+  }
   return (
     <>
     <div className="profile ">
@@ -392,13 +402,14 @@ export function MiniDrawer(props) {
                                           justifyContent: 'center',
                                       }}
                                   >
-
-                                      {listIcon[index]}
+                                      {/* currentUser.role === "admin" ? */}
+                                      {iconLister(index)} 
+                                      {/* : {} */}
                                       </ListItemIcon>
-                                      <ListItemText
+                                     {currentUser.role === 'admin' && index === 5 ?  <ListItemText
                                     primary={text}
                                 sx={{ opacity: open ? 1 : 0 }}
-                                button />
+                                button /> : ''}
                            </ListItemButton>
                        </ListItem>
                       ))}

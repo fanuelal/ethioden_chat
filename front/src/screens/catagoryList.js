@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { currentUser } from '../model/currentUserData';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut, faBell,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus, faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut, faBell,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear } from '@fortawesome/free-solid-svg-icons';
 import Notification from '../components/Notification';
 import '../styles/chatList.css';
 import Popup from 'reactjs-popup';
@@ -147,6 +147,10 @@ export function CatagoryList(props) {
           <p>Private Chat</p>
         </li>
         <li>
+          <FontAwesomeIcon icon={faUserPlus} />
+          <p>Add Member</p>
+        </li> 
+        <li>
           <FontAwesomeIcon icon={faUsers} />
           <p>Group Chat</p>
         </li>
@@ -154,6 +158,7 @@ export function CatagoryList(props) {
           <FontAwesomeIcon icon={faBullhorn} />
           <p>Announcement</p>
         </li>
+
         <li>
           <FontAwesomeIcon icon={faRobot} />
           <p>Bot</p>
