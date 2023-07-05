@@ -226,7 +226,7 @@ position:absolute;
   margin-top: 45%;
   margin-left: -10%;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
-  animation: ripple 1.5s infinite ease-in-out;
+  /* animation: ripple 1.5s infinite ease-in-out; */
 }
 
 @keyframes ripple {

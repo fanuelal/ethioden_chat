@@ -122,7 +122,7 @@ export function MiniDrawer(props) {
           />
         );
       case "Group Chat":
-        return <GroupChat />;
+        return <GroupChat ably={props.ably}/>;
       case "Announcement":
         return <div>Channels</div>;
       case "Bot":
@@ -406,10 +406,10 @@ export function MiniDrawer(props) {
                                       {iconLister(index)} 
                                       {/* : {} */}
                                       </ListItemIcon>
-                                     {currentUser.role === 'admin' && index === 5 ?  <ListItemText
+                                     {currentUser.role !== 'admin' && index === 5 ?  '':<ListItemText
                                     primary={text}
                                 sx={{ opacity: open ? 1 : 0 }}
-                                button /> : ''}
+                                button /> }
                            </ListItemButton>
                        </ListItem>
                       ))}

@@ -1,46 +1,11 @@
 
-.add-group {
-    color: aliceblue;
-    padding-top: 18%;
-    height: 25px;
-    width: 25px;
-}
-.add-group1{
-    height: 50px;
-    width: 50px;
-    background-color: #1d1f34;
-    margin-top: 47ch;
-    margin-left: 83%;
-    border-radius: 50px;
-}
-/* .popuppage{
-    background-color: aliceblue;
-    height: 100px;
-    width: 300px;
-} */
-/* .popuppage {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  .groupname {
+    padding: 15px;
+    border: 2px solid lightskyblue;
+     box-shadow: light;
+    margin-left: -50px;
+    height: 10px;
+    margin-top: -20px;
+    width: 400px;
   }
   
-  .popuppage p {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 0;
-  } */
-  .clear{
-    padding-left: 250%;
-  }
-  .header1{
-    padding-bottom: 15%;
-    padding-left: 10%;
-    width: 170px;
-  }
-  .nextbutton{
-  margin-top: 5vh;
-  margin-bottom: -10vh;
-  border-radius: 10px;
-  margin-left: 95%;
-  }
