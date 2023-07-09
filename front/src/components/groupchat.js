@@ -57,6 +57,7 @@ const GroupChat = (props) => {
         recentChat={" "}
         status={true}
         username={user.first_name}
+        
       />
     ));
 

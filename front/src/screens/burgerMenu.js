@@ -481,10 +481,16 @@ export function MiniDrawer(props) {
         </div>
         <div className="w-4/6">{props.selected !==-1 ?
           <ActiveData
+          selectedChannel={props.selectedChannel}
+         
             ably={props.ably}
             userId={props.selected}
             username={props.selectedUser}
-            messages={props.messagesData}
+            messages={
+              activeMenu === "Channels"
+                ? props.channelmessagesData
+                : props.messagesData
+            }
           />:<EmptyScreen/>}
       </div></div>
               </Box>
