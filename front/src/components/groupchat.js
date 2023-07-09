@@ -20,7 +20,33 @@ const GroupChat = (props) => {
   const [useradded, setUseradded] = useState([]);
   const [dictionary, setDictionary] = useState({});
   const [inputValue, setInputValue] = useState("");
-  axiosConfig.get("/employee").then((res) => {
+  const [grouplist,setGrouplist] = useState([]);
+  const [groupname, setGroupname] = useState("");
+  useEffect(() => {
+    axiosConfig.get("/room").then((res) => {
+      setGrouplist(res.data.data);
+    });
+  }, []);
+  const ListRecentgroup = grouplist.map(
+    (user) => {
+        return (
+          <RecentChat
+            userId={user.id}
+            type={"room"}
+            profileImg={
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
+            }
+            recentChat={"hello there"}
+            status={undefined}
+            username={user.name}
+            ably={props.ably}
+          />
+        );
+      }
+    // }
+  );
+
+ axiosConfig.get("/employee").then((res) => {
     setUserList(res.data.data);
   });
   const handleInputChange = (event) => {
@@ -29,7 +55,10 @@ const GroupChat = (props) => {
   const handleNextButtonClick = () => {
     setDictionary({ ...dictionary, [inputValue]: "some value" });
     setInputValue("");
+    setGroupname([inputValue])
+    // console.log(groupname)
   };
+
   useEffect(() => {
     console.log(dictionary);
   }, [dictionary]);
@@ -37,6 +66,28 @@ const GroupChat = (props) => {
   const handleAddButtonClick = () => {
     setDictionary({ ...dictionary, [useradded]: "some value" });
     setInputValue("");
+
+    // axiosConfig.post(`/room?name=${groupname}&type={"group"}&created_by=${ currentUser.userId}&members=${useradded}`).then((value) => {
+    //   // setMessageData(value.data.data);
+    // });
+    const params = {
+      name: groupname,
+      type: JSON.stringify({ group: true }),
+      created_by: currentUser.userId,
+      members: JSON.stringify(useradded),
+    };
+    
+    axiosConfig.post('/room', params)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    
+
+
+
   };
     const useraddHandler = (id) => {
       if (!useradded.includes(id)) {
@@ -74,7 +125,7 @@ const GroupChat = (props) => {
         profileImg={
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
         }
-        recentChat={" "}
+        recentChat={""}
         status={true}
         username={user.first_name}
         
@@ -121,10 +172,10 @@ const GroupChat = (props) => {
           ""
         )}
       </div>
-
+          <div class="max-h-[75vh] overflow-auto no-scrollbar">{ListRecentgroup}</div>
       <Popup
         trigger={
-          <div class="bg-[#1d1f34] mt-[47ch] h-[50px] w-[50px] ml-[83%] rounded-full">
+          <div class="bg-[#1d1f34] mt-[2ch] h-[50px] w-[50px] ml-[83%] rounded-full">
             <FontAwesomeIcon
               icon={faPlus}
               // class="text-[#fa8072] h-8 w-8 "

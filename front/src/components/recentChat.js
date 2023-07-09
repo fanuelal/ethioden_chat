@@ -10,6 +10,9 @@ export function RecentChat(prop) {
     if(prop.type === "bot") {
       return;
     }
+    if(prop.type === "room") {
+      return;
+    }
     prop.onClick(prop.userId);
     setClicked(true);
   }
@@ -26,18 +29,19 @@ const cc = prop.sele===prop.userId?clicked:false
   // console.log(isActive)
    
   return (
-
-
-    
-    <div className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
+ <div className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
       {/* <button className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}> */}
         <div className=" flex w-2/12">
           <img 
           width={50}
           height={50}
           className="rounded-full h-12 w-12 " src={prop.profileImg} alt="recent chat"/>
-          <div className={prop.isActive ?"chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div>
-        
+          {/* <div className={prop.isActive ?"chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div> */}
+
+          {prop.status !== undefined ? (
+  <div className={prop.isActive ? "chatListActiveStatusOnline" : "chatListActiveStatusOffline"}></div>
+) : null}
+
         </div>
         <div className="flex flex-col w-10/12  "> 
             <div className=" flex justify-between">
