@@ -65,7 +65,9 @@ export const updateEmployee = async(req, res) => {
     const userId = req.params.id
     const body = req.body
     // const statusChannel = ably.channels.get('status-channels:userId');
-    console.log(body.isActive)
+    console.log(`isactive:${body.isActive}`)
+    console.log(`password:${body.password}`)
+    console.log(`password:${body.email}`)
     try{
         console.log(body.isActive);
         const fetchedEmployee = await EmployeeModel.getSingle(userId);
