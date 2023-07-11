@@ -104,7 +104,7 @@ props.ably.connection.on('disconnected', function() {
 
       return (
         <RecentChat
-        
+        name={props.name}
           sele={props.sele}
           key={user.id}
           onClick={recentClickHandler}

@@ -156,7 +156,7 @@ const [emailed,setEmailed] =useState("")
           />
         );
       case "Group Chat":
-        return <GroupChat />;
+        return <GroupChat  name={activeMenu}  />;
       case "Channels":
         return (
           <Channel
@@ -774,7 +774,7 @@ const submitFormHandler = async (e) => {
         <div className="w-4/6">{props.selected !==-1 ?
           <ActiveData
           selectedChannel={props.selectedChannel}
-         
+         name={activeMenu}
             ably={props.ably}
             userId={props.selected}
             username={props.selectedUser}

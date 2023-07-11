@@ -4,17 +4,17 @@ import {createdChatTable} from '../models/chat.js';
 import RoomModel from '../models/room.js';
 
 dotenv.config({ path: '../../.env' })
-export const createRoom = async(req, res) => {
-    const body = req.body
-    
-    try{
-        var room = new RoomModel(body.name, body.type, body.created_by)
-        room.create()
-        return res.status(200).json({succes: true, data: null, message: ' room created successfuly'});
-    }catch(error){
-        throw(error);
-    }
-}
+export const createRoom = async (req, res) => {
+    const { name, type, created_by, members } = req.body;
+  
+    try {
+      const newRoom = new RoomModel(name, type, created_by, false, members);
+      await newRoom.create();
+      return res.status(200).json({ success: true, data: newRoom, message: 'Room created successfully' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ success: false, data: null, message: 'Failed to create room' });
+    }}
 export const getAllRooms = async(req, res) => {
     try{
         const result = await RoomModel.getAll()

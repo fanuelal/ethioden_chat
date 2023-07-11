@@ -10,25 +10,25 @@ const RoomModel = class{
     type
     created_by
     isDeleted
-    constructor(name,type , created_by, isDeleted){
+    members
+    constructor(name,type , created_by, isDeleted, members){
         this.name = name;
         this.type = type;
         this.created_by = created_by; 
         this.isDeleted = isDeleted;
+        this.members = members;
     }
 
-     create = async() => {
-        
-        const query = `INSERT INTO rooms ( id, name, type, created_by) 
-               VALUES ('${uuidv4()}', '${this.name}', '${this.type}','${this.created_by}')`;
-        con.query(query, (error, result, failed) => {
-            if(error) throw(error)
-            console.log(result.datatype)
-            return result
+    create = async () => {
+        const query = `INSERT INTO rooms (id, name, type, created_by, members) 
+          VALUES ('${uuidv4()}', '${this.name}', '${this.type}', '${this.created_by}', '${JSON.stringify(this.members)}')`;
+        con.query(query, (error, result) => {
+          if (error) throw error;
+          console.log(result.datatype);
+          return result;
         });
         return null;
-    }
-
+      };
     static getAll = async () => {
            var fetchedData; 
           return new Promise((resolve, reject) => {con.query('SELECT * FROM `rooms` WHERE isDeleted = false', (err, result, fields) => {
@@ -60,7 +60,7 @@ const RoomModel = class{
 
      updateRoom = async(roomId) => {
         return new Promise((resolve, reject) => {
-            con.query(`UPDATE rooms SET  name = '${this.name}', type = '${this.type}'  WHERE id = '${roomId}'`, (error, result, fields) => {
+            con.query(`UPDATE rooms SET  name = '${this.name}', type = '${this.type}', members = '${JSON.stringify(this.members)}', WHERE id = '${roomId}'`, (error, result, fields) => {
                 if(error) reject(error);
                 resolve(result)
             })
@@ -98,6 +98,7 @@ export const createdRoomTable = () => {
                 type VARCHAR(50),
                 created_by VARCHAR(50),
                 isDeleted BOOLEAN DEFAULT false,
+                members JSON,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (created_by) REFERENCES employees(id),
                 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
