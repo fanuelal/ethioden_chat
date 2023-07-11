@@ -3,10 +3,7 @@ import { useState, useEffect } from "react";
 import { RecentChat } from "./recentChat";
 import "../styles/groupchat.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faSearch,faArrowLeft,faPlus,faTimes } from "@fortawesome/free-solid-svg-icons";
 import SearchComp from "./searchComp";
 import Popup from "reactjs-popup";
 import axiosConfig from "../config/axiosConfig";
@@ -20,7 +17,7 @@ const GroupChat = (props) => {
   const [useradded, setUseradded] = useState([]);
   const [dictionary, setDictionary] = useState({});
   const [inputValue, setInputValue] = useState("");
-  const [grouplist,setGrouplist] = useState([]);
+  const [grouplist, setGrouplist] = useState([]);
   const [groupname, setGroupname] = useState("");
 
   function recentClickHandler(botId) {
@@ -33,31 +30,28 @@ const GroupChat = (props) => {
   }, []);
   const ListRecentgroup = grouplist.map(
     (user) => {
-        return (
-          <RecentChat
-          name= {props.name}
-            userId={user.id}
-            // type={"room"}
-            profileImg={
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-            }
-            recentChat={""}
-            status={undefined}
-            username={user.name}
-            ably={props.ably}
-            sele={props.sele}
-        
-        onClick={recentClickHandler}
-        // onClick={recentClickHandler}
-        
-        
-          />
-        );
-      }
+      return (
+        <RecentChat
+          name={props.name}
+          userId={user.id}
+          // type={"room"}
+          profileImg={
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
+          }
+          recentChat={""}
+          status={undefined}
+          username={user.name}
+          ably={props.ably}
+          sele={props.sele}
+          onClick={recentClickHandler}
+          // onClick={recentClickHandler}
+        />
+      );
+    }
     // }
   );
 
- axiosConfig.get("/employee").then((res) => {
+  axiosConfig.get("/employee").then((res) => {
     setUserList(res.data.data);
   });
   const handleInputChange = (event) => {
@@ -66,7 +60,7 @@ const GroupChat = (props) => {
   const handleNextButtonClick = () => {
     setDictionary({ ...dictionary, [inputValue]: "some value" });
     setInputValue("");
-    setGroupname([inputValue])
+    setGroupname([inputValue]);
     // console.log(groupname)
   };
 
@@ -84,33 +78,29 @@ const GroupChat = (props) => {
     const type = "group";
     const params = {
       name: groupname,
-      type:  type,
+      type: type,
       created_by: currentUser.userId,
       members: JSON.stringify(useradded),
     };
-    
-    axiosConfig.post('/room', params)
+
+    axiosConfig
+      .post("/room", params)
       .then((response) => {
         console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    
-
-
-
   };
-    const useraddHandler = (id) => {
-      if (!useradded.includes(id)) {
-        setUseradded([...useradded, id]);
-      }
-    };
-    useEffect(() => {
-      console.log(useradded);
-    }, [useradded]);
-  
- 
+  const useraddHandler = (id) => {
+    if (!useradded.includes(id)) {
+      setUseradded([...useradded, id]);
+    }
+  };
+  useEffect(() => {
+    console.log(useradded);
+  }, [useradded]);
+
   const handlePopup = () => {
     setShowpopup(true);
   };
@@ -125,12 +115,10 @@ const GroupChat = (props) => {
     .filter((user) => user.id !== currentUser.userId)
     .map((user) => (
       <RecentChat
-        onClick={() => 
-          {useraddHandler(user.id);
-          console.log(user.id)
-          }
-        }
-        
+        onClick={() => {
+          useraddHandler(user.id);
+          console.log(user.id);
+        }}
         ably={props.ably}
         key={user.id}
         userId={user.id}
@@ -140,7 +128,6 @@ const GroupChat = (props) => {
         recentChat={""}
         status={true}
         username={user.first_name}
-        
       />
     ));
 
@@ -184,7 +171,9 @@ const GroupChat = (props) => {
           ""
         )}
       </div>
-          <div class="max-h-[75vh] overflow-auto no-scrollbar">{ListRecentgroup}</div>
+      <div class="max-h-[75vh] overflow-auto no-scrollbar">
+        {ListRecentgroup}
+      </div>
       <Popup
         trigger={
           <div class="bg-[#1d1f34] mt-[2ch] h-[50px] w-[50px] ml-[83%] rounded-full">
@@ -196,7 +185,6 @@ const GroupChat = (props) => {
             />
           </div>
         }
-        
         content={
           <div className="popuppage">
             <p>creat a group</p>
@@ -208,8 +196,8 @@ const GroupChat = (props) => {
         closeOnDocumentClick
       />
 
-      <div >
-        <div >
+      <div>
+        <div>
           <div>
             {showpopup && (
               <div className="w-[100%] h-[120vh] fixed left-0 top-[-10px] flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
@@ -221,12 +209,19 @@ const GroupChat = (props) => {
                     >
                       <FontAwesomeIcon className="pl-[180%]" icon={faTimes} />
                     </div>
-                    <h3 className="pb-[15%] pl-[5%] w-[250px]">create a group</h3>
+                    <h3 className="pb-[15%] pl-[5%] w-[250px]">
+                      create a group
+                    </h3>
                   </div>
                   <div className="float-left mt-[-9px] mb-[3px] bg-[black]">
                     {/* <input className="p-[15px] ml-[-50px] h-[10px] mt-[-20px] w-[400px] rounded-[2px] border-[lightskyblue]" type="text" /> */}
                     {/* <input className="groupname" type="text" /> */}
-                    <input className="groupname" type="text" value={inputValue} onChange={handleInputChange} />
+                    <input
+                      className="groupname"
+                      type="text"
+                      value={inputValue}
+                      onChange={handleInputChange}
+                    />
                   </div>
 
                   <div>
@@ -236,7 +231,7 @@ const GroupChat = (props) => {
                       onClick={() => {
                         setShowpopup(false);
                         setShowuserlist(true);
-                      handleNextButtonClick()
+                        handleNextButtonClick();
                       }}
                     >
                       next
@@ -249,8 +244,8 @@ const GroupChat = (props) => {
         </div>
       </div>
 
-      <div >
-        <div >
+      <div>
+        <div>
           <div>
             {showuserlist && (
               <div className="w-[100%] h-[120vh] fixed left-0 top-0 flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
@@ -260,20 +255,21 @@ const GroupChat = (props) => {
                       className="close-icon"
                       onClick={() => setShowuserlist(false)}
                     >
-                      <FontAwesomeIcon className="pl-[115%]"  icon={faTimes} />
+                      <FontAwesomeIcon className="pl-[115%]" icon={faTimes} />
                     </div>
                     <h3 className="header1">choose a user</h3>
                     <div className="w-[250px] pl-[10%] max-h-[60vh] overflow-auto no-scrollbar">
-                    {ListRecent}
+                      {ListRecent}
                     </div>
                   </div>
 
                   <div>
                     <button
                       className="rounded-lg ml-[100%] mt-[25%] "
-                      onClick={() => {setShowuserlist(false);
-                        handleAddButtonClick()}
-                      }
+                      onClick={() => {
+                        setShowuserlist(false);
+                        handleAddButtonClick();
+                      }}
                     >
                       Add
                     </button>
