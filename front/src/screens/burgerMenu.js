@@ -333,10 +333,9 @@ const closePasswordChangePopup = () => {
 
   const navigate = useNavigate();
   const logoutHandler = async () => {
-    axiosInstance.patch(`/employee/${currentUser.userId}`, { isActive: 0 });
+    await axiosInstance.patch(`/employee/${currentUser.userId}`, { isActive: 0 });
     localStorage.removeItem("currentUser");
     localStorage.removeItem("token");
-
     navigate("/");
   };
 
@@ -410,15 +409,15 @@ const submitFormHandler = async (e) => {
   e.preventDefault();
 
   try {
-    // const response = await axiosInstance.post('/auth', { email: currentUser.email, password: currentP });
+    const response = await axiosInstance.post('/auth', { email: currentUser.email, password: currentP });
 
-    // if (response.data.success) {
+    if (response.data.success) {
        axiosInstance.patch(`/employee/${currentUser.userId}`, { password: newPassword });
-      // console.log(response.data.data);
+      console.log(response.data.data);
       console.log('Password updated successfully');
-    // } else {
-    //   alert('Failed to verify user');
-    // }
+    } else {
+      alert('Failed to verify user');
+    }
   } catch (err) {
     console.log(err);
     alert('An error occurred');
