@@ -35,6 +35,7 @@ const GroupChat = (props) => {
     (user) => {
         return (
           <RecentChat
+          name= {props.name}
             userId={user.id}
             // type={"room"}
             profileImg={
@@ -45,7 +46,6 @@ const GroupChat = (props) => {
             username={user.name}
             ably={props.ably}
             sele={props.sele}
-            name={props.name}
         
         onClick={recentClickHandler}
         // onClick={recentClickHandler}

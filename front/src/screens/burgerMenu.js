@@ -22,7 +22,8 @@ import { currentUser } from "../model/currentUserData";
 import { DropDown } from "./DropDown";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus, faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash,faEye,faUserPlus, faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
+// import { faEyeSlash,faEye,faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../config/axiosConfig';
 import { format } from 'date-fns';
 import Bots from '../components/Bot';
@@ -110,6 +111,38 @@ export function MiniDrawer(props) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [activeMenu, setActiveMenu] = useState(null);
   const [component, setComponent] = useState(null);
+// const [component, setComponent] = useState(null);
+const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+const [showNewPassword, setShowNewPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+const [currentP, setcurrentP] = useState("");
+const [newPassword, setnewPassword] = useState("");
+const [confirmNewPassword, setconfirmNewPassword] = useState("");
+const [emailed,setEmailed] =useState("")
+
+
+// const renderComponent = () => {
+//   switch (activeMenu) {
+//     case 'Private Chat':
+//       return <ChatList name={activeMenu} sele={props.sele} onChatClick={props.onChatClick} ably={props.ably} />;
+//     case 'Group Chat':
+//       return <div>Groups</div>;
+//     case 'Announcement':
+//       return <div>Channels</div> ;
+//     case 'Bot':
+//       return <Bots name={activeMenu} ably={props.ably}/>;
+//     case 'Settings':
+//       return null;
+//     case 'About':
+//       return null;
+//     case 'Help':
+//       return null;
+//     case 'Logout':
+//       return null
+//     default:
+//       return <ChatList name={activeMenu} sele={props.sele} onChatClick={props.onChatClick} ably={props.ably} />;
+//   }
+// };
 
   const renderComponent = () => {
     switch (activeMenu) {
@@ -182,6 +215,11 @@ export function MiniDrawer(props) {
   const closeProfilepopup = () => {
     Profilesetpop(false);
   };
+
+const [showPasswordChangePopup, setShowPasswordChangePopup] = useState(false);
+const closePasswordChangePopup = () => {
+  setShowPasswordChangePopup(false);
+};
 
   const handleMenuItemClick = (menu) => {
     setStatusContent(menu.Status);
@@ -272,6 +310,18 @@ export function MiniDrawer(props) {
   const handleInputChange = (event) => {
     setStatusContent(event.target.value);
   };
+  const handleNewP = (event) => {
+    setnewPassword(event.target.value);
+  };
+  const handleCurrentP = (event) => {
+    setcurrentP(event.target.value);
+  };
+  const handleConfirmP = (event) => {
+    setconfirmNewPassword(event.target.value);
+  };
+  console.log(currentP)
+  console.log(newPassword)
+  console.log(confirmNewPassword)
 
   const handleDateSelection = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd HH:mm:ss");
@@ -298,53 +348,169 @@ export function MiniDrawer(props) {
       return listIcon[index];
     }
   }
+  // return (
+  //   <>
+  //     <div className="profile ">
+  //       <div className=" profile_icon">
+  //         <div>
+  //           {Profilepopup ? (
+  //             <div className="mainn">
+  //               <div className="popup">
+  //                 <div className="popup-body">
+  //                   <h1>
+  //                     <FontAwesomeIcon
+  //                       icon={faClose}
+  //                       onClick={closeProfilepopup}
+  //                     />
+  //                   </h1>
+
+  //                   <img
+  //                     className="chatProfile"
+  //                     alt="profileImage"
+  //                     src={currentUser.profileImg}
+  //                   />
+  //                   <h1 className="username">{currentUser.username}</h1>
+  //                 </div>
+
+  //                 <span>
+  //                   <FontAwesomeIcon icon={faUser} /> Name
+  //                   <h4>{currentUser.username}</h4>
+  //                 </span>
+  //                 <span>
+  //                   <FontAwesomeIcon icon={faPhone} /> Phone number
+  //                   <h4>{currentUser.phone_num}</h4>
+  //                 </span>
+  //                 <span>
+  //                   <FontAwesomeIcon icon={faEnvelope} /> Email
+  //                   <h4>{currentUser.email}</h4>
+  //                 </span>
+  //                 <span>
+  //                   <FontAwesomeIcon icon={faStar} /> Role
+  //                   <h4>{currentUser.role}</h4>
+  //                 </span>
+  //                 <span>
+  //                   <FontAwesomeIcon icon={faSmile} /> Status
+  //                   <h4>{currentUser.Status}</h4>
+  //                 </span>
+  //               </div>
+  // const logoutHandler = async() => {
+  //    axiosInstance.patch(`/employee/${currentUser.userId}`,{"isActive": false});
+  //   localStorage.removeItem('currentUser');
+  //   localStorage.removeItem('token');
+  
+  //   navigate('/');
+  // };
+
+
+
+console.log(emailed)
+console.log(currentP)
+
+const submitFormHandler = async (e) => {
+  e.preventDefault();
+
+  try {
+    // const response = await axiosInstance.post('/auth', { email: currentUser.email, password: currentP });
+
+    // if (response.data.success) {
+       axiosInstance.patch(`/employee/${currentUser.userId}`, { password: newPassword });
+      // console.log(response.data.data);
+      console.log('Password updated successfully');
+    // } else {
+    //   alert('Failed to verify user');
+    // }
+  } catch (err) {
+    console.log(err);
+    alert('An error occurred');
+  }
+};
+
+
   return (
-    <>
-      <div className="profile ">
-        <div className=" profile_icon">
-          <div>
-            {Profilepopup ? (
-              <div className="mainn">
-                <div className="popup">
-                  <div className="popup-body">
-                    <h1>
-                      <FontAwesomeIcon
-                        icon={faClose}
-                        onClick={closeProfilepopup}
-                      />
-                    </h1>
+  
+   <>
+    <div className="profile ">
+          <div className=" profile_icon">
+              <div>
+              
+                  {Profilepopup ?
+                      <div className="mainnn p-6 fixed flex   justify-start  items-center w-full h-screen ">
+                          <div className=" p-4 ml-24 mb-10   rounded-md bg-white">
+                        
+                          <div className="popup-bodyy ">
+                          
+                             
+                              <img className="w-1/3 justify-center mr-10" alt="profileImage" src={currentUser.profileImg} />
+                               <h1 className="w-8 h-8 ml-10 mt-4 font-bold  text-xl" >{currentUser.username}</h1>
+                                  </div> 
+                                  <div className='bg-lightgrey w-full p-0.5'></div>
+                              <div className="flex flex-col mt-7 ml-1 pr-10 ">
+                     <span className="flex items-center mb-3">
+    <div className="bg-blue-300 rounded-md p-1 mr-2 ">
+      <FontAwesomeIcon icon={faUser} className="text-white" />
+    </div>
+    
+    <h2 className="justify-center">Name</h2>
+<h4 className="ml-10 text-right justify-end text-sky-400">{currentUser.username}</h4>
+    
+  </span>
+  <span className="flex items-center mb-2">
+    <div className="bg-green-300 rounded-md p-1 mr-2">
+      <FontAwesomeIcon icon={faPhone} className="text-white" />
+    </div>
+    
+    <h2 className="">Phone number</h2>
+<h4 className="ml-10 text-left text-sky-400">{currentUser.phone_num}</h4>
+    
+  </span>
+  <span className="flex items-center mb-2">
+    <div className="bg-orange-200 rounded-md p-1 mr-2">
+      <FontAwesomeIcon icon={faEnvelope} className="text-white" />
+    </div>
+    
+    <h2 className="">Email</h2>
+<h4 className="ml-10 text-right text-sky-400">{currentUser.email}</h4>
+    
+  </span>
+  <span className="flex items-center mb-2">
+  <div className="bg-red-400 rounded-md p-1 mr-2">
+  <FontAwesomeIcon icon={faStar} className="text-white" />
+</div>
+<h2 className="">Role</h2>
+<h4 className="ml-10 text-right text-sky-400">{currentUser.role}</h4>
+    
+  </span>
+  <span className="flex items-center mr-15 mb-2">
+    <div className="bg-orange-300 rounded-md p-1 mr-2">
+      <FontAwesomeIcon icon={faSmile} className="text-white" />
+    </div>
+    
+    <h2 className="">Status</h2>
+<h4 className="ml-10 text-left text-sky-400">{currentUser.Status}</h4>
+    
+  </span>
 
-                    <img
-                      className="chatProfile"
-                      alt="profileImage"
-                      src={currentUser.profileImg}
-                    />
-                    <h1 className="username">{currentUser.username}</h1>
-                  </div>
+  <span className="flex items-center mr-15 mb-2">
+    <div className="bg-blue-300 rounded-md p-1 mr-2">
+      <FontAwesomeIcon icon={faKey} className="text-white" />
+    </div> 
+    <button className='bg-white -ml-1 p-1' onClick={() => setShowPasswordChangePopup(true)}>
+  <h2 className="">Reset Password</h2>
+</button>
+<h4 className="ml-10 text-left">{currentUser.Status}</h4>
+    
+  </span>
+</div>
 
-                  <span>
-                    <FontAwesomeIcon icon={faUser} /> Name
-                    <h4>{currentUser.username}</h4>
-                  </span>
-                  <span>
-                    <FontAwesomeIcon icon={faPhone} /> Phone number
-                    <h4>{currentUser.phone_num}</h4>
-                  </span>
-                  <span>
-                    <FontAwesomeIcon icon={faEnvelope} /> Email
-                    <h4>{currentUser.email}</h4>
-                  </span>
-                  <span>
-                    <FontAwesomeIcon icon={faStar} /> Role
-                    <h4>{currentUser.role}</h4>
-                  </span>
-                  <span>
-                    <FontAwesomeIcon icon={faSmile} /> Status
-                    <h4>{currentUser.Status}</h4>
-                  </span>
-                </div>
+<h1><FontAwesomeIcon icon={faClose} onClick={closeProfilepopup}className=' bg-lightgrey rounded-full p-1 mt-3 mr-2  ' /></h1>
+                              
+
+            </div>
+                      </div> : ""}
               </div>
-            ) : (
+              </div>
+              </div>
+            {/* ) : (
               ""
             )}
           </div>
@@ -362,7 +528,112 @@ export function MiniDrawer(props) {
                     <p>
                       <FontAwesomeIcon icon={faClose} onClick={closepopup} />
                     </p>
-                  </div>
+                  </div> */}
+    
+      
+  {showPasswordChangePopup && (
+    <div className="mainnn  fixed  flex justify-around items-center w-full h-screen">
+      <div className="p-4 mr-[30vh] mb-[20vh]  rounded-md bg-white">
+        <div className="popup-bodyy">
+          <h1 className="w-15 h-15 mr-[15vh]  font-bold  decoration-8 text-xl">Reset Password</h1>
+        </div>
+        
+        <div className="flex flex-col mt-7 ml-1 pr-5">
+          {/* Password change form */}
+          <form onSubmit={submitFormHandler} >
+            <div className="flex flex-col mb-2 relative">
+              <label htmlFor="current-password" className="font-semibold mb-1 mr-[15vh] text-sm">
+                Current Password 
+              </label>
+              <div className="relative">
+                <input
+                onChange={handleCurrentP}
+                  className="border-2 outline-none pr-10"
+                  type={showCurrentPassword ? "text" : "password"}
+                  id="current-password"
+                  name="current-password"
+                  required
+                />
+                <FontAwesomeIcon
+                  icon={showCurrentPassword ? faEye : faEyeSlash}
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  className="rounded-full p-1 mt-0.5 mr-0.3 cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col mb-2 relative">
+              <label htmlFor="new-password" className="font-semibold mb-1 mr-[19vh] text-sm">
+                New Password 
+              </label>
+              <div className="relative">
+                <input
+                onChange={handleNewP}
+                  className="border-2 outline-none pr-10"
+                  type={showNewPassword ? "text" : "password"}
+                  id="new-password"
+                  name="new-password"
+                  required
+                />
+                <FontAwesomeIcon
+                  icon={showNewPassword ? faEye : faEyeSlash}
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className=" rounded-full p-1 mt-0.5 mr-0.3 cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col mb-4 relative">
+              <label htmlFor="confirm-password" className="font-semibold mb-1 mr-[10vh] text-sm">
+                Confirm New Password
+              </label>
+              <div className="relative">
+                <input
+                onChange={handleConfirmP}
+                  className="border-2 outline-none pr-10"
+                  type={showConfirmPassword ? "text" : "password"}
+                  id="confirm-password"
+                  name="confirm-password"
+                  required
+                />
+                <FontAwesomeIcon
+                  icon={showConfirmPassword ? faEye : faEyeSlash}
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className=" rounded-full p-1 mt-0.5 mr-0.3 cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2"
+                />
+              </div>
+            </div>
+            <button 
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-lightgrey font-bold py-1 px-3 rounded"
+            >
+              Save Change
+            </button > 
+          </form >
+          <h1>
+            <FontAwesomeIcon
+              icon={faClose}
+              onClick={closePasswordChangePopup}
+              className="bg-lightgrey rounded-full p-1 mt-3 mr-2 cursor-pointer"
+            />
+          </h1>
+        </div>
+      </div>
+    </div>
+  )}
+
+
+
+    
+    <div className="status ">
+          <div className=" Status_icon">
+              <div>
+                  {popup ?
+                      <div className="mainn">
+                          <div className="popup">
+
+                              <div className="popup-body">
+                                  <h3>Set a status</h3>
+                                  <p><FontAwesomeIcon icon={faClose} onClick={closepopup} className='bg-lightgrey rounded-full p-1  ' /></p>
+                              </div>
 
                   <div className="popup-header">
                     <input
@@ -398,11 +669,32 @@ export function MiniDrawer(props) {
                     </div>
                   </div>
                 </div>
+                              </div>
+
+                            // <div className="listofstatus ">
+                            //       <ul>
+                            //           {Status.map((menu) => (
+                            //               <li className=""
+                            //                   onClick={() => handleMenuItemClick(menu)}
+                            //                   > {menu.icon} <span>   </span> {menu.Status}</li>
+
+                            //           ))}
+                            //       </ul>
+                            //       <div className="flex justify-around align-baseline -ml-7">
+                            //           <div>Clear after: <DropDown onDateSelection={handleDateSelection} /></div>
+                            //           <button className='transition ease-in-out hover:-translate-y-1 rounded-lg ml-10 pb-1 pt-1 ' onClick={setStatus}>Save</button>
+                            //       </div>
+                            //   </div>
+
+                      //     </div>
+                      // </div>
+                      // </div> 
+                      : ""}
               </div>
-            ) : (
+            {/* ) : (
               ""
             )}
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -496,13 +788,21 @@ export function MiniDrawer(props) {
         </div>
         <div className="w-4/6">{props.selected !==-1 ?
           <ActiveData
+          selectedChannel={props.selectedChannel}
+         name={activeMenu}
             ably={props.ably}
             userId={props.selected}
             username={props.selectedUser}
-            messages={props.messagesData}
+            messages={
+              activeMenu === "Channels" || activeMenu === "Group Chat"
+                ? props.channelmessagesData
+                : props.messagesData
+            }
           />:<EmptyScreen/>}
-      </div></div>
+      </div>
+      </div>
               </Box>
-          </Box></>
+          </Box>
+          </>
   );
-}
+          }

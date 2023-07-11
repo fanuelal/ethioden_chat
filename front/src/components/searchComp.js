@@ -42,6 +42,7 @@ function SearchComp(props) {
       if (user.id !== currentUser.userId) {
         return (
           <RecentChat
+          ably={props.ably}
             onClick={recentClickHandler}
             userId={user.id}
             profileImg={

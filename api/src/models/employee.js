@@ -120,6 +120,7 @@ const EmployeeModel = class{
     }
      updateEmployee = async(userId) => {
         console.log(this.isActive);
+        var encryptedPass = passwordEncryptor(this.password)
         return new Promise((resolve, reject) => {
             con.query(`UPDATE employees SET  first_name = '${this.first_name}', 
             last_name = '${this.last_name}', 
@@ -127,6 +128,7 @@ const EmployeeModel = class{
             isActive = '${this.isActive}', 
             department = '${this.department}',
             email = '${this.email}',
+            password = '${encryptedPass}',
             role = '${this.role}' WHERE id = '${userId}'`, (error, result, fields) => {
                 if(error) reject(error);
                 resolve(result)

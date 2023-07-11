@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import "../styles/chatList.css";
 import { style } from "@mui/system";
-
+import Ably from "ably";
+const ably = new Ably.Realtime(
+  "nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0"
+);
 export function RecentChat(prop) {
   const [clicked, setClicked] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -16,7 +19,7 @@ export function RecentChat(prop) {
     setClicked(true);
   };
 
-  const channel = prop.ably.channels.get("chat-status");
+  const channel = ably.channels.get("chat-status");
   channel.subscribe("chat-status", (message) => {
     console.log("message.data");
     setIsActive(message.data);
