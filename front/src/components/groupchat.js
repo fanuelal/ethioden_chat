@@ -149,45 +149,20 @@ const GroupChat = (props) => {
       <div className=" font-bold  text-base md:text-sm shadow-md">
         <div
           className={
-            issearch
-              ? " flex-row-reverse justify-around  items-center h-14 w-full bg-profile"
-              : "flex justify-around items-center h-14 w -full bg-profile"
+            // issearch
+            //   ? " flex-row-reverse justify-around  items-center h-14 w-full bg-profile"
+              "flex justify-around items-center h-14 w -full bg-profile"
           }
         >
-          {issearch ? (
-            ""
-          ) : (
             <div className="text-white lg:text-xl"> Group Chat</div>
-          )}
+          
 
-          <div className="">
-            {issearch ? (
-              <div className=" items-start align-baseline -ml-72 pt-4 text-white ">
-                <FontAwesomeIcon
-                  icon={faArrowLeft}
-                  className=" "
-                  onClick={arrowclickHandler}
-                />
-              </div>
-            ) : (
-              <FontAwesomeIcon
-                icon={faSearch}
-                className="text-white h-5 w-4 cursor-pointer"
-                onClick={searchHandler}
-              />
-            )}
-          </div>
-        </div>
-        {issearch ? (
-          <SearchComp sele={props.sele} onChatClick={props.onChatClick} />
-        ) : (
-          ""
-        )}
+</div>
       </div>
           <div class="max-h-[75vh] overflow-auto no-scrollbar">{ListRecentgroup}</div>
       <Popup
         trigger={
-          <div class="bg-[#1d1f34] mt-[2ch] h-[50px] w-[50px] ml-[83%] rounded-full">
+          <div class="bg-[#1d1f34] mt-[2ch] h-[50px] w-[50px] ml-[83%] rounded-full ">
             <FontAwesomeIcon
               icon={faPlus}
               // class="text-[#fa8072] h-8 w-8 "

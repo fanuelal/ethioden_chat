@@ -13,16 +13,24 @@ import { Bot } from "../model/Bot";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import axiosInstance from "../config/axiosConfig";
+import { RecentChat } from "../components/recentChat";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 // import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props) {
   // console.log(props.copiedtext)
-
+  const [showuserlist, setShowuserlist] = useState(false);
+  const [userList, setUserList] = useState([]);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [channel, setChannel] = useState(null);
   const [editedMessage, setEditedMessage] = useState(null);
   const [joined, setJoin] = useState(false);
   // const channel = props.ably.channels.get('private_chat');
+
+  axiosConfig.get("/employee").then((res) => {
+    setUserList(res.data.data);
+  });
 
   useEffect(() => {
     setMessages([]);
@@ -148,6 +156,32 @@ export function ChatUI(props) {
         console.log("Error deleting message:", error);
       });
   };
+const ongroupclickHandler= () =>{
+  setShowuserlist(true)
+}
+
+  const ListRecent = userList
+    .filter((user) => user.id !== currentUser.userId)
+    .map((user) => (
+      <RecentChat
+        // onClick={() => 
+        //   {useraddHandler(user.id);
+        //   console.log(user.id)
+        //   }
+        // }
+        
+        ably={props.ably}
+        key={user.id}
+        userId={user.id}
+        profileImg={
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
+        }
+        recentChat={""}
+        status={true}
+        username={user.first_name}
+        
+      />
+    ));
 
   return (
     <div
@@ -169,7 +203,8 @@ export function ChatUI(props) {
             border-white
               border-1"
       >
-        <div className="w-1/12">
+        <div className="w-1/12" 
+        onClick= {props.name === "Group Chat" ? ongroupclickHandler:""}>
           {props.user.profileImg ? (
             <img
               alt="user profile"
@@ -188,14 +223,14 @@ export function ChatUI(props) {
         <div className="flex flex-col w-10/12 items-start">
           <div className="profilename">{props.username}</div>
           <div class="recentSentAt1">
-            {props.name === "Channels"
+            {props.name === "Channels" || props.name === "Group Chat"
               ? "10 subscribers"
               : "last seen recently"}
           </div>
         </div>
 
         <div className="w-2/12">
-          {props.name === "Channels" ? "" : <StatusPopUp />}
+          {props.name === "Channels" || props.name === "Group Chat" ? "" : <StatusPopUp />}
         </div>
       </div>
       <ChatListContainer
@@ -236,17 +271,33 @@ export function ChatUI(props) {
             </div>
           </>
         ) : (""
-          // <>
-          //   {joined ? null : (
-          //     <div
-          //       onClick={joinHandler}
-          //       className="cursor-pointer p-2 rounded-lg w-52 text-white bg-blue-400 hover:-translate-y-2"
-          //     >
-          //       join Channel
-          //     </div>
-          //   )}
-          // </>
+        
         )}
+
+      </div>
+      <div >
+        <div >
+          <div>
+            {showuserlist && (
+              <div className="w-[100%] h-[120vh] fixed left-0 top-0 flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
+                <div className="p-[80px] pb-[50px] mb-[80px] max-w-[500px] bg-[white] rounded-lg mt-[-10px] h-[75%]">
+                  <div className="mt-[-60px] float-left bg-[white] ml-[-70px]">
+                    <div
+                      className="close-icon"
+                      onClick={() => setShowuserlist(false)}
+                    >
+                      <FontAwesomeIcon className="pl-[115%]"  icon={faTimes} />
+                    </div>
+                    <h3 className="header1">Group members</h3>
+                    <div className="w-[250px] pl-[10%] max-h-[60vh] overflow-auto no-scrollbar">
+                    {ListRecent}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
