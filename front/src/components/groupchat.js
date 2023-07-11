@@ -27,7 +27,7 @@ const GroupChat = (props) => {
     props.onChatClick(botId);
   }
   useEffect(() => {
-    axiosConfig.get("/room").then((res) => {
+    axiosConfig.get("/room?type=group").then((res) => {
       setGrouplist(res.data.data);
     });
   }, []);
@@ -81,9 +81,10 @@ const GroupChat = (props) => {
     // axiosConfig.post(`/room?name=${groupname}&type={"group"}&created_by=${ currentUser.userId}&members=${useradded}`).then((value) => {
     //   // setMessageData(value.data.data);
     // });
+    const type = "group";
     const params = {
       name: groupname,
-      type: JSON.stringify({ group: true }),
+      type:  type,
       created_by: currentUser.userId,
       members: JSON.stringify(useradded),
     };

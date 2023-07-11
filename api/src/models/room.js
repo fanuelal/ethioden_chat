@@ -29,9 +29,10 @@ const RoomModel = class{
         });
         return null;
       };
-    static getAll = async () => {
+    static getAll = async (type) => {
            var fetchedData; 
-          return new Promise((resolve, reject) => {con.query('SELECT * FROM `rooms` WHERE isDeleted = false', (err, result, fields) => {
+           console.log(type)
+          return new Promise((resolve, reject) => {con.query(`SELECT * FROM rooms WHERE isDeleted = false AND type = '${type}'`, (err, result, fields) => {
             if (err) reject(err);
             resolve(result);
           });
