@@ -29,6 +29,7 @@ import { format } from 'date-fns';
 import Bots from '../components/Bot';
 import {AddMember} from '../components/createMember';
 import Channel from '../components/Channel'
+import About from "./About";
 const drawerWidth = 230;
 
 const openedMixin = (theme) => ({
@@ -176,8 +177,14 @@ const [emailed,setEmailed] =useState("")
       case "Settings":
         return null;
       case "About":
-        return null;
-      case "Help":
+        return (
+          <About
+            name={activeMenu}
+            sele={props.sele}
+            onChatClick={props.onChatClick}
+            ably={props.ably}
+          />
+        );
         return null;
       case "Logout":
         return null;
@@ -240,7 +247,6 @@ const closePasswordChangePopup = () => {
     "Add Members",
     "Profile",
     "About",
-    "Help",
     "Logout",
   ];
   const Status = [
