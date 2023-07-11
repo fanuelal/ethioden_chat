@@ -166,7 +166,7 @@ export const createdEmployeeTable = () => {
                 email VARCHAR(50),
                 password VARCHAR(100), 
                 department VARCHAR(50), 
-                isActive BOOLEAN DEFAULT true, 
+                isActive BOOLEAN DEFAULT false, 
                 isDeleted BOOLEAN DEFAULT false, 
                 lastSeen DATETIME, 
                 role VARCHAR(50), 

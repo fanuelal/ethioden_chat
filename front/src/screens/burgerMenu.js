@@ -123,7 +123,7 @@ export function MiniDrawer(props) {
           />
         );
       case "Group Chat":
-        return <GroupChat />;
+        return <GroupChat ably={props.ably}/>;
       case "Channels":
         return (
           <Channel
@@ -196,6 +196,7 @@ export function MiniDrawer(props) {
     "Channels",
     "Status",
     "Bot",
+    "Add Members",
     "Profile",
     "About",
     "Help",
@@ -438,37 +439,48 @@ export function MiniDrawer(props) {
                       
                   <Divider />
                   <List>
-                      {menuLists.map((text, index) => (
-                          <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                              <ListItemButton
-                                  sx={{
-                                      minHeight: 60,
-                                      color:'white',
-                                      justifyContent: open ? 'initial' : 'center',
-                                      px: 2.5,
-                                  }}    onClick={()=>{text === 'Status' ? handleClickOpen() :text === 'Profile' ? handleClickProfileOpen(): text === 'Logout' ? logoutHandler() : handleMenuListClick(text)}}
-                                  >
-                                  <ListItemIcon
-                                      sx={{
-                                          minWidth: 0,
-                                          color:'white',
-                                         fontSize:'20px',
-                                          mr: open ? 3 : 'auto',
-                                          justifyContent: 'center',
-                                      }}
-                                  >
-                                      {/* currentUser.role === "admin" ? */}
-                                      {iconLister(index)} 
-                                      {/* : {} */}
-                                      </ListItemIcon>
-                                     {currentUser.role !== 'admin' && index === 5 ?  '':<ListItemText
-                                    primary={text}
-                                sx={{ opacity: open ? 1 : 0 }}
-                                button /> }
-                           </ListItemButton>
-                       </ListItem>
-                      ))}
-                  </List>
+  {menuLists.map((text, index) => {
+    if (currentUser.role !== 'admin' && index === 5) {
+      return null;
+    }
+
+    return (
+      <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+        <ListItemButton
+          sx={{
+            minHeight: 60,
+            color: 'white',
+            justifyContent: open ? 'initial' : 'center',
+            px: 2.5,
+          }}
+          onClick={() => {
+            text === 'Status'
+              ? handleClickOpen()
+              : text === 'Profile'
+              ? handleClickProfileOpen()
+              : text === 'Logout'
+              ? logoutHandler()
+              : handleMenuListClick(text);
+          }}
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              color: 'white',
+              fontSize: '20px',
+              mr: open ? 3 : 'auto',
+              justifyContent: 'center',
+            }}
+          >
+            {iconLister(index)}
+          </ListItemIcon>
+          <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} button />
+        </ListItemButton>
+      </ListItem>
+    );
+  })}
+</List>
+
                   <Divider />
 
               </Drawer>

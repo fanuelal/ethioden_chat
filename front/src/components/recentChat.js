@@ -9,6 +9,9 @@ export function RecentChat(prop) {
     if (prop.type === "bot") {
       return;
     }
+    if(prop.type === "room") {
+      return;
+    }
     prop.onClick(prop.userId);
     setClicked(true);
   };
@@ -24,11 +27,7 @@ export function RecentChat(prop) {
   // console.log(isActive)
    
   return (
-    <div
-      className={chatBoxClass}
-      onClick={buttonClickHandler}
-      key={prop.userId}
-    >
+ <div className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
       {/* <button className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}> */}
       <div className=" flex w-2/12">
         <img
