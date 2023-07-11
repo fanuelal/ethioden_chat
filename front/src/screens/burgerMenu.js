@@ -123,7 +123,10 @@ export function MiniDrawer(props) {
           />
         );
       case "Group Chat":
-        return <GroupChat ably={props.ably}/>;
+        return <GroupChat name={activeMenu}
+        sele={props.selected}
+        onChatClick={props.onChatClick}
+        ably={props.ably}/>;
       case "Channels":
         return (
           <Channel

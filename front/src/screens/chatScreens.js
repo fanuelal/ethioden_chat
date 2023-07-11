@@ -53,25 +53,26 @@ export function ChatUI(props) {
     const messageUUID = uuid();
 
     let newMessage = {};
-    props.name === "Channels"
+    props.name === "Private Chat"
       ? (newMessage = {
-          messageId: messageUUID,
-          text: message,
-          reciverId: null,
-          inRoom: 1,
-          roomId: props.user,
-          senderId: currentUser.userId,
-          created_at: new Date(),
-        })
+        messageId: messageUUID,
+        text: message,
+        reciverId: props.user,
+        inRoom: 0,
+        roomId: null,
+        senderId: currentUser.userId,
+        created_at: new Date(),
+      })
       : (newMessage = {
-          messageId: messageUUID,
-          text: message,
-          reciverId: props.user,
-          inRoom: 0,
-          roomId: null,
-          senderId: currentUser.userId,
-          created_at: new Date(),
-        });
+        messageId: messageUUID,
+        text: message,
+        reciverId: null,
+        inRoom: 1,
+        roomId: props.user,
+        senderId: currentUser.userId,
+        created_at: new Date(),
+      });
+      
 
     axiosConfig
       .post("/chat/", newMessage)

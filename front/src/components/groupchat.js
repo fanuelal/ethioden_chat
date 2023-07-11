@@ -22,6 +22,10 @@ const GroupChat = (props) => {
   const [inputValue, setInputValue] = useState("");
   const [grouplist,setGrouplist] = useState([]);
   const [groupname, setGroupname] = useState("");
+
+  function recentClickHandler(botId) {
+    props.onChatClick(botId);
+  }
   useEffect(() => {
     axiosConfig.get("/room").then((res) => {
       setGrouplist(res.data.data);
@@ -32,14 +36,21 @@ const GroupChat = (props) => {
         return (
           <RecentChat
             userId={user.id}
-            type={"room"}
+            // type={"room"}
             profileImg={
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
             }
-            recentChat={"hello there"}
+            recentChat={""}
             status={undefined}
             username={user.name}
             ably={props.ably}
+            sele={props.sele}
+            name={props.name}
+        
+        onClick={recentClickHandler}
+        // onClick={recentClickHandler}
+        
+        
           />
         );
       }
