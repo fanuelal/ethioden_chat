@@ -21,7 +21,7 @@ const RoomModel = class{
 
     create = async () => {
         const query = `INSERT INTO rooms (id, name, type, created_by, members) 
-          VALUES ('${uuidv4()}', '${this.name}', '${this.type}', '${this.created_by}', '${JSON.stringify(this.members)}')`;
+          VALUES ('${uuidv4()}', '${this.name}', '${this.type}', '${this.created_by}', '${(this.members)}')`;
         con.query(query, (error, result) => {
           if (error) throw error;
           console.log(result.datatype);
