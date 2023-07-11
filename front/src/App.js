@@ -29,6 +29,7 @@ function App() {
   const [channelmessagesData, setchannelMessageData] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedChannel, setSelectedChannel] = useState({});
+  const [num, setNum] = useState(0);
   
 
   const isLogin = () => {
@@ -42,11 +43,13 @@ function App() {
   const chatSelectHandler = async (userId) => {
     try {
       axiosInstance.get(`/room/${userId}`).then((value) => {
-        console.log(value.data.data);
+        console.log(value.data.data.members.length);
+        setNum(value.data.data.members.length);
         setSelectedUser(value.data.data.name);
         setSelectedChannel(value.data.data);
         console.log(`selectedUser.name: ${selectedUser}`);
         console.log(`userId: ${userId}`);
+        console.log(selectedChannel.members.length)
       });
 
       axiosInstance
@@ -115,6 +118,7 @@ function App() {
               <Home
                 channelmessagesData={channelmessagesData}
                 selectedChannel={selectedChannel}
+                num={num}
                 sele={selected}
                 onChatClick={chatSelectHandler}
                 selected={selected}
@@ -144,6 +148,7 @@ function Home(props) {
         ably={ably}
         channelmessagesData={props.channelmessagesData}
         selectedChannel={props.selectedChannel}
+        num={props.num}
         selected={props.selected}
         selectedUser={props.selectedUser}
         messagesData={props.messagesData}

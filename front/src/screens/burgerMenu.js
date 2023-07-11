@@ -340,7 +340,7 @@ const closePasswordChangePopup = () => {
   };
 
   const iconLister = (index) => {
-    console.log(index)
+    // console.log(index)
     if(currentUser.role !== 'admin' && index === 5 ){
       return;
     }else{
@@ -787,6 +787,7 @@ const submitFormHandler = async (e) => {
         </div>
         <div className="w-4/6">{props.selected !==-1 ?
           <ActiveData
+          num={props.num}
           selectedChannel={props.selectedChannel}
          name={activeMenu}
             ably={props.ably}

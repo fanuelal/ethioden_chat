@@ -23,7 +23,7 @@ export function ChatUI(props) {
   const [editedMessage, setEditedMessage] = useState(null);
   const [joined, setJoin] = useState(false);
   // const channel = props.ably.channels.get('private_chat');
-
+console.log(props.num)
   useEffect(() => {
     setMessages([]);
   }, [props.user]);
@@ -189,7 +189,7 @@ export function ChatUI(props) {
           <div className="profilename">{props.username}</div>
           <div class="recentSentAt1">
             {props.name === "Channels"
-              ? "10 subscribers"
+              ? `${props.num} subscribers`
               : "last seen recently"}
           </div>
         </div>

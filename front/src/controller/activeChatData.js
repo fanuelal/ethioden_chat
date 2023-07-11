@@ -6,6 +6,7 @@ export function ActiveData(props) {
   if (props.username !== undefined) {
     return (
       <ChatUI
+      num={props.num}
         selectedChannel = {props.selectedChannel}
         name={props.name}
         ably={props.ably}
