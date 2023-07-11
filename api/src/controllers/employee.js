@@ -60,10 +60,11 @@ const channel = ably.channels.get('status-channels');
 
 
 export const updateEmployee = async(req, res) => {
-    console.log("update Employee called")
+    
 
     const userId = req.params.id
     const body = req.body
+    var updateType = 'notPassword';
     // const statusChannel = ably.channels.get('status-channels:userId');
     console.log(`isactive:${body.isActive}`)
     console.log(`password:${body.password}`)
@@ -71,10 +72,14 @@ export const updateEmployee = async(req, res) => {
     try{
         console.log(body.isActive);
         const fetchedEmployee = await EmployeeModel.getSingle(userId);
+        if(body.password !== undefined) {
+            updateType = 'password';
+        }
         // console.log(fetchAllEmployee)
         // if(fetchedEmployee == undefined) return res.status(400).json({succes: false, data: null, message: `User not found`});
         // console.log(body.isActive == undefined ? fetchedEmployee.isActive: body.isActive)
         if(fetchedEmployee == undefined) return res.status(400).json({succes: false, data: null, message: `User not found`});
+        
         const bodyEmployee = new EmployeeModel(
             body.first_name == undefined ? fetchedEmployee.first_name: body.first_name, 
             body.last_name == undefined ? fetchedEmployee.last_name: body.last_name, 
@@ -87,7 +92,9 @@ export const updateEmployee = async(req, res) => {
             body.isActive == undefined ? fetchedEmployee.isActive: body.isActive
             );
             
-            bodyEmployee.updateEmployee(userId);
+                bodyEmployee.updateEmployee(userId, updateType);
+             
+
             const result = await EmployeeModel.getSingle(userId);
                   const channel = ably.channels.get('chat-status');
         // console.log("channel chat-status has been created")

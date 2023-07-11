@@ -118,18 +118,29 @@ const EmployeeModel = class{
             return data
         });
     }
-     updateEmployee = async(userId) => {
-        console.log(this.isActive);
-        var encryptedPass = passwordEncryptor(this.password)
+     updateEmployee = async(userId,type ) => {
+        // console.log(this.isActive);
+        // if(){
+            var encryptedPass = passwordEncryptor(this.password)
+        // }
+        const passUPdaterQuery = `UPDATE employees SET  first_name = '${this.first_name}', 
+        last_name = '${this.last_name}', 
+        isDeleted = '${this.isDeleted}', 
+        isActive = '${this.isActive}', 
+        department = '${this.department}',
+        email = '${this.email}',
+        password = '${encryptedPass}',
+        role = '${this.role}' WHERE id = '${userId}'`;
+
+        const updateQuery = `UPDATE employees SET  first_name = '${this.first_name}', 
+        last_name = '${this.last_name}', 
+        isDeleted = '${this.isDeleted}', 
+        isActive = '${this.isActive}', 
+        department = '${this.department}',
+        email = '${this.email}',
+        role = '${this.role}' WHERE id = '${userId}'`;
         return new Promise((resolve, reject) => {
-            con.query(`UPDATE employees SET  first_name = '${this.first_name}', 
-            last_name = '${this.last_name}', 
-            isDeleted = '${this.isDeleted}', 
-            isActive = '${this.isActive}', 
-            department = '${this.department}',
-            email = '${this.email}',
-            password = '${encryptedPass}',
-            role = '${this.role}' WHERE id = '${userId}'`, (error, result, fields) => {
+            con.query(type === 'password' ? passUPdaterQuery:updateQuery, (error, result, fields) => {
                 if(error) reject(error);
                 resolve(result)
             })
