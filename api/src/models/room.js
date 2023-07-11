@@ -21,9 +21,9 @@ const RoomModel = class{
 
     create = async () => {
         const query = `INSERT INTO rooms (id, name, type, created_by, members) 
-          VALUES ('${uuidv4()}', '${this.name}', '${this.type}', '${this.created_by}', '${(this.members)}')`;
+          VALUES ('${uuidv4()}', '${this.name}', '${this.type}', '${this.created_by}', '${this.members}')`;
         con.query(query, (error, result) => {
-          if (error) throw error;
+          if (error) console.log(error);
           console.log(result.datatype);
           return result;
         });
@@ -50,7 +50,7 @@ const RoomModel = class{
        return new Promise((resolve, reject) => {
         con.query(`SELECT * FROM rooms WHERE id='${roomId}' AND isDeleted = 'false'`, (err, result, fields) => {
          if (err) reject(err);
-         resolve(result);
+         resolve(result[0]);
        });
       
    }).then((data) => {
