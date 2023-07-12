@@ -29,10 +29,11 @@ const RoomModel = class{
         });
         return null;
       };
-    static getAll = async (type) => {
+    static getAll = async (type, userId) => {
            var fetchedData; 
            console.log(type)
-          return new Promise((resolve, reject) => {con.query(`SELECT * FROM rooms WHERE isDeleted = false AND type = '${type}'`, (err, result, fields) => {
+        //    AND JSON_CONTAINS(members, JSON_QUOTE('${userId}'), '$')
+          return new Promise((resolve, reject) => {con.query(`SELECT * FROM rooms WHERE isDeleted = false AND type = '${type}';`, (err, result, fields) => {
             if (err) reject(err);
             resolve(result);
           });
@@ -40,6 +41,8 @@ const RoomModel = class{
       }).then((value) => {
         fetchedData = value;
         const extractedData = fetchedData.map((data)=> {
+            console.log(json.parse(data.members))
+            // if(data.members.includes(userId))
             return data
         })
         return extractedData
@@ -61,7 +64,7 @@ const RoomModel = class{
 
      updateRoom = async(roomId) => {
         return new Promise((resolve, reject) => {
-            con.query(`UPDATE rooms SET  name = '${this.name}', type = '${this.type}', members = '${JSON.stringify(this.members)}', WHERE id = '${roomId}'`, (error, result, fields) => {
+            con.query(`UPDATE rooms SET  name = '${this.name}', type = '${this.type}', members = '${JSON(this.members)}', WHERE id = '${roomId}'`, (error, result, fields) => {
                 if(error) reject(error);
                 resolve(result)
             })

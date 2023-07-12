@@ -27,7 +27,7 @@ const GroupChat = (props) => {
     props.onChatClick(botId);
   }
   useEffect(() => {
-    axiosConfig.get("/room?type=group").then((res) => {
+    axiosConfig.get(`/room?type=group&userId=${currentUser.userId}`).then((res) => {
       setGrouplist(res.data.data);
     });
   }, []);
