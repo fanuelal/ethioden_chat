@@ -21,7 +21,8 @@ export const getAllRooms = async(req, res) => {
 
     try{
         const result = await RoomModel.getAll(type, userId)
-        console.log(userId)
+        // console.log(result)
+        // console.log("result is above this")
         return res.status(200).json({message: `fetch success`, status: 200, data: result});
     }catch(error){
         return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`}); 

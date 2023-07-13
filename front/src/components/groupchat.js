@@ -27,39 +27,46 @@ const GroupChat = (props) => {
     props.onChatClick(botId);
   }
   useEffect(() => {
+
     axiosConfig.get(`/room?type=group&userId=${currentUser.userId}`).then((res) => {
+      // console.log(res.data.data);
       setGrouplist(res.data.data);
     });
   }, []);
+  console.log(grouplist);
   const ListRecentgroup = grouplist.map(
     (user) => {
-        return (
-          <RecentChat
-          name= {props.name}
-            userId={user.id}
-            // type={"room"}
-            profileImg={
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-            }
-            recentChat={""}
-            status={undefined}
-            username={user.name}
-            ably={props.ably}
-            sele={props.sele}
-        
-        onClick={recentClickHandler}
-        // onClick={recentClickHandler}
-        
-        
-          />
-        );
+      console.log(grouplist[0])
+     if(grouplist !== null){
+
+       return (
+           <RecentChat
+           name= {props.name}
+             userId={user.id}
+            //  type={"room"}
+             profileImg={
+               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
+             }
+             recentChat={""}
+             status={undefined}
+             username={user.name}
+             ably={props.ably}
+             sele={props.sele}
+         onClick={recentClickHandler}
+         // onClick={recentClickHandler}
+           />
+         );
+     }else{
+      return null;
+     }
       }
     // }
   );
-
- axiosConfig.get("/employee").then((res) => {
-    setUserList(res.data.data);
-  });
+useEffect(() => {
+  axiosConfig.get("/employee").then((res) => {
+     setUserList(res.data.data);
+   });
+}, [])
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -70,9 +77,9 @@ const GroupChat = (props) => {
     // console.log(groupname)
   };
 
-  useEffect(() => {
-    console.log(dictionary);
-  }, [dictionary]);
+  // useEffect(() => {
+  //   console.log(dictionary);
+  // }, [dictionary]);
 
   const handleAddButtonClick = () => {
     setDictionary({ ...dictionary, [useradded]: "some value" });
@@ -106,9 +113,9 @@ const GroupChat = (props) => {
         setUseradded([...useradded, id]);
       }
     };
-    useEffect(() => {
-      console.log(useradded);
-    }, [useradded]);
+    // useEffect(() => {
+    //   console.log(useradded);
+    // }, [useradded]);
   
  
   const handlePopup = () => {
