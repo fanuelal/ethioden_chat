@@ -4,7 +4,7 @@ import { MessageView } from "./singleChatMessage";
 import { currentUser } from "../model/currentUserData";
 import { formatMessageDate } from "../common/Common";
 
-export function ChatListContainer({ messages, onEdit , name, onDelete}) {
+export function ChatListContainer({ messages, onEdit, name, onDelete }) {
   const messageDisplayRef = useRef(null);
   const [message, setMessage] = useState([]);
 
@@ -20,7 +20,7 @@ export function ChatListContainer({ messages, onEdit , name, onDelete}) {
   const handleEditClick = (messageID, message) => {
     onEdit(messageID, message);
   };
-  const hendleDeleteClick =(messageID) => {
+  const hendleDeleteClick = (messageID) => {
     onDelete(messageID);
   };
 
@@ -30,12 +30,13 @@ export function ChatListContainer({ messages, onEdit , name, onDelete}) {
         <div className="emptyError"></div>
       ) : (
         messages.map((message, index) => (
-          <MessageView 
-          name= {name}
+          <MessageView
+            name={name}
             key={index}
             created_at={formatMessageDate(new Date(message.created_at))}
             messageID={message.id}
             message={message.text}
+            senderId={message.senderId}
             isSenders={currentUser.userId === message.senderId}
             onDelete={hendleDeleteClick}
             onEdit={handleEditClick}

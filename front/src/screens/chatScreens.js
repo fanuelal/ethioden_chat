@@ -28,6 +28,10 @@ export function ChatUI(props) {
   const [joined, setJoin] = useState(false);
   // const channel = props.ably.channels.get('private_chat');
 
+  function recentClickHandler(userId) {
+    return;
+  }
+
   axiosConfig.get("/employee").then((res) => {
     setUserList(res.data.data);
   });
@@ -63,24 +67,23 @@ export function ChatUI(props) {
     let newMessage = {};
     props.name === "Private Chat"
       ? (newMessage = {
-        messageId: messageUUID,
-        text: message,
-        reciverId: props.user,
-        inRoom: 0,
-        roomId: null,
-        senderId: currentUser.userId,
-        created_at: new Date(),
-      })
+          messageId: messageUUID,
+          text: message,
+          reciverId: props.user,
+          inRoom: 0,
+          roomId: null,
+          senderId: currentUser.userId,
+          created_at: new Date(),
+        })
       : (newMessage = {
-        messageId: messageUUID,
-        text: message,
-        reciverId: null,
-        inRoom: 1,
-        roomId: props.user,
-        senderId: currentUser.userId,
-        created_at: new Date(),
-      });
-      
+          messageId: messageUUID,
+          text: message,
+          reciverId: null,
+          inRoom: 1,
+          roomId: props.user,
+          senderId: currentUser.userId,
+          created_at: new Date(),
+        });
 
     axiosConfig
       .post("/chat/", newMessage)
@@ -156,20 +159,18 @@ export function ChatUI(props) {
         console.log("Error deleting message:", error);
       });
   };
-const ongroupclickHandler= () =>{
-  setShowuserlist(true)
-}
-
+  const ongroupclickHandler = () => {
+    setShowuserlist(true);
+  };
+  const otherclickHandler = () => {
+    return;
+  };
   const ListRecent = userList
     .filter((user) => user.id !== currentUser.userId)
     .map((user) => (
       <RecentChat
-        // onClick={() => 
-        //   {useraddHandler(user.id);
-        //   console.log(user.id)
-        //   }
-        // }
-        
+        onClick={recentClickHandler}
+
         ably={props.ably}
         key={user.id}
         userId={user.id}
@@ -179,7 +180,6 @@ const ongroupclickHandler= () =>{
         recentChat={""}
         status={true}
         username={user.first_name}
-        
       />
     ));
 
@@ -203,8 +203,14 @@ const ongroupclickHandler= () =>{
             border-white
               border-1"
       >
-        <div className="w-1/12" 
-        onClick= {props.name === "Group Chat" ? ongroupclickHandler:""}>
+        <div
+          className="w-1/12"
+          onClick={
+            props.name === "Group Chat"
+              ? ongroupclickHandler
+              : otherclickHandler
+          }
+        >
           {props.user.profileImg ? (
             <img
               alt="user profile"
@@ -215,8 +221,11 @@ const ongroupclickHandler= () =>{
             <img
               alt="user profile"
               className="chatProfile"
-              src={props.name === "Channels"? "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg":
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"}
+              src={
+                props.name === "Channels"
+                  ? "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg"
+                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
+              }
             />
           )}
         </div>
@@ -230,7 +239,11 @@ const ongroupclickHandler= () =>{
         </div>
 
         <div className="w-2/12">
-          {props.name === "Channels" || props.name === "Group Chat" ? "" : <StatusPopUp />}
+          {props.name === "Channels" || props.name === "Group Chat" ? (
+            ""
+          ) : (
+            <StatusPopUp />
+          )}
         </div>
       </div>
       <ChatListContainer
@@ -270,13 +283,12 @@ const ongroupclickHandler= () =>{
               </IconButton>
             </div>
           </>
-        ) : (""
-        
+        ) : (
+          ""
         )}
-
       </div>
-      <div >
-        <div >
+      <div>
+        <div>
           <div>
             {showuserlist && (
               <div className="w-[100%] h-[120vh] fixed left-0 top-0 flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
@@ -286,11 +298,11 @@ const ongroupclickHandler= () =>{
                       className="close-icon"
                       onClick={() => setShowuserlist(false)}
                     >
-                      <FontAwesomeIcon className="pl-[115%]"  icon={faTimes} />
+                      <FontAwesomeIcon className="pl-[115%]" icon={faTimes} />
                     </div>
                     <h3 className="header1">Group members</h3>
                     <div className="w-[250px] pl-[10%] max-h-[60vh] overflow-auto no-scrollbar">
-                    {ListRecent}
+                      {ListRecent}
                     </div>
                   </div>
                 </div>

@@ -162,7 +162,7 @@ const GroupChat = (props) => {
           <div class="max-h-[75vh] overflow-auto no-scrollbar">{ListRecentgroup}</div>
       <Popup
         trigger={
-          <div class="bg-[#1d1f34] mt-[2ch] h-[50px] w-[50px] ml-[83%] rounded-full ">
+          <div class="bg-[#1d1f34] mt-[22ch] h-[50px] w-[50px] ml-[83%] rounded-full ">
             <FontAwesomeIcon
               icon={faPlus}
               // class="text-[#fa8072] h-8 w-8 "
