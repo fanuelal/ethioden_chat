@@ -7,7 +7,7 @@ import { currentUser } from "../model/currentUserData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import {formatMessageDate} from '../common/Common'
+import {formatDates} from '../common/Common'
 import { Bot } from "../model/Bot";
 import SearchComp from "../components/searchComp.js";
 
@@ -100,7 +100,7 @@ props.ably.connection.on('disconnected', function() {
 
       const lastMessageDate =
         lastMessage &&
-        formatMessageDate(new Date(lastMessage.created_at));
+        formatDates(new Date(lastMessage.created_at));
 
       return (
         <RecentChat
