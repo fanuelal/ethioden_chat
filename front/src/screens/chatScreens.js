@@ -33,11 +33,12 @@ export function ChatUI(props) {
   }
 
   axiosConfig.get("/employee").then((res) => {
-    setUserList(res.data.data);
   });
 
   useEffect(() => {
+    console.log(props.members)
     setMessages([]);
+    setUserList(props.members);
   }, [props.user]);
 
   useEffect(() => {

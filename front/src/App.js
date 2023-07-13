@@ -29,7 +29,7 @@ function App() {
   const [channelmessagesData, setchannelMessageData] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedChannel, setSelectedChannel] = useState({});
-  
+  const [groupmembersDetail, setGroupMembersDetail] = useState([]);
 
   const isLogin = () => {
     const token = getToken();
@@ -39,12 +39,13 @@ function App() {
     return true;
   };
 
-  const chatSelectHandler = async (userId) => {
+  const chatSelectHandler = async (userId, membersDetail) => {
     try {
       axiosInstance.get(`/room/${userId}`).then((value) => {
         console.log(value.data.data);
         setSelectedUser(value.data.data.name);
         setSelectedChannel(value.data.data);
+        setGroupMembersDetail(membersDetail);
         console.log(`selectedUser.name: ${selectedUser}`);
         console.log(`userId: ${userId}`);
       });
@@ -65,6 +66,7 @@ function App() {
         }).catch((error) => {
           console.error(error);
         });
+
 
       axiosInstance.get(`/employee/${userId}`).then((value) => {
         setSelectedUser(value.data.data.first_name);
@@ -120,6 +122,7 @@ function App() {
                 selected={selected}
                 selectedUser={selectedUser}
                 messagesData={messagesData}
+                members = {groupmembersDetail}
               />
             }
           />
@@ -149,6 +152,7 @@ function Home(props) {
         messagesData={props.messagesData}
         sele={props.sele}
         onChatClick={props.onChatClick}
+        members={props.members}
       />
     </>
   );

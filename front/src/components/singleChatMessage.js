@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
-import { ChatUI } from "../screens/chatScreens.js";
-import { ActiveData } from "../controller/activeChatData";
-import axiosInstance from "../config/axiosConfig";
+// import { ChatUI } from "../screens/chatScreens.js";
+// import { ActiveData } from "../controller/activeChatData";
+// import axiosInstance from "../config/axiosConfig";
 import Avatar from "react-avatar";
 export function MessageView(props) {
   const [name, setName] = useState("John");
