@@ -396,8 +396,9 @@ position:absolute;
   border-bottom-right-radius: 10px;
   margin-top: 10px;
   /* margin-left: 4px; */
-  margin-left: 8px;
+  margin-left: 58px;
   padding: 15px;
+  padding-left: 20px;
   box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.3);
 }
 
