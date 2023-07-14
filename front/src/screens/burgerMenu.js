@@ -3,6 +3,7 @@ import { ChatList } from "./recentChatContainer";
 import { ActiveData } from "../controller/activeChatData";
 import { EmptyScreen } from "./emptyChat";
 import { styled, useTheme } from "@mui/material/styles";
+import About from "./About";
 import Box from "@mui/material/Box";
 import GroupChat from "../components/groupchat";
 import MuiDrawer from "@mui/material/Drawer";
@@ -187,7 +188,14 @@ export function MiniDrawer(props) {
       case "Settings":
         return null;
       case "About":
-        return null;
+        return (
+          <About
+          name = {props.name}
+          sele = {props.sele}
+          onChatClick = {props.onChatClick}
+          ably = {props.ably}
+          />
+        );
       case "Help":
         return null;
       case "Logout":
