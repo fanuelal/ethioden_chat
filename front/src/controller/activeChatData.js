@@ -13,6 +13,7 @@ export function ActiveData(props) {
         user={props.userId}
         username={props.username}
         messages={props.messages}
+        members={props.members}
       />
     );
   }

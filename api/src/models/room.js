@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import con from '../config/database.js'
 import { v4 as uuidv4 } from 'uuid';
 dotenv.config('../../.env')
-
+import EmployeeModel from './employee.js'
 
 const RoomModel = class{
     id 
@@ -29,22 +29,43 @@ const RoomModel = class{
         });
         return null;
       };
-    static getAll = async (type) => {
-           var fetchedData; 
-           console.log(type)
-          return new Promise((resolve, reject) => {con.query(`SELECT * FROM rooms WHERE isDeleted = false AND type = '${type}'`, (err, result, fields) => {
-            if (err) reject(err);
-            resolve(result);
+      
+      static getAll = async (type, userId) => {
+        try {
+          const fetchedData = await new Promise((resolve, reject) => {
+            con.query(`SELECT * FROM rooms WHERE isDeleted = false AND type = '${type}';`, (err, result, fields) => {
+              if (err) reject(err);
+              resolve(result);
+            });
           });
-         
-      }).then((value) => {
-        fetchedData = value;
-        const extractedData = fetchedData.map((data)=> {
-            return data
-        })
-        return extractedData
-    })
-    }
+
+          const extractedData = await Promise.all(fetchedData.map(async (data) => {
+            const members = JSON.parse(data.members);
+            const mapEmployeeToResponse = (employee) => {
+                const { department,first_name, last_name, isActive
+              ,id, role,email,  } = employee;
+                return { department,first_name, last_name, isActive
+              ,id,role, email};
+              };
+            if (members.includes(userId)) {
+              const membersDetail = [];
+              for (let index = 0; index < members.length; index++) {
+                const member = await EmployeeModel.getSingle(members[index]);
+                const mappedData = mapEmployeeToResponse(member);
+                console.log(mappedData);
+                membersDetail.push(mappedData);
+              }
+              data.membersDetail = membersDetail;
+              return data;
+            }
+          }));
+      
+          return extractedData;
+        } catch (error) {
+          throw error;
+        }
+      };
+      
 
     static getSingle = async (roomId) => {
         console.log(roomId)
@@ -61,7 +82,7 @@ const RoomModel = class{
 
      updateRoom = async(roomId) => {
         return new Promise((resolve, reject) => {
-            con.query(`UPDATE rooms SET  name = '${this.name}', type = '${this.type}', members = '${JSON.stringify(this.members)}', WHERE id = '${roomId}'`, (error, result, fields) => {
+            con.query(`UPDATE rooms SET  name = '${this.name}', type = '${this.type}', members = '${JSON(this.members)}', WHERE id = '${roomId}'`, (error, result, fields) => {
                 if(error) reject(error);
                 resolve(result)
             })

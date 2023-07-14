@@ -24,36 +24,46 @@ const GroupChat = (props) => {
     props.onChatClick(botId);
   }
   useEffect(() => {
-    axiosConfig.get("/room?type=group").then((res) => {
+
+    axiosConfig.get(`/room?type=group&userId=${currentUser.userId}`).then((res) => {
+      // console.log(res.data.data);
       setGrouplist(res.data.data);
     });
   }, []);
+  console.log(grouplist);
   const ListRecentgroup = grouplist.map(
     (user) => {
-      return (
-        <RecentChat
-          name={props.name}
-          userId={user.id}
-          // type={"room"}
-          profileImg={
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-          }
-          recentChat={""}
-          status={undefined}
-          username={user.name}
-          ably={props.ably}
-          sele={props.sele}
-          onClick={recentClickHandler}
-          // onClick={recentClickHandler}
-        />
-      );
-    }
+      console.log(grouplist[0])
+     if(grouplist !== null){
+
+       return (
+           <RecentChat
+           name= {props.name}
+             userId={user.id}
+            //  type={"room"}
+             profileImg={
+               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
+             }
+             recentChat={""}
+             status={undefined}
+             username={user.name}
+             ably={props.ably}
+             sele={props.sele}
+         onClick={recentClickHandler}
+         // onClick={recentClickHandler}
+           />
+         );
+     }else{
+      return null;
+     }
+      }
     // }
   );
-
+useEffect(() => {
   axiosConfig.get("/employee").then((res) => {
-    setUserList(res.data.data);
-  });
+     setUserList(res.data.data);
+   });
+}, [])
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -64,9 +74,9 @@ const GroupChat = (props) => {
     // console.log(groupname)
   };
 
-  useEffect(() => {
-    console.log(dictionary);
-  }, [dictionary]);
+  // useEffect(() => {
+  //   console.log(dictionary);
+  // }, [dictionary]);
 
   const handleAddButtonClick = () => {
     setDictionary({ ...dictionary, [useradded]: "some value" });
@@ -92,15 +102,16 @@ const GroupChat = (props) => {
         console.error(error);
       });
   };
-  const useraddHandler = (id) => {
-    if (!useradded.includes(id)) {
-      setUseradded([...useradded, id]);
-    }
-  };
-  useEffect(() => {
-    console.log(useradded);
-  }, [useradded]);
-
+    const useraddHandler = (id) => {
+      if (!useradded.includes(id)) {
+        setUseradded([...useradded, id]);
+      }
+    };
+    // useEffect(() => {
+    //   console.log(useradded);
+    // }, [useradded]);
+  
+ 
   const handlePopup = () => {
     setShowpopup(true);
   };
@@ -136,47 +147,22 @@ const GroupChat = (props) => {
       <div className=" font-bold  text-base md:text-sm shadow-md">
         <div
           className={
-            issearch
-              ? " flex-row-reverse justify-around  items-center h-14 w-full bg-profile"
-              : "flex justify-around items-center h-14 w -full bg-profile"
+            // issearch
+            //   ? " flex-row-reverse justify-around  items-center h-14 w-full bg-profile"
+              "flex justify-around items-center h-14 w -full bg-profile"
           }
         >
-          {issearch ? (
-            ""
-          ) : (
             <div className="text-white lg:text-xl"> Group Chat</div>
-          )}
+          
 
-          <div className="">
-            {issearch ? (
-              <div className=" items-start align-baseline -ml-72 pt-4 text-white ">
-                <FontAwesomeIcon
-                  icon={faArrowLeft}
-                  className=" "
-                  onClick={arrowclickHandler}
-                />
-              </div>
-            ) : (
-              <FontAwesomeIcon
-                icon={faSearch}
-                className="text-white h-5 w-4 cursor-pointer"
-                onClick={searchHandler}
-              />
-            )}
-          </div>
-        </div>
-        {issearch ? (
-          <SearchComp sele={props.sele} onChatClick={props.onChatClick} />
-        ) : (
-          ""
-        )}
+</div>
       </div>
       <div class="max-h-[75vh] overflow-auto no-scrollbar">
         {ListRecentgroup}
       </div>
       <Popup
         trigger={
-          <div class="bg-[#1d1f34] mt-[2ch] h-[50px] w-[50px] ml-[83%] rounded-full">
+          <div class="bg-[#1d1f34] mt-[22ch] h-[50px] w-[50px] ml-[83%] rounded-full ">
             <FontAwesomeIcon
               icon={faPlus}
               // class="text-[#fa8072] h-8 w-8 "

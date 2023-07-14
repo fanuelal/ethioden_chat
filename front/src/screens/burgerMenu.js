@@ -166,14 +166,11 @@ export function MiniDrawer(props) {
           />
         );
       case "Group Chat":
-        return (
-          <GroupChat
-            name={activeMenu}
-            sele={props.selected}
-            onChatClick={props.onChatClick}
-            ably={props.ably}
-          />
-        );
+        return <GroupChat name={activeMenu}
+        sele={props.selected}
+        onChatClick={props.onChatClick}
+        ably={props.ably}
+        />;
       case "Channels":
         return (
           <Channel
@@ -745,33 +742,34 @@ export function MiniDrawer(props) {
             })}
           </List>
 
-          <Divider />
-        </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, flexShrink: 1 }}>
-          <div className="flex shrink h-screen">
-            <div className="w-2/6 ">{component}</div>
-            <div className="w-4/6">
-              {props.selected !== -1 ? (
-                <ActiveData
-                  num={props.num}
-                  selectedChannel={props.selectedChannel}
-                  name={activeMenu}
-                  ably={props.ably}
-                  userId={props.selected}
-                  username={props.selectedUser}
-                  messages={
-                    activeMenu === "Channels" || activeMenu === "Group Chat"
-                      ? props.channelmessagesData
-                      : props.messagesData
-                  }
-                />
-              ) : (
-                <EmptyScreen />
-              )}
-            </div>
-          </div>
-        </Box>
-      </Box>
-    </>
+                  <Divider />
+
+              </Drawer>
+              <Box component="main" sx={{ flexGrow: 1,flexShrink:1 }}>
+    
+              <div className="flex shrink h-screen" >
+                 <div className="w-2/6 ">
+          {component}
+          
+        </div>
+        <div className="w-4/6">{props.selected !==-1 ?
+          <ActiveData
+          members={props.members}
+          selectedChannel={props.selectedChannel}
+         name={activeMenu}
+            ably={props.ably}
+            userId={props.selected}
+            username={props.selectedUser}
+            messages={
+              activeMenu === "Channels" || activeMenu === "Group Chat"
+                ? props.channelmessagesData
+                : props.messagesData
+            }
+          />:<EmptyScreen/>}
+      </div>
+      </div>
+              </Box>
+          </Box>
+          </>
   );
 }
