@@ -36,6 +36,7 @@ export function ChatUI(props) {
   });
 
   useEffect(() => {
+    console.log("Chat UI")
     console.log(props.members)
     setMessages([]);
     setUserList(props.members);
@@ -234,7 +235,7 @@ export function ChatUI(props) {
           <div className="profilename">{props.username}</div>
           <div class="recentSentAt1">
             {props.name === "Channels" || props.name === "Group Chat"
-              ? "10 subscribers"
+              ? `${userList.length} subscribers`
               : "last seen recently"}
           </div>
         </div>

@@ -46,8 +46,8 @@ function App() {
         setSelectedUser(value.data.data.name);
         setSelectedChannel(value.data.data);
         setGroupMembersDetail(membersDetail);
-        console.log(`selectedUser.name: ${selectedUser}`);
-        console.log(`userId: ${userId}`);
+        console.log(`selectedUser.name: ${membersDetail}`);
+        // console.log(`userId: ${userId}`);
       });
 
       axiosInstance
@@ -137,6 +137,7 @@ function App() {
 function Home(props) {
   useEffect(() => {
     const refreshTokenInterval = setInterval(refreshToken, 55 * 60 * 1000);
+    console.log(`home props: ${props.members}`);
     return () => {
       clearInterval(refreshTokenInterval);
     };
