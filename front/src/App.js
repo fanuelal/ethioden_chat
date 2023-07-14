@@ -41,13 +41,27 @@ function App() {
 
   const chatSelectHandler = async (userId, membersDetail) => {
     try {
+
+      axiosInstance.get(`/employee/${userId}`).then((value) => {
+        setSelectedUser(value.data.data.first_name);
+
+        axiosInstance.get(`/status/${userId}`).then((resStatus) => {
+          console.log(resStatus.data.data[0])
+          if (resStatus.data.data.length > 0) {
+            Userstatus[0].content = resStatus.data.data[0].label;
+          } else {
+            Userstatus[0].content = "";
+          }
+        });
+      });
+
       axiosInstance.get(`/room/${userId}`).then((value) => {
         console.log(value.data.data);
         setSelectedUser(value.data.data.name);
         setSelectedChannel(value.data.data);
         setGroupMembersDetail(membersDetail);
-        console.log(`selectedUser.name: ${membersDetail}`);
-        // console.log(`userId: ${userId}`);
+        console.log(`selectedUser.name: ${selectedUser}`);
+        console.log(`userId: ${userId}`);
       });
 
       axiosInstance
@@ -68,18 +82,7 @@ function App() {
         });
 
 
-      axiosInstance.get(`/employee/${userId}`).then((value) => {
-        setSelectedUser(value.data.data.first_name);
-
-        axiosInstance.get(`/status/${userId}`).then((resStatus) => {
-          console.log(resStatus.data.data[0])
-          if (resStatus.data.data.length > 0) {
-            Userstatus[0].content = resStatus.data.data[0].label;
-          } else {
-            Userstatus[0].content = "";
-          }
-        });
-      });
+      
 
       const ids = [currentUser.userId, userId];
       const sortedIds = ids.sort();
@@ -137,7 +140,6 @@ function App() {
 function Home(props) {
   useEffect(() => {
     const refreshTokenInterval = setInterval(refreshToken, 55 * 60 * 1000);
-    console.log(`home props: ${props.members}`);
     return () => {
       clearInterval(refreshTokenInterval);
     };
