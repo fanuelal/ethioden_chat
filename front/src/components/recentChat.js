@@ -15,7 +15,7 @@ export function RecentChat(prop) {
     if(prop.type === "room") {
       return;
     }
-    prop.onClick(prop.userId);
+    prop.onClick(prop.userId, prop.members);
     setClicked(true);
   };
 

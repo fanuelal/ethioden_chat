@@ -320,17 +320,17 @@ const closePasswordChangePopup = () => {
   const handleConfirmP = (event) => {
     setconfirmNewPassword(event.target.value);
   };
-  console.log(currentP)
-  console.log(newPassword)
-  console.log(confirmNewPassword)
+  // console.log(currentP)
+  // console.log(newPassword)
+  // console.log(confirmNewPassword)
 
   const handleDateSelection = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd HH:mm:ss");
     setSelectedDate(formattedDate);
   };
-  console.log(selectedDate);
+  // console.log(selectedDate);
 
-  console.log(statusContent);
+  // console.log(statusContent);
 
   const navigate = useNavigate();
   const logoutHandler = async () => {
@@ -341,7 +341,7 @@ const closePasswordChangePopup = () => {
   };
 
   const iconLister = (index) => {
-    console.log(index)
+    // console.log(index)
     if(currentUser.role !== 'admin' && index === 5 ){
       return;
     }else{
@@ -402,10 +402,6 @@ const closePasswordChangePopup = () => {
   // };
 
 
-
-console.log(emailed)
-console.log(currentP)
-
 const submitFormHandler = async (e) => {
   e.preventDefault();
 
@@ -414,8 +410,8 @@ const submitFormHandler = async (e) => {
 
     if (response.data.success) {
        axiosInstance.patch(`/employee/${currentUser.userId}`, { password: newPassword });
-      console.log(response.data.data);
-      console.log('Password updated successfully');
+      // console.log(response.data.data);
+      // console.log('Password updated successfully');
     } else {
       alert('Failed to verify user');
     }

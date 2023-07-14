@@ -23,27 +23,26 @@ const GroupChat = (props) => {
   const [grouplist,setGrouplist] = useState([]);
   const [groupname, setGroupname] = useState("");
 
-  function recentClickHandler(botId) {
-    props.onChatClick(botId);
+  function recentClickHandler(botId, members) {
+    props.onChatClick(botId, members);
   }
   useEffect(() => {
-
     axiosConfig.get(`/room?type=group&userId=${currentUser.userId}`).then((res) => {
-      // console.log(res.data.data);
+      console.log(res.data.data[0].membersDetail);
       setGrouplist(res.data.data);
     });
   }, []);
-  console.log(grouplist);
+  // console.log(grouplist);
   const ListRecentgroup = grouplist.map(
     (user) => {
-      console.log(grouplist[0])
+      // console.log(grouplist[0])
      if(grouplist !== null){
 
        return (
            <RecentChat
            name= {props.name}
              userId={user.id}
-            //  type={"room"}
+             members={user.membersDetail}
              profileImg={
                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
              }
@@ -98,7 +97,7 @@ useEffect(() => {
     
     axiosConfig.post('/room', params)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -133,8 +132,8 @@ useEffect(() => {
     .map((user) => (
       <RecentChat
         onClick={() => 
-          {useraddHandler(user.id);
-          console.log(user.id)
+          {useraddHandler(user.id, user.membersDetail);
+          // console.log(user.id)
           }
         }
         
@@ -147,7 +146,6 @@ useEffect(() => {
         recentChat={""}
         status={true}
         username={user.first_name}
-        
       />
     ));
 
