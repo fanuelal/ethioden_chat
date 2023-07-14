@@ -153,7 +153,7 @@ export function MiniDrawer(props) {
   const [currentP, setcurrentP] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [confirmNewPassword, setconfirmNewPassword] = useState("");
-  const [emailed, setEmailed] = useState("");
+  const [updatePasswordError, setUpdatePasswordError] = useState(false);
 
   const renderComponent = () => {
     switch (activeMenu) {
@@ -167,11 +167,14 @@ export function MiniDrawer(props) {
           />
         );
       case "Group Chat":
-        return <GroupChat name={activeMenu}
-        sele={props.selected}
-        onChatClick={props.onChatClick}
-        ably={props.ably}
-        />;
+        return (
+          <GroupChat
+            name={activeMenu}
+            sele={props.selected}
+            onChatClick={props.onChatClick}
+            ably={props.ably}
+          />
+        );
       case "Channels":
         return (
           <Channel
@@ -190,10 +193,10 @@ export function MiniDrawer(props) {
       case "About":
         return (
           <About
-          name = {props.name}
-          sele = {props.sele}
-          onChatClick = {props.onChatClick}
-          ably = {props.ably}
+            name={props.name}
+            sele={props.sele}
+            onChatClick={props.onChatClick}
+            ably={props.ably}
           />
         );
       case "Help":
@@ -338,17 +341,17 @@ export function MiniDrawer(props) {
   const handleConfirmP = (event) => {
     setconfirmNewPassword(event.target.value);
   };
-  console.log(currentP);
-  console.log(newPassword);
-  console.log(confirmNewPassword);
+  // console.log(currentP)
+  // console.log(newPassword)
+  // console.log(confirmNewPassword)
 
   const handleDateSelection = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd HH:mm:ss");
     setSelectedDate(formattedDate);
   };
-  console.log(selectedDate);
+  // console.log(selectedDate);
 
-  console.log(statusContent);
+  // console.log(statusContent);
 
   const navigate = useNavigate();
   const logoutHandler = async () => {
@@ -369,7 +372,6 @@ export function MiniDrawer(props) {
     }
   };
 
-  console.log(emailed);
   console.log(currentP);
 
   const submitFormHandler = async (e) => {
@@ -382,16 +384,23 @@ export function MiniDrawer(props) {
       });
 
       if (response.data.success) {
-        axiosInstance.patch(`/employee/${currentUser.userId}`, {
-          password: newPassword,
-        });
-        console.log(response.data.data);
+        const res = await axiosInstance.patch(
+          `/employee/${currentUser.userId}`,
+          {
+            password: newPassword,
+          }
+        );
+        if (res.data.success) {
+          closePasswordChangePopup();
+        }
         console.log("Password updated successfully");
       } else {
+        setUpdatePasswordError(true);
         alert("Failed to verify user");
       }
     } catch (err) {
       console.log(err);
+      setUpdatePasswordError(true);
       alert("An error occurred");
     }
   };
@@ -589,6 +598,9 @@ export function MiniDrawer(props) {
                     />
                   </div>
                 </div>
+                <div>
+                  {updatePasswordError && <div>wrong current password</div>}
+                </div>
                 <button
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-700 text-lightgrey font-bold py-1 px-3 rounded"
@@ -750,34 +762,33 @@ export function MiniDrawer(props) {
             })}
           </List>
 
-                  <Divider />
-
-              </Drawer>
-              <Box component="main" sx={{ flexGrow: 1,flexShrink:1 }}>
-    
-              <div className="flex shrink h-screen" >
-                 <div className="w-2/6 ">
-          {component}
-          
-        </div>
-        <div className="w-4/6">{props.selected !==-1 ?
-          <ActiveData
-          members={props.members}
-          selectedChannel={props.selectedChannel}
-         name={activeMenu}
-            ably={props.ably}
-            userId={props.selected}
-            username={props.selectedUser}
-            messages={
-              activeMenu === "Channels" || activeMenu === "Group Chat"
-                ? props.channelmessagesData
-                : props.messagesData
-            }
-          />:<EmptyScreen/>}
-      </div>
-      </div>
-              </Box>
-          </Box>
-          </>
+          <Divider />
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, flexShrink: 1 }}>
+          <div className="flex shrink h-screen">
+            <div className="w-2/6 ">{component}</div>
+            <div className="w-4/6">
+              {props.selected !== -1 ? (
+                <ActiveData
+                  members={props.members}
+                  selectedChannel={props.selectedChannel}
+                  name={activeMenu}
+                  ably={props.ably}
+                  userId={props.selected}
+                  username={props.selectedUser}
+                  messages={
+                    activeMenu === "Channels" || activeMenu === "Group Chat"
+                      ? props.channelmessagesData
+                      : props.messagesData
+                  }
+                />
+              ) : (
+                <EmptyScreen />
+              )}
+            </div>
+          </div>
+        </Box>
+      </Box>
+    </>
   );
 }

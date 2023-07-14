@@ -70,7 +70,15 @@ const ChatModel = class {
     let query = `SELECT * FROM chats WHERE isDeleted = false`;
 
     if (senderId && reciverId) {
-      query = `SELECT * FROM chats WHERE isDeleted = false AND inRoom = false AND ((senderId = '${senderId}' AND reciverId = '${reciverId}') OR (senderId = '${reciverId}' AND reciverId = '${senderId}')) ORDER BY created_at`;
+      query = `SELECT e.first_name, c.*
+      FROM employees e
+      INNER JOIN chats c ON e.id = c.senderId
+      WHERE c.isDeleted = false
+        AND c.inRoom = false
+        AND ((c.senderId = '${senderId}' AND c.reciverId = '${reciverId}')
+             OR (c.senderId = '${reciverId}' AND c.reciverId = '${senderId}'))
+      ORDER BY c.created_at;
+      ;`;
     }
 
     return new Promise((resolve, reject) => {
@@ -79,6 +87,7 @@ const ChatModel = class {
         resolve(result);
       });
     }).then((value) => {
+      console.log(value)
       return value;
     });
   };

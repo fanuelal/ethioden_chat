@@ -25,8 +25,8 @@ export function ChatUI(props) {
   const [messages, setMessages] = useState([]);
   const [channel, setChannel] = useState(null);
   const [editedMessage, setEditedMessage] = useState(null);
-  const [joined, setJoin] = useState(false);
-  // const channel = props.ably.channels.get('private_chat');
+  const [activeMenu, setActiveMenu] = useState("Private Chat");
+  
 
   function recentClickHandler(userId) {
     return;
@@ -36,10 +36,12 @@ export function ChatUI(props) {
   });
 
   useEffect(() => {
+    console.log("Chat UI")
     console.log(props.members)
     setMessages([]);
+    setActiveMenu(activeMenu)
     setUserList(props.members);
-  }, [props.user]);
+  }, [props.user,props.name]);
 
   useEffect(() => {
     const ids = [currentUser.userId, props.user];
@@ -66,7 +68,7 @@ export function ChatUI(props) {
     const messageUUID = uuid();
 
     let newMessage = {};
-    props.name === "Private Chat"
+    activeMenu === "Private Chat"
       ? (newMessage = {
           messageId: messageUUID,
           text: message,
@@ -134,9 +136,7 @@ export function ChatUI(props) {
     setMessage(event.target.value);
   };
 
-  const joinHandler = () => {
-    setJoin(true);
-  };
+
   const onkeyPressHandler = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -207,7 +207,7 @@ export function ChatUI(props) {
         <div
           className="w-1/12"
           onClick={
-            props.name === "Group Chat"
+            activeMenu === "Group Chat"
               ? ongroupclickHandler
               : otherclickHandler
           }
@@ -223,7 +223,7 @@ export function ChatUI(props) {
               alt="user profile"
               className="chatProfile"
               src={
-                props.name === "Channels"
+                activeMenu === "Channels"
                   ? "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg"
                   : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
               }
@@ -233,14 +233,14 @@ export function ChatUI(props) {
         <div className="flex flex-col w-10/12 items-start">
           <div className="profilename">{props.username}</div>
           <div class="recentSentAt1">
-            {props.name === "Channels" || props.name === "Group Chat"
-              ? "10 subscribers"
+            {activeMenu === "Channels" || activeMenu === "Group Chat"
+              ? `${userList.length} subscribers`
               : "last seen recently"}
           </div>
         </div>
 
         <div className="w-2/12">
-          {props.name === "Channels" || props.name === "Group Chat" ? (
+          {activeMenu === "Channels" || activeMenu === "Group Chat" ? (
             ""
           ) : (
             <StatusPopUp />
@@ -250,12 +250,12 @@ export function ChatUI(props) {
       <ChatListContainer
         onEdit={handleEdit}
         onDelete={handleDelete}
-        name={props.name}
+        name={activeMenu}
         messages={messages.length === 0 ? props.messages : messages}
       />
 
       <div className="flex justify-center w-full bottom-2">
-        {props.name !== "Channels" ||
+        {activeMenu !== "Channels" ||
         props.selectedChannel.created_by === currentUser.userId ? (
           <>
             <input

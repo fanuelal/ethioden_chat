@@ -41,6 +41,20 @@ function App() {
 
   const chatSelectHandler = async (userId, membersDetail) => {
     try {
+
+      axiosInstance.get(`/employee/${userId}`).then((value) => {
+        setSelectedUser(value.data.data.first_name);
+
+        axiosInstance.get(`/status/${userId}`).then((resStatus) => {
+          console.log(resStatus.data.data[0])
+          if (resStatus.data.data.length > 0) {
+            Userstatus[0].content = resStatus.data.data[0].label;
+          } else {
+            Userstatus[0].content = "";
+          }
+        });
+      });
+
       axiosInstance.get(`/room/${userId}`).then((value) => {
         console.log(value.data.data.members.length);
         
@@ -70,18 +84,7 @@ function App() {
         });
 
 
-      axiosInstance.get(`/employee/${userId}`).then((value) => {
-        setSelectedUser(value.data.data.first_name);
-
-        axiosInstance.get(`/status/${userId}`).then((resStatus) => {
-          console.log(resStatus.data.data[0])
-          if (resStatus.data.data.length > 0) {
-            Userstatus[0].content = resStatus.data.data[0].label;
-          } else {
-            Userstatus[0].content = "";
-          }
-        });
-      });
+      
 
       const ids = [currentUser.userId, userId];
       const sortedIds = ids.sort();

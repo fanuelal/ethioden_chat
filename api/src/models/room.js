@@ -41,13 +41,14 @@ const RoomModel = class{
 
           const extractedData = await Promise.all(fetchedData.map(async (data) => {
             const members = JSON.parse(data.members);
+            const creatorId = data.created_by;
             const mapEmployeeToResponse = (employee) => {
                 const { department,first_name, last_name, isActive
               ,id, role,email,  } = employee;
                 return { department,first_name, last_name, isActive
               ,id,role, email};
               };
-            if (members.includes(userId)) {
+            if (members.includes(userId || creatorId === userId)) {
               const membersDetail = [];
               for (let index = 0; index < members.length; index++) {
                 const member = await EmployeeModel.getSingle(members[index]);
