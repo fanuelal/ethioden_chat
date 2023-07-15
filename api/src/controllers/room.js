@@ -20,8 +20,8 @@ export const getAllRooms = async(req, res) => {
     const userId = req.query.userId;
 
     try{
-        const result = await RoomModel.getAll(type, userId)
-        // console.log(result)
+        const result = await RoomModel.getRoomsByUserId(userId, type);
+        console.log(result)
         // console.log("result is above this")
         return res.status(200).json({message: `fetch success`, status: 200, data: result});
     }catch(error){
@@ -33,7 +33,7 @@ export const getSingleRoom = async(req, res) => {
     const roomId = req.params.id
     try{
         const result = await RoomModel.getSingle(roomId)
-
+        
         return res.status(200).json({message: `fetch success`, status: 200, data: result});
     }catch(error){
         return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`}); 

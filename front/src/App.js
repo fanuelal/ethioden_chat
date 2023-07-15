@@ -56,12 +56,15 @@ function App() {
       });
 
       axiosInstance.get(`/room/${userId}`).then((value) => {
+        console.log("get room detail")
         console.log(value.data.data);
+        
         setSelectedUser(value.data.data.name);
         setSelectedChannel(value.data.data);
         setGroupMembersDetail(membersDetail);
         console.log(`selectedUser.name: ${selectedUser}`);
         console.log(`userId: ${userId}`);
+        console.log(selectedChannel.members.length)
       });
 
       axiosInstance
@@ -120,6 +123,7 @@ function App() {
               <Home
                 channelmessagesData={channelmessagesData}
                 selectedChannel={selectedChannel}
+               
                 sele={selected}
                 onChatClick={chatSelectHandler}
                 selected={selected}
@@ -150,6 +154,7 @@ function Home(props) {
         ably={ably}
         channelmessagesData={props.channelmessagesData}
         selectedChannel={props.selectedChannel}
+        num={props.num}
         selected={props.selected}
         selectedUser={props.selectedUser}
         messagesData={props.messagesData}
