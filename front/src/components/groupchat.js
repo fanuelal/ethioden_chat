@@ -145,7 +145,7 @@ useEffect(() => {
 
   return (
     <>
-      <div className=" font-bold  text-base md:text-sm shadow-md">
+      <div className=" font-bold  text-base md:text-sm h-full border-r border-#bdbaba ">
         <div
           className={
             // issearch
@@ -163,7 +163,7 @@ useEffect(() => {
       </div>
       <Popup
         trigger={
-          <div class="bg-[#1d1f34] mt-[22ch] h-[50px] w-[50px] ml-[83%] rounded-full ">
+          <div class="bg-[#1d1f34] mt-[35%] h-[50px] w-[50px] ml-[26%] rounded-full fixed">
             <FontAwesomeIcon
               icon={faPlus}
               // class="text-[#fa8072] h-8 w-8 "
@@ -208,6 +208,7 @@ useEffect(() => {
                       type="text"
                       value={inputValue}
                       onChange={handleInputChange}
+                      autoFocus
                     />
                   </div>
 

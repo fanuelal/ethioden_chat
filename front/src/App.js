@@ -122,7 +122,7 @@ function App() {
                 selectedChannel={selectedChannel}
                
                 sele={selected}
-                onChatClick={chatSelectHandler}
+                onChatClick={chatSelectHandler}z
                 selected={selected}
                 selectedUser={selectedUser}
                 messagesData={messagesData}

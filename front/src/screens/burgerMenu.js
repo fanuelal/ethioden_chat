@@ -624,6 +624,7 @@ export function MiniDrawer(props) {
 
                   <div className="popup-header">
                     <input
+                      autoFocus
                       type="text"
                       value={statusContent}
                       onChange={handleInputChange}
