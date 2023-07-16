@@ -260,6 +260,7 @@ export function ChatUI(props) {
         props.selectedChannel.created_by === currentUser.userId ? (
           <>
             <input
+            autoFocus
               type="text"
               className="w-11/12 rounded-2xl h-12 border-4 border-white-500/100  mt-6 outline-none"
               value={message}

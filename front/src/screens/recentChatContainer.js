@@ -126,7 +126,7 @@ props.ably.connection.on('disconnected', function() {
   });
 
   return (
-    <div className=" font-bold  text-base md:text-sm shadow-md">
+    <div className=" font-bold  text-base md:text-sm h-full border-r border-#bdbaba ">
       <div className={issearch ? " flex-row-reverse justify-around  items-center h-14 w-full bg-profile":"flex justify-around items-center h-14 w -full bg-profile"}>
         
           {issearch ? "" : <div className="text-white lg:text-xl"> Private Chat</div>}

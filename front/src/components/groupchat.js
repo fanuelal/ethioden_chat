@@ -151,7 +151,7 @@ useEffect(() => {
 
   return (
     <>
-      <div className=" font-bold  text-base md:text-sm shadow-md">
+      <div className=" font-bold  text-base md:text-sm h-full border-r border-#bdbaba ">
         <div
           className={
             // issearch
@@ -206,7 +206,7 @@ useEffect(() => {
                   <div className="float-left mt-[-9px] mb-[3px] bg-[black]">
                     {/* <input className="p-[15px] ml-[-50px] h-[10px] mt-[-20px] w-[400px] rounded-[2px] border-[lightskyblue]" type="text" /> */}
                     {/* <input className="groupname" type="text" /> */}
-                    <input className="groupname" type="text" value={inputValue} onChange={handleInputChange} />
+                    <input className="groupname" type="text" value={inputValue} onChange={handleInputChange} autoFocus/>
                   </div>
 
                   <div>

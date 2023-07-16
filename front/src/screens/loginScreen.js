@@ -60,6 +60,7 @@ function Login(props) {
           Email
         </label>
         <TextField
+        autoFocus
           type="email"
           label="Email"
           variant="outlined"
