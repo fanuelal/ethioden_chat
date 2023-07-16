@@ -16,7 +16,8 @@ const EmployeeModel = class{
     role
     isActive
     isDeleted
-    constructor(first_name, last_name, phone_num, email, password, department, role, isDeleted,isActive){
+    profileImage
+    constructor(first_name, last_name, phone_num, email, password, department, role, isDeleted,isActive,profileImage){
         // this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -27,6 +28,7 @@ const EmployeeModel = class{
         this.role = role;
         this.isDeleted = isDeleted;
         this.isActive = isActive;
+        this.profileImage=profileImage
     }
 
      create = async() => {
@@ -62,7 +64,7 @@ const EmployeeModel = class{
         console.log(currentUserId);
            var fetchedData; 
             // ,chat.id,chat.reciverid,chat.senderid
-          return new Promise((resolve, reject) => {con.query(`SELECT employees.id, employees.first_name, employees.last_name, isActive, MAX(chats.created_at) AS last_message_time
+          return new Promise((resolve, reject) => {con.query(`SELECT employees.id, employees.first_name, employees.last_name, employees.profileImage, isActive, MAX(chats.created_at) AS last_message_time
           FROM employees 
           INNER JOIN chats 
              ON (employees.id = chats.reciverId AND '${currentUserId}' = chats.senderId 
@@ -130,15 +132,21 @@ const EmployeeModel = class{
         department = '${this.department}',
         email = '${this.email}',
         password = '${encryptedPass}',
-        role = '${this.role}' WHERE id = '${userId}'`;
+        role = '${this.role},
+        profileImage = '${this.profileImage}' WHERE id = '${userId}
+       '`;
 
-        const updateQuery = `UPDATE employees SET  first_name = '${this.first_name}', 
-        last_name = '${this.last_name}', 
-        isDeleted = '${this.isDeleted}', 
-        isActive = '${this.isActive}', 
+        const updateQuery = `UPDATE employees SET
+        first_name = '${this.first_name}',
+        last_name = '${this.last_name}',
+        isDeleted = '${this.isDeleted}',
+        isActive = '${this.isActive}',
         department = '${this.department}',
         email = '${this.email}',
-        role = '${this.role}' WHERE id = '${userId}'`;
+        role = '${this.role}',
+        profileImage = '${this.profileImage}'
+      WHERE id = '${userId}'`
+      ;
         return new Promise((resolve, reject) => {
             con.query(type === 'password' ? passUPdaterQuery:updateQuery, (error, result, fields) => {
                 if(error) reject(error);
@@ -153,7 +161,7 @@ const EmployeeModel = class{
     static employeeIsAvailable = async (email) => {
         console.log(email)
         return new Promise((resolve, reject) => {
-            con.query(`SELECT id, email, password, department, first_name, role FROM employees WHERE email='${email}'`, (err, result, fields) => {
+            con.query(`SELECT id, email, password, department, first_name, role, phone_num,profileImage FROM employees WHERE email='${email}'`, (err, result, fields) => {
              if (err) reject(err);
              console.log(result)
              resolve(result);

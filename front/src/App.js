@@ -30,6 +30,7 @@ function App() {
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedChannel, setSelectedChannel] = useState({});
   const [groupmembersDetail, setGroupMembersDetail] = useState([]);
+  const [image, setImage] = useState([]);
 
   const isLogin = () => {
     const token = getToken();
@@ -44,6 +45,8 @@ function App() {
 
       axiosInstance.get(`/employee/${userId}`).then((value) => {
         setSelectedUser(value.data.data.first_name);
+        setImage(value.data.data.profileImage)
+        console.log(value.data.data);
 
         axiosInstance.get(`/status/${userId}`).then((resStatus) => {
           console.log(resStatus.data.data[0])
@@ -122,7 +125,7 @@ function App() {
               <Home
                 channelmessagesData={channelmessagesData}
                 selectedChannel={selectedChannel}
-               
+               image = {image}
                 sele={selected}
                 onChatClick={chatSelectHandler}
                 selected={selected}
@@ -151,6 +154,7 @@ function Home(props) {
     <>
       <MiniDrawer
         ably={ably}
+        image = {props.image}
         channelmessagesData={props.channelmessagesData}
         selectedChannel={props.selectedChannel}
         num={props.num}

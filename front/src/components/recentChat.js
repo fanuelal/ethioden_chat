@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import "../styles/chatList.css";
 import { style } from "@mui/system";
 import Ably from "ably";
+import { currentUser } from "../model/currentUserData";
+import { baseImagePath } from "../common/Common";
 const ably = new Ably.Realtime(
   "nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0"
 );
 export function RecentChat(prop) {
+
   const [clicked, setClicked] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const buttonClickHandler = () => {
@@ -27,7 +30,7 @@ export function RecentChat(prop) {
 
   const cc = prop.sele === prop.userId ? clicked : false;
   const chatBoxClass = cc ? "recentChatBox clicked" : "recentChatBox";
-  // console.log(isActive)
+  console.log(prop.profileImg)
    
   return (
  <div className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
@@ -37,8 +40,7 @@ export function RecentChat(prop) {
           width={50}
           height={50}
           className="rounded-full h-12 w-12 "
-          src={prop.name === "Channels"? "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg":
-          prop.profileImg}
+          src={baseImagePath+prop.profileImg}
           alt="recent chat"
         />
        {prop.name === "Group Chat"? "" : 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChatList } from "./recentChatContainer";
 import { ActiveData } from "../controller/activeChatData";
 import { EmptyScreen } from "./emptyChat";
@@ -53,6 +53,7 @@ import { format } from "date-fns";
 import Bots from "../components/Bot";
 import { AddMember } from "../components/createMember";
 import Channel from "../components/Channel";
+import { baseImagePath } from "../common/Common";
 const drawerWidth = 230;
 
 const openedMixin = (theme) => ({
@@ -154,6 +155,7 @@ export function MiniDrawer(props) {
   const [newPassword, setnewPassword] = useState("");
   const [confirmNewPassword, setconfirmNewPassword] = useState("");
   const [updatePasswordError, setUpdatePasswordError] = useState(false);
+  const [profilePic, setProfilePic] = useState(null);
 
   const renderComponent = () => {
     switch (activeMenu) {
@@ -214,7 +216,11 @@ export function MiniDrawer(props) {
         );
     }
   };
+  const fileInputRef = useRef(null);
 
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -249,6 +255,34 @@ export function MiniDrawer(props) {
   const handleMenuListClick = (menu) => {
     setActiveMenu(menu);
   };
+
+  const handleProfileImage = (event) => {
+    setProfilePic(event.target.files[0]);
+  };
+
+  const handleSaveProfilePic = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", profilePic);
+      for (const [name, file] of formData.entries()) {
+        if (file instanceof File) {
+          console.log(`Filename for field '${name}': ${file.name}`);
+        }
+      }
+      await axiosInstance
+        .patch(`/employee/${currentUser.userId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => console.log(res.data));
+
+      console.log("Image patch request successful");
+    } catch (error) {
+      console.error("Error occurred while sending image patch request:", error);
+    }
+  };
+
   useEffect(() => {
     setComponent(renderComponent());
   }, [activeMenu]);
@@ -355,7 +389,7 @@ export function MiniDrawer(props) {
 
   const navigate = useNavigate();
   const logoutHandler = async () => {
-    await axiosInstance.patch(`/employee/${currentUser.userId}`, {
+    axiosInstance.patch(`/employee/${currentUser.userId}`, {
       isActive: 0,
     });
     localStorage.removeItem("currentUser");
@@ -417,7 +451,7 @@ export function MiniDrawer(props) {
                     <img
                       className="w-1/3 justify-center mr-10"
                       alt="profileImage"
-                      src={currentUser.profileImg}
+                      src={baseImagePath + currentUser.profileImage}
                     />
                     <h1 className="w-8 h-8 ml-10 mt-4 font-bold  text-xl">
                       {currentUser.username}
@@ -685,11 +719,29 @@ export function MiniDrawer(props) {
           <DrawerHeader>
             {open && (
               <div className="flex flex-col mt-3 ">
-                <img
-                  className="chatProfile"
-                  alt="profileImage"
-                  src={currentUser.profileImg}
-                />
+                <div>
+                  <label htmlFor="profileImageInputTrigger">
+                    <img
+                      className="chatProfile mt-4"
+                      alt="profileImage"
+                      src={baseImagePath + currentUser.profileImage}
+                      onClick={handleImageClick}
+                    />
+                  </label>
+                  <input
+                    id="profileImageInputTrigger"
+                    ref={fileInputRef}
+                    className="mr-20 h-0 w-0 bg-transparent"
+                    type="file"
+                    onChange={handleProfileImage}
+                  />
+                </div>
+                <div
+                  className="text-white mr-20 pl-3 cursor-pointer"
+                  onClick={handleSaveProfilePic}
+                >
+                 
+                </div>
                 <p className="text-white mr-20 pl-3">{currentUser.username}</p>
               </div>
             )}
@@ -770,6 +822,7 @@ export function MiniDrawer(props) {
             <div className="w-4/6">
               {props.selected !== -1 ? (
                 <ActiveData
+                  image={props.image}
                   members={props.members}
                   selectedChannel={props.selectedChannel}
                   name={activeMenu}

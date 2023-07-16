@@ -16,6 +16,7 @@ import axiosInstance from "../config/axiosConfig";
 import { RecentChat } from "../components/recentChat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { baseImagePath } from "../common/Common";
 // import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props) {
   // console.log(props.copiedtext)
@@ -166,6 +167,7 @@ export function ChatUI(props) {
   const otherclickHandler = () => {
     return;
   };
+  
   const ListRecent = userList
     .filter((user) => user.id !== currentUser.userId)
     .map((user) => (
@@ -175,9 +177,7 @@ export function ChatUI(props) {
         ably={props.ably}
         key={user.id}
         userId={user.id}
-        profileImg={
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-        }
+        profileImg={user.profileImage}
         recentChat={""}
         status={true}
         username={user.first_name}
@@ -212,11 +212,11 @@ export function ChatUI(props) {
               : otherclickHandler
           }
         >
-          {props.user.profileImg ? (
+          {props.image ? (
             <img
               alt="user profile"
               className="chatProfile"
-              src={props.user.profileImg}
+              src={baseImagePath + props.image}
             />
           ) : (
             <img
@@ -225,8 +225,7 @@ export function ChatUI(props) {
               src={
                 activeMenu === "Channels"
                   ? "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg"
-                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-              }
+                  : "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg"}
             />
           )}
         </div>

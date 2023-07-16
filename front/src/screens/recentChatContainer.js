@@ -40,6 +40,7 @@ props.ably.connection.on('disconnected', function() {
   const recentEmployee = () => {
     axiosInstance.get(`/employee/recent/${currentUser.userId}`).then((res) => {
       setUserList(res.data.data);
+      
     });
   };
   useEffect(() => {
@@ -109,7 +110,7 @@ props.ably.connection.on('disconnected', function() {
           key={user.id}
           onClick={recentClickHandler}
           userId={user.id}
-          profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
+          profileImg={user.profileImage}
           recentChat={
             (user.id === lastMessage?.senderId ||
               lastMessage?.reciverId === user.id) &&
