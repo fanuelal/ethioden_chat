@@ -7,7 +7,9 @@ export function ActiveData(props) {
     console.log("activeData");
     console.log(props.members);
     return (
+      
       <ChatUI
+      num={props.num}
         selectedChannel = {props.selectedChannel}
         name={props.name}
         ably={props.ably}

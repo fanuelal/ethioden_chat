@@ -41,12 +41,23 @@ function App() {
 
   const chatSelectHandler = async (userId, membersDetail) => {
     try {
-
+      axiosInstance.get(`/room/${userId}`).then((value) => {
+        console.log("get room detail")
+        console.log(value.data.data.members);
+        
+        setSelectedUser(value.data.data.name);
+        setSelectedChannel(value.data.data);
+        setGroupMembersDetail(value.data.data.members);
+        // console.log(`selectedUser.name: ${selectedUser}`);
+        // console.log(`userId: ${userId}`);
+        // console.log(selectedChannel.members.length)
+      });
+      
       axiosInstance.get(`/employee/${userId}`).then((value) => {
         setSelectedUser(value.data.data.first_name);
 
         axiosInstance.get(`/status/${userId}`).then((resStatus) => {
-          console.log(resStatus.data.data[0])
+          // console.log(resStatus.data.data)
           if (resStatus.data.data.length > 0) {
             Userstatus[0].content = resStatus.data.data[0].label;
           } else {
@@ -55,14 +66,7 @@ function App() {
         });
       });
 
-      axiosInstance.get(`/room/${userId}`).then((value) => {
-        console.log(value.data.data);
-        setSelectedUser(value.data.data.name);
-        setSelectedChannel(value.data.data);
-        setGroupMembersDetail(membersDetail);
-        console.log(`selectedUser.name: ${selectedUser}`);
-        console.log(`userId: ${userId}`);
-      });
+      
 
       axiosInstance
         .get(`/chat/channel?roomId=${userId}`)
@@ -80,21 +84,18 @@ function App() {
         }).catch((error) => {
           console.error(error);
         });
-
-
-      
-
+        
       const ids = [currentUser.userId, userId];
       const sortedIds = ids.sort();
-      console.log(ids);
+      // console.log(ids);
       const channel = ably.channels.get(`${sortedIds[0]}${sortedIds[1]}`);
-      console.log(channel);
+      // console.log(channel);
       channel.history({ limit: 1 }, (err, result) => {
         if (err) {
           throw err;
         }
         const lastMessage = result.items[0];
-        console.log(lastMessage);
+        // console.log(lastMessage);
       });
       channel.subscribe(`${sortedIds[0]}${sortedIds[1]}`, (message) => {
         if (message.data.senderId !== currentUser.userId) {
@@ -120,6 +121,7 @@ function App() {
               <Home
                 channelmessagesData={channelmessagesData}
                 selectedChannel={selectedChannel}
+               
                 sele={selected}
                 onChatClick={chatSelectHandler}z
                 selected={selected}
@@ -150,6 +152,7 @@ function Home(props) {
         ably={ably}
         channelmessagesData={props.channelmessagesData}
         selectedChannel={props.selectedChannel}
+        num={props.num}
         selected={props.selected}
         selectedUser={props.selectedUser}
         messagesData={props.messagesData}

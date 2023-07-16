@@ -3,10 +3,7 @@ import { useState, useEffect } from "react";
 import { RecentChat } from "./recentChat";
 import "../styles/groupchat.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faSearch,faArrowLeft,faPlus,faTimes } from "@fortawesome/free-solid-svg-icons";
 import SearchComp from "./searchComp";
 import Popup from "reactjs-popup";
 import axiosConfig from "../config/axiosConfig";
@@ -20,7 +17,7 @@ const GroupChat = (props) => {
   const [useradded, setUseradded] = useState([]);
   const [dictionary, setDictionary] = useState({});
   const [inputValue, setInputValue] = useState("");
-  const [grouplist,setGrouplist] = useState([]);
+  const [grouplist, setGrouplist] = useState([]);
   const [groupname, setGroupname] = useState("");
 
   function recentClickHandler(botId, members) {
@@ -28,7 +25,7 @@ const GroupChat = (props) => {
   }
   useEffect(() => {
     axiosConfig.get(`/room?type=group&userId=${currentUser.userId}`).then((res) => {
-      console.log(res.data.data[0].membersDetail);
+      // console.log(res.data.data[0].membersDetail);
       setGrouplist(res.data.data);
     });
   }, []);
@@ -37,7 +34,7 @@ const GroupChat = (props) => {
     (user) => {
       // console.log(grouplist[0])
      if(grouplist !== null){
-
+        // console.log(user.id);
        return (
            <RecentChat
            name= {props.name}
@@ -72,7 +69,7 @@ useEffect(() => {
   const handleNextButtonClick = () => {
     setDictionary({ ...dictionary, [inputValue]: "some value" });
     setInputValue("");
-    setGroupname([inputValue])
+    setGroupname([inputValue]);
     // console.log(groupname)
   };
 
@@ -90,22 +87,19 @@ useEffect(() => {
     const type = "group";
     const params = {
       name: groupname,
-      type:  type,
+      type: type,
       created_by: currentUser.userId,
       members: JSON.stringify(useradded),
     };
-    
-    axiosConfig.post('/room', params)
+
+    axiosConfig
+      .post("/room", params)
       .then((response) => {
         // console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    
-
-
-
   };
     const useraddHandler = (id) => {
       if (!useradded.includes(id)) {
@@ -164,7 +158,9 @@ useEffect(() => {
 
 </div>
       </div>
-          <div class="max-h-[75vh] overflow-auto no-scrollbar">{ListRecentgroup}</div>
+      <div class="max-h-[75vh] overflow-auto no-scrollbar">
+        {ListRecentgroup}
+      </div>
       <Popup
         trigger={
           <div class="bg-[#1d1f34] mt-[35%] h-[50px] w-[50px] ml-[26%] rounded-full fixed">
@@ -176,7 +172,6 @@ useEffect(() => {
             />
           </div>
         }
-        
         content={
           <div className="popuppage">
             <p>creat a group</p>
@@ -188,8 +183,8 @@ useEffect(() => {
         closeOnDocumentClick
       />
 
-      <div >
-        <div >
+      <div>
+        <div>
           <div>
             {showpopup && (
               <div className="w-[100%] h-[120vh] fixed left-0 top-[-10px] flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
@@ -201,12 +196,20 @@ useEffect(() => {
                     >
                       <FontAwesomeIcon className="pl-[180%]" icon={faTimes} />
                     </div>
-                    <h3 className="pb-[15%] pl-[5%] w-[250px]">create a group</h3>
+                    <h3 className="pb-[15%] pl-[5%] w-[250px]">
+                      create a group
+                    </h3>
                   </div>
                   <div className="float-left mt-[-9px] mb-[3px] bg-[black]">
                     {/* <input className="p-[15px] ml-[-50px] h-[10px] mt-[-20px] w-[400px] rounded-[2px] border-[lightskyblue]" type="text" /> */}
                     {/* <input className="groupname" type="text" /> */}
-                    <input className="groupname" type="text" value={inputValue} onChange={handleInputChange} autoFocus/>
+                    <input
+                      className="groupname"
+                      type="text"
+                      value={inputValue}
+                      onChange={handleInputChange}
+                      autoFocus
+                    />
                   </div>
 
                   <div>
@@ -216,7 +219,7 @@ useEffect(() => {
                       onClick={() => {
                         setShowpopup(false);
                         setShowuserlist(true);
-                      handleNextButtonClick()
+                        handleNextButtonClick();
                       }}
                     >
                       next
@@ -229,8 +232,8 @@ useEffect(() => {
         </div>
       </div>
 
-      <div >
-        <div >
+      <div>
+        <div>
           <div>
             {showuserlist && (
               <div className="w-[100%] h-[120vh] fixed left-0 top-0 flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
@@ -240,20 +243,21 @@ useEffect(() => {
                       className="close-icon"
                       onClick={() => setShowuserlist(false)}
                     >
-                      <FontAwesomeIcon className="pl-[115%]"  icon={faTimes} />
+                      <FontAwesomeIcon className="pl-[115%]" icon={faTimes} />
                     </div>
                     <h3 className="header1">choose a user</h3>
                     <div className="w-[250px] pl-[10%] max-h-[60vh] overflow-auto no-scrollbar">
-                    {ListRecent}
+                      {ListRecent}
                     </div>
                   </div>
 
                   <div>
                     <button
                       className="rounded-lg ml-[100%] mt-[25%] "
-                      onClick={() => {setShowuserlist(false);
-                        handleAddButtonClick()}
-                      }
+                      onClick={() => {
+                        setShowuserlist(false);
+                        handleAddButtonClick();
+                      }}
                     >
                       Add
                     </button>

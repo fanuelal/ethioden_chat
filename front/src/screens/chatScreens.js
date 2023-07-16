@@ -40,7 +40,7 @@ export function ChatUI(props) {
     console.log(props.members)
     setMessages([]);
     setUserList(props.members);
-  }, [props.user]);
+  }, []);
 
   useEffect(() => {
     const ids = [currentUser.userId, props.user];
@@ -167,19 +167,18 @@ export function ChatUI(props) {
   const otherclickHandler = () => {
     return;
   };
-  const ListRecent = userList
+  const ListRecent = props.members
     .filter((user) => user.id !== currentUser.userId)
     .map((user) => (
       <RecentChat
         onClick={recentClickHandler}
-
         ably={props.ably}
         key={user.id}
         userId={user.id}
         profileImg={
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
         }
-        recentChat={""}
+        recentChat={user.department}
         status={true}
         username={user.first_name}
       />
@@ -235,7 +234,7 @@ export function ChatUI(props) {
           <div className="profilename">{props.username}</div>
           <div class="recentSentAt1">
             {props.name === "Channels" || props.name === "Group Chat"
-              ? `${userList.length} subscribers`
+              ? `${props.members.length} subscribers`
               : "last seen recently"}
           </div>
         </div>
