@@ -31,6 +31,7 @@ function App() {
   const [selectedChannel, setSelectedChannel] = useState({});
   const [groupmembersDetail, setGroupMembersDetail] = useState([]);
   const [image, setImage] = useState([]);
+  const [chatClick, setChatClick] = useState(true)
 
   const isLogin = () => {
     const token = getToken();
@@ -106,13 +107,15 @@ function App() {
           console.log("Received chat message:", message.data);
         }
       });
-
+      setChatClick(true)
       setSelected(userId);
     } catch (error) {
       console.log(error);
     }
   };
-
+  const handleListItemButtonClick = () => {
+    setChatClick(false);
+  };
   return (
     <div className="App">
       <Routes>
@@ -121,6 +124,8 @@ function App() {
             path="/"
             element={
               <Home
+              chatClick = {chatClick}
+              onListItemButtonClick={handleListItemButtonClick}
                 channelmessagesData={channelmessagesData}
                 selectedChannel={selectedChannel}
                image = {image}
@@ -151,6 +156,8 @@ function Home(props) {
   return (
     <>
       <MiniDrawer
+       chatClick = {props.chatClick}
+       onListItemButtonClick={props.onListItemButtonClick}
         ably={ably}
         image = {props.image}
         channelmessagesData={props.channelmessagesData}

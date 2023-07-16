@@ -153,6 +153,7 @@ export function MiniDrawer(props) {
   const [confirmNewPassword, setconfirmNewPassword] = useState("");
   const [updatePasswordError, setUpdatePasswordError] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
+  const [chatClick, setChatClick] = useState(true)
 
   const [emailed, setEmailed] = useState("");
   const [selectedMenu, setSelectedMenu] = useState(0);
@@ -186,7 +187,9 @@ export function MiniDrawer(props) {
           />
         );
       case "Bot":
-        return <Bots name={activeMenu} ably={props.ably} />;
+        return <Bots 
+        name={activeMenu} 
+        ably={props.ably} />;
       case "Add Members":
         return <AddMember />;
       case "Settings":
@@ -780,12 +783,13 @@ export function MiniDrawer(props) {
                  }}>
                   <ListItemButton
                     sx={{
-                      minHeight: 60,
+                      minHeight: 40,
                       color: "whiteSmoke",
                       justifyContent: open ? "initial" : "center",
                       px: 2.5,
                     }}
                     onClick={() => {
+                      props.onListItemButtonClick();
                       text === "Status"
                         ? handleClickOpen()
                         : text === "Profile"
@@ -823,7 +827,7 @@ export function MiniDrawer(props) {
           <div className="flex shrink h-screen">
             <div className="w-2/6 ">{component}</div>
             <div className="w-4/6">
-              {props.selected !== -1 ? (
+              {props.selected !== -1 && props.chatClick  ? (
                 <ActiveData
                   image={props.image}
                   members={props.members}

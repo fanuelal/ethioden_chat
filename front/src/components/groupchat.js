@@ -153,7 +153,7 @@ useEffect(() => {
               "flex justify-around items-center h-14 w -full bg-profile"
           }
         >
-            <div className="text-white lg:text-xl"> Group Chat</div>
+            <div className="text-white lg:text-xl">{props.name}</div>
           
 
 </div>
