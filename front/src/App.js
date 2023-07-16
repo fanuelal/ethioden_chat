@@ -105,7 +105,6 @@ function App() {
       });
 
       setSelected(userId);
-      console.log(selected);
     } catch (error) {
       console.log(error);
     }
