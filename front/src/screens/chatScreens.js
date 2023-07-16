@@ -167,13 +167,11 @@ export function ChatUI(props) {
   const otherclickHandler = () => {
     return;
   };
-  
-  const ListRecent = userList
+  const ListRecent = props.members
     .filter((user) => user.id !== currentUser.userId)
     .map((user) => (
       <RecentChat
         onClick={recentClickHandler}
-
         ably={props.ably}
         key={user.id}
         userId={user.id}
@@ -232,8 +230,8 @@ export function ChatUI(props) {
         <div className="flex flex-col w-10/12 items-start">
           <div className="profilename">{props.username}</div>
           <div class="recentSentAt1">
-            {activeMenu === "Channels" || activeMenu === "Group Chat"
-              ? `${userList.length} subscribers`
+            {props.name === "Channels" || props.name === "Group Chat"
+              ? `${props.members.length} subscribers`
               : "last seen recently"}
           </div>
         </div>

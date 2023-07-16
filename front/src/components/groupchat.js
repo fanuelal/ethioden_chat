@@ -25,7 +25,7 @@ const GroupChat = (props) => {
   }
   useEffect(() => {
     axiosConfig.get(`/room?type=group&userId=${currentUser.userId}`).then((res) => {
-      console.log(res.data.data[0].membersDetail);
+      // console.log(res.data.data[0].membersDetail);
       setGrouplist(res.data.data);
     });
   }, []);
@@ -34,7 +34,7 @@ const GroupChat = (props) => {
     (user) => {
       // console.log(grouplist[0])
      if(grouplist !== null){
-
+        // console.log(user.id);
        return (
            <RecentChat
            name= {props.name}
