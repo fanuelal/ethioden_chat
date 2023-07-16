@@ -108,7 +108,6 @@ function App() {
       });
 
       setSelected(userId);
-      console.log(selected);
     } catch (error) {
       console.log(error);
     }
@@ -126,7 +125,7 @@ function App() {
                 selectedChannel={selectedChannel}
                image = {image}
                 sele={selected}
-                onChatClick={chatSelectHandler}
+                onChatClick={chatSelectHandler}z
                 selected={selected}
                 selectedUser={selectedUser}
                 messagesData={messagesData}

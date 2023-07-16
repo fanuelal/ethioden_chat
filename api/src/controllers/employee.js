@@ -107,10 +107,6 @@ export const updateEmployee = async(req, res) => {
         return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`});
     }
 }
-
-
-
-
 export const deleteEmployee = async(req, res) => {
     const userId = req.params.id
     try{

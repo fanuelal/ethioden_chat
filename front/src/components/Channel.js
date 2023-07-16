@@ -140,7 +140,7 @@ const Channel = (props) => {
 
   return (
     <>
-      <div className=" font-bold  text-base md:text-sm shadow-md">
+      <div className=" font-bold  text-base md:text-sm h-full border-r border-#bdbaba">
         <div
           className={
             issearch

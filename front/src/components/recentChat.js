@@ -1,25 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/chatList.css";
-import { style } from "@mui/system";
 import Ably from "ably";
-import { currentUser } from "../model/currentUserData";
+import { routeId } from "../model/currentUserData";
+import { setRouteId } from "../model/currentUserData";
 import { baseImagePath } from "../common/Common";
-const ably = new Ably.Realtime(
-  "nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0"
-);
+const ably = new Ably.Realtime("nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0");
+
 export function RecentChat(prop) {
 
   const [clicked, setClicked] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [route, setRoute] = useState("")
+  useEffect(() => {
+    setClicked(prop.sele === prop.userId);
+  }, [prop.sele, prop.userId]);
+
   const buttonClickHandler = () => {
+
+    setRouteId(prop.userId)
+    console.log("routeId");
+    console.log(routeId);
+    setRoute(routeId)
     if (prop.type === "bot") {
       return;
     }
-    if(prop.type === "room") {
+    if (prop.type === "room") {
       return;
     }
     prop.onClick(prop.userId, prop.members);
-    setClicked(true);
+    console.log("recentChild console will be printed");
+    console.log(prop.sele);
+    console.log(prop.userId);
+    setClicked(prop.sele === prop.userId);
   };
 
   const channel = ably.channels.get("chat-status");
@@ -28,9 +40,7 @@ export function RecentChat(prop) {
     setIsActive(message.data);
   });
 
-  const cc = prop.sele === prop.userId ? clicked : false;
-  const chatBoxClass = cc ? "recentChatBox clicked" : "recentChatBox";
-  console.log(prop.profileImg)
+  const chatBoxClass = prop.isSelected ? "recentChatBox clicked" : "recentChatBox";
    
   return (
  <div className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
