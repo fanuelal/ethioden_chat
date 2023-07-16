@@ -46,8 +46,6 @@ const MemberModel = class{
       
       
       static getAll = async (roomId) => {
-        console.log('static getAll = asyn')
-        console.log(roomId)
         try {
           const fetchedData = await new Promise((resolve, reject) => {
             con.query(`SELECT DISTINCT e.id, e.first_name, e.last_name, e.phone_num, e.email, e.department, e.isActive, e.isDeleted, e.role

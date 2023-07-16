@@ -32,7 +32,6 @@ import {
   faBullhorn,
   faUser,
   faInfoCircle,
-  faQuestionCircle,
   faRobot,
   faSignOut,
   faFaceSmileWink,
@@ -44,7 +43,6 @@ import {
   faEnvelope,
   faSmile,
   faKey,
-  faBook,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 // import { faEyeSlash,faEye,faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
@@ -153,7 +151,7 @@ export function MiniDrawer(props) {
   const [newPassword, setnewPassword] = useState("");
   const [confirmNewPassword, setconfirmNewPassword] = useState("");
   const [emailed, setEmailed] = useState("");
-
+  const [selectedMenu, setSelectedMenu] = useState(0);
   const renderComponent = () => {
     switch (activeMenu) {
       case "Private Chat":
@@ -242,8 +240,9 @@ export function MiniDrawer(props) {
   const handleMenuItemClick = (menu) => {
     setStatusContent(menu.Status);
   };
-  const handleMenuListClick = (menu) => {
-    setActiveMenu(menu);
+  const handleMenuListClick = (menu, index) => {
+    setActiveMenu(menu, index);
+    setSelectedMenu(index)
   };
   useEffect(() => {
     setComponent(renderComponent());
@@ -706,13 +705,16 @@ export function MiniDrawer(props) {
               if (currentUser.role !== "admin" && index === 5) {
                 return null;
               }
-
+              const isActiveMenu =  index === selectedMenu;
               return (
-                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <ListItem key={text} disablePadding sx={{ 
+                  display: "block",
+                  backgroundColor: isActiveMenu ? "#EE1f34" : "transparent",
+                 }}>
                   <ListItemButton
                     sx={{
                       minHeight: 60,
-                      color: "white",
+                      color: "whiteSmoke",
                       justifyContent: open ? "initial" : "center",
                       px: 2.5,
                     }}
@@ -723,7 +725,7 @@ export function MiniDrawer(props) {
                         ? handleClickProfileOpen()
                         : text === "Logout"
                         ? logoutHandler()
-                        : handleMenuListClick(text);
+                        : handleMenuListClick(text, index);
                     }}
                   >
                     <ListItemIcon

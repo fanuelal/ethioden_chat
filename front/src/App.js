@@ -84,10 +84,7 @@ function App() {
         }).catch((error) => {
           console.error(error);
         });
-
-
-      
-
+        
       const ids = [currentUser.userId, userId];
       const sortedIds = ids.sort();
       // console.log(ids);
