@@ -101,20 +101,18 @@ const RoomModel = class{
       
 
     static getSingle = async (roomId) => {
-        // console.log(roomId)
+        console.log("get single from model")
        return new Promise((resolve, reject) => {
-        con.query(`SELECT DISTINCT r.name, r.created_by, e.id, e.first_name, e.last_name, e.phone_num, e.email, e.department, e.isActive, e.isDeleted, e.role
-        FROM employees AS e
-        INNER JOIN members AS m ON m.memberId = e.id
-        INNER JOIN rooms AS r ON m.roomId = r.id
-        WHERE m.roomId = '${roomId}' AND m.isLeaved = false;
+        con.query(`SELECT DISTINCT r.name, r.created_by, e.id, e.first_name, e.last_name, e.phone_num, e.email, e.department, e.isActive, e.isDeleted, e.role FROM employees AS e INNER JOIN members AS m ON m.memberId = e.id INNER JOIN rooms AS r ON m.roomId = r.id WHERE m.roomId = '${roomId}' AND m.isLeaved = false;
         `, (err, result, fields) => {
          if (err) reject(err);
-         resolve(result[0]);
+         resolve(result);
        });
       
    }).then((data) => {
+    console.log("get single room fetch from the model")
     console.log(data)
+    // data.roomId = roomId;
      return data
  });
  }

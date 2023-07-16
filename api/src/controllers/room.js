@@ -33,9 +33,13 @@ export const getSingleRoom = async(req, res) => {
     const roomId = req.params.id
     try{
         const result = await RoomModel.getSingle(roomId)
-        
-        return res.status(200).json({message: `fetch success`, status: 200, data: result});
-    }catch(error){
+        var roomDetail = {}
+        roomDetail.members = result
+        roomDetail.name = result[0].name
+        roomDetail.id =roomId
+        roomDetail.created_by = result[0].created_by
+        return res.status(200).json({message: `fetch success`, status: 200, data: roomDetail});
+    } catch(error){
         return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`}); 
     }
 }
