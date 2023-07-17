@@ -163,7 +163,7 @@ useEffect(() => {
       </div>
       <Popup
         trigger={
-          <div class="bg-[#1d1f34] mt-[35%] h-[50px] w-[50px] ml-[26%] rounded-full fixed">
+          <div class="bg-[#1d1f34] mt-[35%] h-[50px] w-[50px] ml-[26%] rounded-full">
             <FontAwesomeIcon
               icon={faPlus}
               // class="text-[#fa8072] h-8 w-8 "
