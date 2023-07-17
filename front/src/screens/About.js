@@ -34,38 +34,33 @@ function About(props) {
 
   return (
     <div>
-      <div className="font-bold text-base md:text-sm shadow-md">
-        <div className="flex justify-around items-center h-14 w-full bg-profile">
-          <div className="text-white lg:text-xl">{props.name}</div>
-        </div>
+    <div class="font-bold text-base md:text-sm shadow-md">
+      <div class="flex justify-around items-center h-14 w-full bg-profile">
+        <div class="text-white lg:text-xl">{props.name}</div>
       </div>
-      <div className="about-section">
-        <h1 className="text-2xl font-bold  mb-4">Welcome to our chat app!</h1>
-        
-        <div className="border border-gray-100 rounded-lg p-4 box-decoration-slice bg-gradient-to-r from-indigo-100 to-white-500 text-white px-5 ...">
-        <p className="text-gray-700 mb-4 indent-8 text-sm items-start text-justify">{renderedText}</p>
+    </div>
+    <div class="about-section">
+      <h1 class="text-2xl font-bold mb-4">Welcome to our chat app!</h1>
+      
+      <div class="border border-gray-100 rounded-lg p-4 box-decoration-slice bg-gradient-to-r from-indigo-100 to-white-500 text-white px-5">
+        <p class="text-gray-700 mb-4 indent-8 text-sm items-start text-justify">{renderedText}</p>
         {text.length > 200 && (
-          <button
-            className="px-4 py-2 bg-gradient-to-r from-indigo-300 to-white-500 text-white rounded hover:bg-blue-500"
-            onClick={handleReadMoreClick}
-          >
+          <button class="px-4 py-2 bg-gradient-to-r from-indigo-300 to-white-500 text-white rounded hover:bg-blue-500" onClick={handleReadMoreClick}>
             {showFullText ? "Read less" : "Read more"}
           </button>
-         
         )}
-        </div>
       </div>
-      <div>
-              <ul className=" justify-start items-start ml-[35vh] pb-10  mt-[15px] list-none text-sm">
-                <li className="mr-[11vh] mb-[5px] text-base  ">Developed By</li>
-                <li className="mr-[13vh] text-sky-500"><a href="mailto:ademecheklie78@gmail.com">ademecheklie78@gmail.com</a></li>
-                <li className="mr-[13vh]  text-sky-500"><a href="mailto:asamenewhermela@gmail.com">asamenewhermela@gmail.com</a></li>
-                <li className="mr-[13vh] text-sky-500 "><a href="mailto:fanuelalmawstop@gmail.com">fanuelalmawstop@gmail.com</a></li>
-                <li className="mr-[13vh] text-sky-500 "><a href="mailto:kidistmamaye2002@gmail.com">kidistmamaye2002@gmail.com</a></li>
-              </ul>
-            </div>
     </div>
-    
+    <div>
+      <ul class="mt-4 list-none text-sm truncate">
+        <li class="mb-2 text-base">Developed By</li>
+        <li class="mb-2 text-sky-500"><a href="mailto:ademecheklie78@gmail.com">ademecheklie78@gmail.com</a></li>
+        <li class="mb-2 text-sky-500"><a href="mailto:asamenewhermela@gmail.com">asamenewhermela@gmail.com</a></li>
+        <li class="mb-2 text-sky-500"><a href="mailto:fanuelalmawstop@gmail.com">fanuelalmawstop@gmail.com</a></li>
+        <li class="mb-2 text-sky-500"><a href="mailto:kidistmamaye2002@gmail.com">kidistmamaye2002@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
   );
 }
 

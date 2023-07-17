@@ -146,7 +146,7 @@ const Channel = (props) => {
 
   return (
     <>
-      <div className=" font-bold  text-base md:text-sm h-full border-r border-#bdbaba">
+      <div className=" font-bold  text-base md:text-sm  border-r border-#bdbaba">
         <div
           className={
             issearch
@@ -187,14 +187,16 @@ const Channel = (props) => {
       {currentUser.role==="admin"?
       <Popup
         trigger={
-          <div class="bg-[#1d1f34] mt-[2ch] h-[50px] w-[50px] ml-[83%] rounded-full">
-            <FontAwesomeIcon
-              icon={faPlus}
-              // class="text-[#fa8072] h-8 w-8 "
-              class="text-[aliceblue] pt-[25%] h-[40px] w-[45px]"
-              onClick={handlePopup}
-            />
-          </div>
+          <div class="bg-[#1d1f34] h-[30px] w-[30px]  md:h-[40px] md:w-[40px] 
+          lg:h-[45px] lg:w-[45px] xl:h-[50px] xl:w-[50px] ml-[21%] xl:ml-[28%] md:ml-[25%] lg:ml-[27%] 
+          rounded-full fixed bottom-2">
+          <FontAwesomeIcon
+            icon={faPlus}
+            class="text-[aliceblue] h-[25px] w-[30px] md:h-[35px] md:w-[40px] 
+            lg:h-[40px] lg:w-[45px] xl:h-[40px] xl:w-[45px]  pt-[20%] xl:pt-[30%] md:pt-[25%] lg:pt-[28%]"
+            onClick={handlePopup}
+          />
+        </div>
         }
         content={
           <div className="popuppage">
