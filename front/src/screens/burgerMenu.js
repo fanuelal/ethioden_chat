@@ -32,7 +32,6 @@ import {
   faBullhorn,
   faUser,
   faInfoCircle,
-  faQuestionCircle,
   faRobot,
   faSignOut,
   faFaceSmileWink,
@@ -46,6 +45,11 @@ import {
   faKey,
   faBook,
   faStar,
+  faChain,
+  faKitMedical,
+  faHSquare,
+  faHandBackFist,
+  faChampagneGlasses,
 } from "@fortawesome/free-solid-svg-icons";
 // import { faEyeSlash,faEye,faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from "../config/axiosConfig";
@@ -114,7 +118,6 @@ var listIcon = [
   <FontAwesomeIcon icon={faUserPlus} />,
   <FontAwesomeIcon icon={faUser} />,
   <FontAwesomeIcon icon={faInfoCircle} />,
-  <FontAwesomeIcon icon={faQuestionCircle} />,
   <FontAwesomeIcon icon={faSignOut} />,
 ];
 const Drawer = styled(MuiDrawer, {
@@ -155,6 +158,7 @@ export function MiniDrawer(props) {
   const [confirmNewPassword, setconfirmNewPassword] = useState("");
   const [emailed, setEmailed] = useState("");
 
+  
   const renderComponent = () => {
     switch (activeMenu) {
       case "Private Chat":
@@ -190,14 +194,13 @@ export function MiniDrawer(props) {
       case "About":
         return (
           <About
-          name = {props.name}
+          name = {activeMenu}
           sele = {props.sele}
           onChatClick = {props.onChatClick}
           ably = {props.ably}
           />
         );
-      case "Help":
-        return null;
+      
       case "Logout":
         return null;
       default:
@@ -259,7 +262,6 @@ export function MiniDrawer(props) {
     "Add Members",
     "Profile",
     "About",
-    "Help",
     "Logout",
   ];
   const Status = [
@@ -271,7 +273,7 @@ export function MiniDrawer(props) {
           style={{ color: "blue", fontSize: "20px" }}
         />
       ),
-      time: "- 1 hour",
+    
     },
 
     {
@@ -282,19 +284,9 @@ export function MiniDrawer(props) {
           style={{ color: "green", fontSize: "20px" }}
         />
       ),
-      time: "- 4 hours",
+      
     },
 
-    {
-      Status: "Vacationing",
-      icon: (
-        <FontAwesomeIcon
-          icon={faTree}
-          style={{ color: "green", fontSize: "20px" }}
-        />
-      ),
-      time: "- 4 hours",
-    },
 
     {
       Status: "Out of Sick",
@@ -304,7 +296,7 @@ export function MiniDrawer(props) {
           style={{ color: "yellow", fontSize: "20px" }}
         />
       ),
-      time: "- Today",
+     
     },
 
     {
@@ -315,16 +307,18 @@ export function MiniDrawer(props) {
           style={{ color: "chocolate", fontSize: "20px" }}
         />
       ),
-      time: "- This week",
+    
     },
   ];
-  const setStatus = () => {
+  const setStatus = async() => {
     const body = {
       userId: currentUser.userId,
       label: statusContent,
       ends_at: selectedDate,
     };
-    axiosInstance.post("/status", body);
+     axiosInstance.post("/status", body);
+    closepopup()
+  //  console.log(rs.data)
   };
   const handleInputChange = (event) => {
     setStatusContent(event.target.value);
@@ -382,11 +376,15 @@ export function MiniDrawer(props) {
       });
 
       if (response.data.success) {
-        axiosInstance.patch(`/employee/${currentUser.userId}`, {
+       const res = axiosInstance.patch(`/employee/${currentUser.userId}`, {
           password: newPassword,
         });
+        
         console.log(response.data.data);
         console.log("Password updated successfully");
+        if (res.data.success){
+closePasswordChangePopup()
+        }
       } else {
         alert("Failed to verify user");
       }
@@ -395,6 +393,7 @@ export function MiniDrawer(props) {
       alert("An error occurred");
     }
   };
+  
 
   return (
     <>
@@ -404,28 +403,15 @@ export function MiniDrawer(props) {
             {Profilepopup ? (
               <div className="mainnn p-6 fixed flex   justify-start  items-center w-full h-screen ">
                 <div className=" p-4 ml-24 mb-10   rounded-md bg-white">
-                  <div className="popup-bodyy ">
-                    <img
-                      className="w-1/3 justify-center mr-10"
-                      alt="profileImage"
-                      src={currentUser.profileImg}
-                    />
-                    <h1 className="w-8 h-8 ml-10 mt-4 font-bold  text-xl">
-                      {currentUser.username}
-                    </h1>
-                  </div>
+                <div class="popup-bodyy flex flex-col items-center sm:flex-row sm:justify-center sm:items-start">
+  <div class="w-1/3 flex flex-col items-center mb-4 sm:mr-4 sm:mb-0">
+    <img class="w-full h-full object-cover rounded-full" alt="profileImage" src={currentUser.profileImg} />
+    <h1 class="mt-4 font-bold text-xl">{currentUser.username}</h1>
+  </div>
+  </div>
                   <div className="bg-lightgrey w-full p-0.5"></div>
                   <div className="flex flex-col mt-7 ml-1 pr-10 ">
-                    <span className="flex items-center mb-3">
-                      <div className="bg-blue-300 rounded-md p-1 mr-2 ">
-                        <FontAwesomeIcon icon={faUser} className="text-white" />
-                      </div>
-
-                      <h2 className="justify-center">Name</h2>
-                      <h4 className="ml-10 text-right justify-end text-sky-400">
-                        {currentUser.username}
-                      </h4>
-                    </span>
+                    
                     <span className="flex items-center mb-2">
                       <div className="bg-green-300 rounded-md p-1 mr-2">
                         <FontAwesomeIcon
@@ -434,7 +420,7 @@ export function MiniDrawer(props) {
                         />
                       </div>
 
-                      <h2 className="">Phone number</h2>
+                      <h2 className="">Phone</h2>
                       <h4 className="ml-10 text-left text-sky-400">
                         {currentUser.phone_num}
                       </h4>
@@ -454,7 +440,7 @@ export function MiniDrawer(props) {
                     </span>
                     <span className="flex items-center mb-2">
                       <div className="bg-red-400 rounded-md p-1 mr-2">
-                        <FontAwesomeIcon icon={faStar} className="text-white" />
+                        <FontAwesomeIcon icon={faKey} className="text-white" />
                       </div>
                       <h2 className="">Role</h2>
                       <h4 className="ml-10 text-right text-sky-400">
@@ -477,7 +463,7 @@ export function MiniDrawer(props) {
 
                     <span className="flex items-center mr-15 mb-2">
                       <div className="bg-blue-300 rounded-md p-1 mr-2">
-                        <FontAwesomeIcon icon={faKey} className="text-white" />
+                        <FontAwesomeIcon icon={faChain} className="text-white" />
                       </div>
                       <button
                         className="bg-white -ml-1 p-1"
@@ -656,6 +642,7 @@ export function MiniDrawer(props) {
                       >
                         Save
                       </button>
+                      
                     </div>
                   </div>
                 </div>
