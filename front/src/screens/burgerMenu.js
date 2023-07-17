@@ -23,6 +23,7 @@ import { currentUser } from "../model/currentUserData";
 import { DropDown } from "./DropDown";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Avatar from "react-avatar";
 import {
   faEyeSlash,
   faEye,
@@ -161,6 +162,8 @@ export function MiniDrawer(props) {
   const [chatClick, setChatClick] = useState(true)
 
   
+  const user =  currentUser.username.substring(0, 2)
+
   const [emailed, setEmailed] = useState("");
   const [selectedMenu, setSelectedMenu] = useState(0);
   const renderComponent = () => {
@@ -715,12 +718,32 @@ closePasswordChangePopup()
               <div className="flex flex-col mt-3 ">
                 <div>
                   <label htmlFor="profileImageInputTrigger">
-                    <img
+                    {/* <img
                       className="chatProfile mt-4"
                       alt="profileImage"
-                      src={baseImagePath + currentUser.profileImage}
+                      src={baseImagePath + currentUser.profileImg}
                       onClick={handleImageClick}
-                    />
+                    /> */}
+                    <Avatar
+                    className="chatProfile mt-3 -ml-7"
+                    onClick={handleImageClick}
+  size={50}
+  round={true}
+  src={
+    currentUser.profileImg
+        ? baseImagePath + currentUser.profileImg
+        : null
+  }
+  alt="recent chat"
+  name={user}
+/>
+
+
+
+
+
+
+                    
                       <div className="text-white mr-20 pt-2">{currentUser.username}</div>
                   </label>
                   <input

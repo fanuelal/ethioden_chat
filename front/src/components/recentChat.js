@@ -4,6 +4,7 @@ import Ably from "ably";
 import { routeId } from "../model/currentUserData";
 import { setRouteId } from "../model/currentUserData";
 import { baseImagePath } from "../common/Common";
+import Avatar from "react-avatar";
 const ably = new Ably.Realtime("nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0");
 
 export function RecentChat(prop) {
@@ -42,11 +43,12 @@ export function RecentChat(prop) {
   const chatBoxClass = prop.isSelected ? "recentChatBox clicked" : "recentChatBox";
    
 const user =  prop.username.substring(0, 2)
+console.log(user)
   return (
  <div className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
       {/* <button className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}> */}
       <div className=" flex w-2/12">
-        <img
+        {/* <img
           width={50}
           height={50}
           className="rounded-full h-12 w-12 "
@@ -55,8 +57,19 @@ const user =  prop.username.substring(0, 2)
         
         }
         alt="recent chat"
-        />
-
+        /> */}
+<Avatar
+  size={45}
+  className="rounded-full h-12 w-12 "
+  round={true}
+  src={
+    prop.profileImg
+        ? baseImagePath + prop.profileImg
+        : null
+  }
+  alt="recent chat"
+  name={user}
+/>
 
 
 

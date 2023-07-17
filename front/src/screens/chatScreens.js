@@ -17,6 +17,7 @@ import { RecentChat } from "../components/recentChat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { baseImagePath } from "../common/Common";
+import Avatar from "react-avatar";
 // import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props) {
   // console.log(props.copiedtext)
@@ -27,22 +28,20 @@ export function ChatUI(props) {
   const [channel, setChannel] = useState(null);
   const [editedMessage, setEditedMessage] = useState(null);
   const [activeMenu, setActiveMenu] = useState("Private Chat");
-  
 
   function recentClickHandler(userId) {
     return;
   }
 
-  axiosConfig.get("/employee").then((res) => {
-  });
+  axiosConfig.get("/employee").then((res) => {});
 
   useEffect(() => {
-    console.log("Chat UI")
-    console.log(props.members)
+    console.log("Chat UI");
+    console.log(props.members);
     setMessages([]);
-    setActiveMenu(props.name)
+    setActiveMenu(props.name);
     setUserList(props.members);
-  }, [props.user,props.name]);
+  }, [props.user, props.name]);
 
   useEffect(() => {
     const ids = [currentUser.userId, props.user];
@@ -137,7 +136,6 @@ export function ChatUI(props) {
     setMessage(event.target.value);
   };
 
-
   const onkeyPressHandler = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -181,6 +179,7 @@ export function ChatUI(props) {
         username={user.first_name}
       />
     ));
+    const user =  props.username.substring(0, 2)
 
   return (
     <div
@@ -217,15 +216,19 @@ export function ChatUI(props) {
               src={baseImagePath + props.image}
             />
           ) : (
-            <img
-              alt="user profile"
-              className="chatProfile"
-              src={
-                activeMenu === "Channels"
-                  ? "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg"
-                  : "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg"}
-            />
-          )}
+<Avatar
+  size={45}
+  className="rounded-full h-12 w-12 "
+  round={true}
+  // src={
+  //   prop.profileImg
+  //       ? baseImagePath + prop.profileImg
+  //       : null
+  // }
+  alt="recent chat"
+  name={user}
+/>
+ )}
         </div>
         <div className="flex flex-col w-10/12 items-start">
           <div className="profilename">{props.username}</div>
@@ -256,7 +259,7 @@ export function ChatUI(props) {
         props.selectedChannel.created_by === currentUser.userId ? (
           <>
             <input
-            autoFocus
+              autoFocus
               type="text"
               className="w-11/12 rounded-2xl h-12 border-4 border-white-500/100  mt-6 outline-none"
               value={message}
