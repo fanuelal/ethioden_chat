@@ -3,10 +3,11 @@ import "../styles/chatList.css";
 import Ably from "ably";
 import { routeId } from "../model/currentUserData";
 import { setRouteId } from "../model/currentUserData";
-
+import { baseImagePath } from "../common/Common";
 const ably = new Ably.Realtime("nGSxiw.f53CMg:CYsWsQva-8G9j4njChYzhgnSYA8sJacA-EytCqL6JJ0");
 
 export function RecentChat(prop) {
+
   const [clicked, setClicked] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [route, setRoute] = useState("")
@@ -49,8 +50,7 @@ export function RecentChat(prop) {
           width={50}
           height={50}
           className="rounded-full h-12 w-12 "
-          src={prop.name === "Channels"? "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg":
-          prop.profileImg}
+          src={baseImagePath+prop.profileImg}
           alt="recent chat"
         />
        {prop.name === "Group Chat"? "" : 

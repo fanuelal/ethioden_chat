@@ -9,7 +9,7 @@ export function ActiveData(props) {
     return (
       
       <ChatUI
-      num={props.num}
+      image = {props.image}
         selectedChannel = {props.selectedChannel}
         name={props.name}
         ably={props.ably}

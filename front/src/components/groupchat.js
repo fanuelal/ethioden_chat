@@ -38,7 +38,7 @@ const GroupChat = (props) => {
        return (
            <RecentChat
            name= {props.name}
-            //  userId={user.id}
+             userId={user.id}
              members={user.membersDetail}
              profileImg={
                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
@@ -153,7 +153,7 @@ useEffect(() => {
               "flex justify-around items-center h-14 w -full bg-profile"
           }
         >
-            <div className="text-white lg:text-xl"> Group Chat</div>
+            <div className="text-white lg:text-xl">{props.name}</div>
           
 
 </div>

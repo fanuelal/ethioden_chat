@@ -16,6 +16,7 @@ export const getToken = () => {
     currentUser.role = user.role;
     currentUser.email = user.email;
     currentUser.username = user.username;
+    currentUser.profileImage = user.profileImage
   }
  
   return token;

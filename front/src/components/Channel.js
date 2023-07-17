@@ -27,7 +27,7 @@ const Channel = (props) => {
   const [groupname, setGroupname] = useState("");
 
   const channelFetch = async () => {
-    await axiosInstance.get("/room?type=channel").then((res) => {
+    await axiosInstance.get(`/room?type=channel&userId=${currentUser.userId}`).then((res) => {
       setChannels(res.data.data);
       console.log(res.data.data);
     });
@@ -40,27 +40,33 @@ const Channel = (props) => {
     props.onChatClick(botId);
   }
 
-  const chatBots = channels.map((bot) => {
+  const chatBots = channels.map((user) => {
+    if(channels !== null){
     return (
       <RecentChat
         name={props.name}
         sele={props.sele}
-        key={bot.id}
+        members={user.membersDetail}
         onClick={recentClickHandler}
         // onClick={recentClickHandler}
-        userId={bot.id}
-        profileImg={bot.image}
-        recentChat={bot.type}
+        userId={user.id}
+        profileImg={user.image}
+        recentChat={user.type}
         status={true}
-        username={bot.name}
+        username={user.name}
         ably={props.ably}
       />
     );
+  }else{
+    return null;
+   }
   });
+  useEffect(() => {
+    axiosInstance.get("/employee").then((res) => {
+       setUserList(res.data.data);
+     });
+  }, [])
 
-  axiosInstance.get("/employee").then((res) => {
-    setUserList(res.data.data);
-  });
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -71,9 +77,9 @@ const Channel = (props) => {
     // console.log(groupname)
   };
 
-  useEffect(() => {
-    console.log(dictionary);
-  }, [dictionary]);
+  // useEffect(() => {
+  //   console.log(dictionary);
+  // }, [dictionary]);
 
   const handleAddButtonClick = () => {
     setDictionary({ ...dictionary, [useradded]: "some value" });
@@ -104,9 +110,9 @@ const Channel = (props) => {
       setUseradded([...useradded, id]);
     }
   };
-  useEffect(() => {
-    console.log(useradded);
-  }, [useradded]);
+  // useEffect(() => {
+  //   console.log(useradded);
+  // }, [useradded]);
 
   const handlePopup = () => {
     setShowpopup(true);
@@ -123,7 +129,7 @@ const Channel = (props) => {
     .map((user) => (
       <RecentChat
         onClick={() => {
-          useraddHandler(user.id);
+          useraddHandler(user.id, user.membersDetail);
           console.log(user.id);
         }}
         ably={props.ably}
@@ -192,7 +198,7 @@ const Channel = (props) => {
         }
         content={
           <div className="popuppage">
-            <p>creat a group</p>
+            <p>channel name</p>
           </div>
         }
         position="right center"
@@ -215,7 +221,7 @@ const Channel = (props) => {
                       <FontAwesomeIcon className="pl-[180%]" icon={faTimes} />
                     </div>
                     <h3 className="pb-[15%] pl-[5%] w-[250px]">
-                      create a group
+                      channel name
                     </h3>
                   </div>
                   <div className="float-left mt-[-9px] mb-[3px] bg-[black]">

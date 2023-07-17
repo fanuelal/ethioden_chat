@@ -80,7 +80,7 @@ const RoomModel = class{
                 return { department,first_name, last_name, isActive
               ,id,role, email};
               };
-            if (members.includes(userId)) {
+            if (members.includes(userId || creatorId === userId)) {
               const membersDetail = [];
               for (let index = 0; index < members.length; index++) {
                 const member = await EmployeeModel.getSingle(members[index]);
