@@ -11,6 +11,7 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import '../styles/chatList.css'
+import { baseImagePath } from "../common/Common";
 
 function SearchComp(props) {
   const [userList, setUserList] = useState([]);
@@ -45,9 +46,7 @@ function SearchComp(props) {
           ably={props.ably}
             onClick={recentClickHandler}
             userId={user.id}
-            profileImg={
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-            }
+            profileImg={user.profileImage}
             recentChat={"hello there"}
             status={true}
             username={user.first_name}

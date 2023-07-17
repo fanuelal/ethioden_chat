@@ -30,6 +30,8 @@ function App() {
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedChannel, setSelectedChannel] = useState({});
   const [groupmembersDetail, setGroupMembersDetail] = useState([]);
+  const [image, setImage] = useState([]);
+  const [chatClick, setChatClick] = useState(true)
 
   const isLogin = () => {
     const token = getToken();
@@ -42,15 +44,33 @@ function App() {
   const chatSelectHandler = async (userId, membersDetail) => {
     try {
       axiosInstance.get(`/room/${userId}`).then((value) => {
-        console.log(value.data.data.members.length);
+        console.log("get room detail")
+        console.log(value.data.data.members);
         
         setSelectedUser(value.data.data.name);
         setSelectedChannel(value.data.data);
-        setGroupMembersDetail(membersDetail);
-        console.log(`selectedUser.name: ${selectedUser}`);
-        console.log(`userId: ${userId}`);
-        console.log(selectedChannel.members.length)
+        setGroupMembersDetail(value.data.data.members);
+        // console.log(`selectedUser.name: ${selectedUser}`);
+        // console.log(`userId: ${userId}`);
+        // console.log(selectedChannel.members.length)
       });
+      
+      axiosInstance.get(`/employee/${userId}`).then((value) => {
+        setSelectedUser(value.data.data.first_name);
+        setImage(value.data.data.profileImage)
+        console.log(value.data.data);
+
+        axiosInstance.get(`/status/${userId}`).then((resStatus) => {
+          // console.log(resStatus.data.data)
+          if (resStatus.data.data.length > 0) {
+            Userstatus[0].content = resStatus.data.data[0].label;
+          } else {
+            Userstatus[0].content = "";
+          }
+        });
+      });
+
+      
 
       axiosInstance
         .get(`/chat/channel?roomId=${userId}`)
@@ -68,32 +88,18 @@ function App() {
         }).catch((error) => {
           console.error(error);
         });
-
-
-      axiosInstance.get(`/employee/${userId}`).then((value) => {
-        setSelectedUser(value.data.data.first_name);
-
-        axiosInstance.get(`/status/${userId}`).then((resStatus) => {
-          console.log(resStatus.data.data[0])
-          if (resStatus.data.data.length > 0) {
-            Userstatus[0].content = resStatus.data.data[0].label;
-          } else {
-            Userstatus[0].content = "";
-          }
-        });
-      });
-
+        
       const ids = [currentUser.userId, userId];
       const sortedIds = ids.sort();
-      console.log(ids);
+      // console.log(ids);
       const channel = ably.channels.get(`${sortedIds[0]}${sortedIds[1]}`);
-      console.log(channel);
+      // console.log(channel);
       channel.history({ limit: 1 }, (err, result) => {
         if (err) {
           throw err;
         }
         const lastMessage = result.items[0];
-        console.log(lastMessage);
+        // console.log(lastMessage);
       });
       channel.subscribe(`${sortedIds[0]}${sortedIds[1]}`, (message) => {
         if (message.data.senderId !== currentUser.userId) {
@@ -101,14 +107,15 @@ function App() {
           console.log("Received chat message:", message.data);
         }
       });
-
+      setChatClick(true)
       setSelected(userId);
-      console.log(selected);
     } catch (error) {
       console.log(error);
     }
   };
-
+  const handleListItemButtonClick = () => {
+    setChatClick(false);
+  };
   return (
     <div className="App">
       <Routes>
@@ -117,11 +124,13 @@ function App() {
             path="/"
             element={
               <Home
+              chatClick = {chatClick}
+              onListItemButtonClick={handleListItemButtonClick}
                 channelmessagesData={channelmessagesData}
                 selectedChannel={selectedChannel}
-               
+               image = {image}
                 sele={selected}
-                onChatClick={chatSelectHandler}
+                onChatClick={chatSelectHandler}z
                 selected={selected}
                 selectedUser={selectedUser}
                 messagesData={messagesData}
@@ -147,7 +156,10 @@ function Home(props) {
   return (
     <>
       <MiniDrawer
+       chatClick = {props.chatClick}
+       onListItemButtonClick={props.onListItemButtonClick}
         ably={ably}
+        image = {props.image}
         channelmessagesData={props.channelmessagesData}
         selectedChannel={props.selectedChannel}
         num={props.num}

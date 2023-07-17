@@ -4,9 +4,12 @@ export function ActiveData(props) {
   // console.log(props.copiedtext)
   // console.log(props.username);
   if (props.username !== undefined) {
+    console.log("activeData");
+    console.log(props.members);
     return (
+      
       <ChatUI
-      num={props.num}
+      image = {props.image}
         selectedChannel = {props.selectedChannel}
         name={props.name}
         ably={props.ably}

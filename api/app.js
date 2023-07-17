@@ -8,6 +8,7 @@ import { createdEmployeeTable } from './src/models/employee.js';
 import { createdChatTable } from './src/models/chat.js'
 import {createdRoomTable} from './src/models/room.js'
 import {createdStatusTable} from './src/models/status.js'
+import {createdMembersTable} from './src/models/member.js'
 dotenv.config()
 const app = express();
 
@@ -15,7 +16,7 @@ app.use(cors());
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-
+app.use(express.static('src'))
 app.get('/', (req, res) => {
     res.send('Welcome to EthioDen API')
 })
@@ -35,5 +36,6 @@ app.listen(PORT, () => {
     createdRoomTable();
     createdChatTable();
     createdStatusTable();
+    createdMembersTable();
     console.log(`server is running on ${PORT}`)
 })  

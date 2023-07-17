@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChatList } from "./recentChatContainer";
 import { ActiveData } from "../controller/activeChatData";
 import { EmptyScreen } from "./emptyChat";
@@ -43,7 +43,6 @@ import {
   faEnvelope,
   faSmile,
   faKey,
-  faBook,
   faStar,
   faChain,
   faKitMedical,
@@ -57,6 +56,7 @@ import { format } from "date-fns";
 import Bots from "../components/Bot";
 import { AddMember } from "../components/createMember";
 import Channel from "../components/Channel";
+import { baseImagePath } from "../common/Common";
 const drawerWidth = 230;
 
 const openedMixin = (theme) => ({
@@ -156,9 +156,13 @@ export function MiniDrawer(props) {
   const [currentP, setcurrentP] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [confirmNewPassword, setconfirmNewPassword] = useState("");
-  const [emailed, setEmailed] = useState("");
+  const [updatePasswordError, setUpdatePasswordError] = useState(false);
+  const [profilePic, setProfilePic] = useState(null);
+  const [chatClick, setChatClick] = useState(true)
 
   
+  const [emailed, setEmailed] = useState("");
+  const [selectedMenu, setSelectedMenu] = useState(0);
   const renderComponent = () => {
     switch (activeMenu) {
       case "Private Chat":
@@ -171,11 +175,14 @@ export function MiniDrawer(props) {
           />
         );
       case "Group Chat":
-        return <GroupChat name={activeMenu}
-        sele={props.selected}
-        onChatClick={props.onChatClick}
-        ably={props.ably}
-        />;
+        return (
+          <GroupChat
+            name={activeMenu}
+            sele={props.selected}
+            onChatClick={props.onChatClick}
+            ably={props.ably}
+          />
+        );
       case "Channels":
         return (
           <Channel
@@ -186,7 +193,9 @@ export function MiniDrawer(props) {
           />
         );
       case "Bot":
-        return <Bots name={activeMenu} ably={props.ably} />;
+        return <Bots 
+        name={activeMenu} 
+        ably={props.ably} />;
       case "Add Members":
         return <AddMember />;
       case "Settings":
@@ -194,10 +203,10 @@ export function MiniDrawer(props) {
       case "About":
         return (
           <About
-          name = {activeMenu}
-          sele = {props.sele}
-          onChatClick = {props.onChatClick}
-          ably = {props.ably}
+            name={props.name}
+            sele={props.sele}
+            onChatClick={props.onChatClick}
+            ably={props.ably}
           />
         );
       
@@ -214,7 +223,11 @@ export function MiniDrawer(props) {
         );
     }
   };
+  const fileInputRef = useRef(null);
 
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -246,9 +259,39 @@ export function MiniDrawer(props) {
   const handleMenuItemClick = (menu) => {
     setStatusContent(menu.Status);
   };
-  const handleMenuListClick = (menu) => {
-    setActiveMenu(menu);
+  const handleMenuListClick = (menu, index) => {
+    setActiveMenu(menu, index);
+    setSelectedMenu(index)
   };
+
+  const handleProfileImage = (event) => {
+    setProfilePic(event.target.files[0]);
+  };
+
+  const handleSaveProfilePic = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", profilePic);
+      for (const [name, file] of formData.entries()) {
+        if (file instanceof File) {
+          console.log(`Filename for field '${name}': ${file.name}`);
+        }
+      }
+      await axiosInstance
+        .patch(`/employee/${currentUser.userId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => console.log(res.data)
+        );
+
+      console.log("Image patch request successful");
+    } catch (error) {
+      console.error("Error occurred while sending image patch request:", error);
+    }
+  };
+
   useEffect(() => {
     setComponent(renderComponent());
   }, [activeMenu]);
@@ -332,21 +375,21 @@ export function MiniDrawer(props) {
   const handleConfirmP = (event) => {
     setconfirmNewPassword(event.target.value);
   };
-  console.log(currentP);
-  console.log(newPassword);
-  console.log(confirmNewPassword);
+  // console.log(currentP)
+  // console.log(newPassword)
+  // console.log(confirmNewPassword)
 
   const handleDateSelection = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd HH:mm:ss");
     setSelectedDate(formattedDate);
   };
-  console.log(selectedDate);
+  // console.log(selectedDate);
 
-  console.log(statusContent);
+  // console.log(statusContent);
 
   const navigate = useNavigate();
   const logoutHandler = async () => {
-    await axiosInstance.patch(`/employee/${currentUser.userId}`, {
+    axiosInstance.patch(`/employee/${currentUser.userId}`, {
       isActive: 0,
     });
     localStorage.removeItem("currentUser");
@@ -356,14 +399,13 @@ export function MiniDrawer(props) {
 
   const iconLister = (index) => {
     // console.log(index)
-    if (currentUser.role !== "admin" && index === 5) {
+    if(currentUser.role !== 'admin' && index === 5 ){
       return;
     } else {
       return listIcon[index];
     }
   };
 
-  console.log(emailed);
   console.log(currentP);
 
   const submitFormHandler = async (e) => {
@@ -376,20 +418,26 @@ export function MiniDrawer(props) {
       });
 
       if (response.data.success) {
-       const res = axiosInstance.patch(`/employee/${currentUser.userId}`, {
-          password: newPassword,
-        });
-        
-        console.log(response.data.data);
+        const res = await axiosInstance.patch(
+          `/employee/${currentUser.userId}`,
+          {
+            password: newPassword,
+          }
+        );
+        if (res.data.success) {
+          closePasswordChangePopup();
+        }
         console.log("Password updated successfully");
         if (res.data.success){
 closePasswordChangePopup()
         }
       } else {
+        setUpdatePasswordError(true);
         alert("Failed to verify user");
       }
     } catch (err) {
       console.log(err);
+      setUpdatePasswordError(true);
       alert("An error occurred");
     }
   };
@@ -575,6 +623,9 @@ closePasswordChangePopup()
                     />
                   </div>
                 </div>
+                <div>
+                  {updatePasswordError && <div>wrong current password</div>}
+                </div>
                 <button
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-700 text-lightgrey font-bold py-1 px-3 rounded"
@@ -613,6 +664,7 @@ closePasswordChangePopup()
 
                   <div className="popup-header">
                     <input
+                      autoFocus
                       type="text"
                       value={statusContent}
                       onChange={handleInputChange}
@@ -643,6 +695,7 @@ closePasswordChangePopup()
                         Save
                       </button>
                       
+                      
                     </div>
                   </div>
                 </div>
@@ -660,12 +713,31 @@ closePasswordChangePopup()
           <DrawerHeader>
             {open && (
               <div className="flex flex-col mt-3 ">
-                <img
-                  className="chatProfile"
-                  alt="profileImage"
-                  src={currentUser.profileImg}
-                />
-                <p className="text-white mr-20 pl-3">{currentUser.username}</p>
+                <div>
+                  <label htmlFor="profileImageInputTrigger">
+                    <img
+                      className="chatProfile mt-4"
+                      alt="profileImage"
+                      src={baseImagePath + currentUser.profileImage}
+                      onClick={handleImageClick}
+                    />
+                      <div className="text-white mr-20 pt-2">{currentUser.username}</div>
+                  </label>
+                  <input
+                    id="profileImageInputTrigger"
+                    ref={fileInputRef}
+                    className="mr-20 h-0 w-0 bg-transparent"
+                    type="file"
+                    onChange={handleProfileImage}
+                  />
+                </div>
+                <div
+                  className="text-white mr-20 text-xs cursor-pointer"
+                  onClick={handleSaveProfilePic}
+                >
+                upload 
+                </div>
+              
               </div>
             )}
             {!open ? (
@@ -695,24 +767,28 @@ closePasswordChangePopup()
               if (currentUser.role !== "admin" && index === 5) {
                 return null;
               }
-
+              const isActiveMenu =  index === selectedMenu;
               return (
-                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <ListItem key={text} disablePadding sx={{ 
+                  display: "block",
+                  backgroundColor: isActiveMenu ? "#EE1f34" : "transparent",
+                 }}>
                   <ListItemButton
                     sx={{
-                      minHeight: 60,
-                      color: "white",
+                      minHeight: 40,
+                      color: "whiteSmoke",
                       justifyContent: open ? "initial" : "center",
                       px: 2.5,
                     }}
                     onClick={() => {
+                      props.onListItemButtonClick();
                       text === "Status"
                         ? handleClickOpen()
                         : text === "Profile"
                         ? handleClickProfileOpen()
                         : text === "Logout"
                         ? logoutHandler()
-                        : handleMenuListClick(text);
+                        : handleMenuListClick(text, index);
                     }}
                   >
                     <ListItemIcon
@@ -737,34 +813,34 @@ closePasswordChangePopup()
             })}
           </List>
 
-                  <Divider />
-
-              </Drawer>
-              <Box component="main" sx={{ flexGrow: 1,flexShrink:1 }}>
-    
-              <div className="flex shrink h-screen" >
-                 <div className="w-2/6 ">
-          {component}
-          
-        </div>
-        <div className="w-4/6">{props.selected !==-1 ?
-          <ActiveData
-          members={props.members}
-          selectedChannel={props.selectedChannel}
-         name={activeMenu}
-            ably={props.ably}
-            userId={props.selected}
-            username={props.selectedUser}
-            messages={
-              activeMenu === "Channels" || activeMenu === "Group Chat"
-                ? props.channelmessagesData
-                : props.messagesData
-            }
-          />:<EmptyScreen/>}
-      </div>
-      </div>
-              </Box>
-          </Box>
-          </>
+          <Divider />
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, flexShrink: 1 }}>
+          <div className="flex shrink h-screen">
+            <div className="w-2/6 ">{component}</div>
+            <div className="w-4/6">
+              {props.selected !== -1 && props.chatClick  ? (
+                <ActiveData
+                  image={props.image}
+                  members={props.members}
+                  selectedChannel={props.selectedChannel}
+                  name={activeMenu}
+                  ably={props.ably}
+                  userId={props.selected}
+                  username={props.selectedUser}
+                  messages={
+                    activeMenu === "Channels" || activeMenu === "Group Chat"
+                      ? props.channelmessagesData
+                      : props.messagesData
+                  }
+                />
+              ) : (
+                <EmptyScreen />
+              )}
+            </div>
+          </div>
+        </Box>
+      </Box>
+    </>
   );
 }

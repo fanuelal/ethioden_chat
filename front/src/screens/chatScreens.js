@@ -16,6 +16,7 @@ import axiosInstance from "../config/axiosConfig";
 import { RecentChat } from "../components/recentChat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { baseImagePath } from "../common/Common";
 // import Suggestionbox from '../components/suggestionbox'
 export function ChatUI(props) {
   // console.log(props.copiedtext)
@@ -25,8 +26,8 @@ export function ChatUI(props) {
   const [messages, setMessages] = useState([]);
   const [channel, setChannel] = useState(null);
   const [editedMessage, setEditedMessage] = useState(null);
-  const [joined, setJoin] = useState(false);
-  // const channel = props.ably.channels.get('private_chat');
+  const [activeMenu, setActiveMenu] = useState("Private Chat");
+  
 
   function recentClickHandler(userId) {
     return;
@@ -36,10 +37,12 @@ export function ChatUI(props) {
   });
 
   useEffect(() => {
+    console.log("Chat UI")
     console.log(props.members)
     setMessages([]);
+    setActiveMenu(props.name)
     setUserList(props.members);
-  }, [props.user]);
+  }, [props.user,props.name]);
 
   useEffect(() => {
     const ids = [currentUser.userId, props.user];
@@ -66,7 +69,7 @@ export function ChatUI(props) {
     const messageUUID = uuid();
 
     let newMessage = {};
-    props.name === "Private Chat"
+    activeMenu === "Private Chat"
       ? (newMessage = {
           messageId: messageUUID,
           text: message,
@@ -134,9 +137,7 @@ export function ChatUI(props) {
     setMessage(event.target.value);
   };
 
-  const joinHandler = () => {
-    setJoin(true);
-  };
+
   const onkeyPressHandler = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -166,18 +167,15 @@ export function ChatUI(props) {
   const otherclickHandler = () => {
     return;
   };
-  const ListRecent = userList
+  const ListRecent = props.members
     .filter((user) => user.id !== currentUser.userId)
     .map((user) => (
       <RecentChat
         onClick={recentClickHandler}
-
         ably={props.ably}
         key={user.id}
         userId={user.id}
-        profileImg={
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-        }
+        profileImg={user.profileImage}
         recentChat={""}
         status={true}
         username={user.first_name}
@@ -207,26 +205,25 @@ export function ChatUI(props) {
         <div
           className="w-1/12"
           onClick={
-            props.name === "Group Chat"
+            activeMenu === "Group Chat"
               ? ongroupclickHandler
               : otherclickHandler
           }
         >
-          {props.user.profileImg ? (
+          {props.image ? (
             <img
               alt="user profile"
               className="chatProfile"
-              src={props.user.profileImg}
+              src={baseImagePath + props.image}
             />
           ) : (
             <img
               alt="user profile"
               className="chatProfile"
               src={
-                props.name === "Channels"
+                activeMenu === "Channels"
                   ? "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg"
-                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-              }
+                  : "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg"}
             />
           )}
         </div>
@@ -234,13 +231,13 @@ export function ChatUI(props) {
           <div className="profilename">{props.username}</div>
           <div class="recentSentAt1">
             {props.name === "Channels" || props.name === "Group Chat"
-              ? "10 subscribers"
+              ? `${props.members.length} subscribers`
               : "last seen recently"}
           </div>
         </div>
 
         <div className="w-2/12">
-          {props.name === "Channels" || props.name === "Group Chat" ? (
+          {activeMenu === "Channels" || activeMenu === "Group Chat" ? (
             ""
           ) : (
             <StatusPopUp />
@@ -250,15 +247,16 @@ export function ChatUI(props) {
       <ChatListContainer
         onEdit={handleEdit}
         onDelete={handleDelete}
-        name={props.name}
+        name={activeMenu}
         messages={messages.length === 0 ? props.messages : messages}
       />
 
       <div className="flex justify-center w-full bottom-2">
-        {props.name !== "Channels" ||
+        {activeMenu !== "Channels" ||
         props.selectedChannel.created_by === currentUser.userId ? (
           <>
             <input
+            autoFocus
               type="text"
               className="w-11/12 rounded-2xl h-12 border-4 border-white-500/100  mt-6 outline-none"
               value={message}

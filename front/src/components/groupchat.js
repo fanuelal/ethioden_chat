@@ -20,27 +20,26 @@ const GroupChat = (props) => {
   const [grouplist, setGrouplist] = useState([]);
   const [groupname, setGroupname] = useState("");
 
-  function recentClickHandler(botId) {
-    props.onChatClick(botId);
+  function recentClickHandler(botId, members) {
+    props.onChatClick(botId, members);
   }
   useEffect(() => {
-
     axiosConfig.get(`/room?type=group&userId=${currentUser.userId}`).then((res) => {
-      // console.log(res.data.data);
+      // console.log(res.data.data[0].membersDetail);
       setGrouplist(res.data.data);
     });
   }, []);
-  console.log(grouplist);
+  // console.log(grouplist);
   const ListRecentgroup = grouplist.map(
     (user) => {
-      console.log(grouplist[0])
+      // console.log(grouplist[0])
      if(grouplist !== null){
-
+        // console.log(user.id);
        return (
            <RecentChat
            name= {props.name}
              userId={user.id}
-            //  type={"room"}
+             members={user.membersDetail}
              profileImg={
                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
              }
@@ -96,7 +95,7 @@ useEffect(() => {
     axiosConfig
       .post("/room", params)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -126,10 +125,12 @@ useEffect(() => {
     .filter((user) => user.id !== currentUser.userId)
     .map((user) => (
       <RecentChat
-        onClick={() => {
-          useraddHandler(user.id);
-          console.log(user.id);
-        }}
+        onClick={() => 
+          {useraddHandler(user.id, user.membersDetail);
+          // console.log(user.id)
+          }
+        }
+        
         ably={props.ably}
         key={user.id}
         userId={user.id}
@@ -144,7 +145,7 @@ useEffect(() => {
 
   return (
     <>
-      <div className=" font-bold  text-base md:text-sm shadow-md">
+      <div className=" font-bold  text-base md:text-sm   border-r border-#bdbaba ">
         <div
           className={
             // issearch
@@ -152,24 +153,26 @@ useEffect(() => {
               "flex justify-around items-center h-14 w -full bg-profile"
           }
         >
-            <div className="text-white lg:text-xl"> Group Chat</div>
+            <div className="text-white lg:text-xl">{props.name}</div>
           
 
 </div>
       </div>
-      <div class="max-h-[75vh] overflow-auto no-scrollbar">
+      <div class="max-h-[75vh] overflow-auto no-scrollbar ">
         {ListRecentgroup}
       </div>
       <Popup
         trigger={
-          <div class="bg-[#1d1f34] mt-[22ch] h-[50px] w-[50px] ml-[83%] rounded-full ">
-            <FontAwesomeIcon
-              icon={faPlus}
-              // class="text-[#fa8072] h-8 w-8 "
-              class="text-[aliceblue] pt-[25%] h-[40px] w-[45px]"
-              onClick={handlePopup}
-            />
-          </div>
+          <div class="bg-[#1d1f34] h-[30px] w-[30px]  md:h-[40px] md:w-[40px] 
+          lg:h-[45px] lg:w-[45px] xl:h-[50px] xl:w-[50px] ml-[21%] xl:ml-[28%] md:ml-[25%] lg:ml-[27%] 
+          rounded-full fixed bottom-2">
+          <FontAwesomeIcon
+            icon={faPlus}
+            class="text-[aliceblue] h-[25px] w-[30px] md:h-[35px] md:w-[40px] 
+            lg:h-[40px] lg:w-[45px] xl:h-[40px] xl:w-[45px]  pt-[20%] xl:pt-[30%] md:pt-[25%] lg:pt-[28%]"
+            onClick={handlePopup}
+          />
+        </div>
         }
         content={
           <div className="popuppage">
@@ -207,6 +210,7 @@ useEffect(() => {
                       type="text"
                       value={inputValue}
                       onChange={handleInputChange}
+                      autoFocus
                     />
                   </div>
 

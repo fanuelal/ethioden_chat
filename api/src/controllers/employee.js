@@ -64,10 +64,11 @@ export const updateEmployee = async(req, res) => {
 
     const userId = req.params.id
     const body = req.body
+    const profileImage = req.file ? req.file.filename : null;
     var updateType = 'notPassword';
     // const statusChannel = ably.channels.get('status-channels:userId');
     console.log(`isactive:${body.isActive}`)
-    console.log(`password:${body.password}`)
+    console.log(`image:${req.file}`)
     console.log(`password:${body.email}`)
     try{
         console.log(body.isActive);
@@ -89,7 +90,8 @@ export const updateEmployee = async(req, res) => {
             body.department == undefined ? fetchedEmployee.department: body.department, 
             body.role == undefined ? fetchedEmployee.role: body.role,
             body.isDeleted == undefined ? fetchedEmployee.isDeleted: body.isDeleted,
-            body.isActive == undefined ? fetchedEmployee.isActive: body.isActive
+            body.isActive == undefined ? fetchedEmployee.isActive: body.isActive,
+            profileImage == undefined ? fetchedEmployee.profileImage: profileImage
             );
             
                 bodyEmployee.updateEmployee(userId, updateType);
@@ -105,10 +107,6 @@ export const updateEmployee = async(req, res) => {
         return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`});
     }
 }
-
-
-
-
 export const deleteEmployee = async(req, res) => {
     const userId = req.params.id
     try{

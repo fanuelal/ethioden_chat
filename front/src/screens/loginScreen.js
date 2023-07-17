@@ -33,6 +33,7 @@ function Login(props) {
         currentUser.department = userData.department;
         currentUser.role = userData.role;
         currentUser.email = userData.email;
+        currentUser.profileImage = userData.profileImage
         currentUser.password = userData.password;
         currentUser.username = userData.first_name;
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -60,6 +61,7 @@ function Login(props) {
           Email
         </label>
         <TextField
+        autoFocus
           type="email"
           label="Email"
           variant="outlined"
