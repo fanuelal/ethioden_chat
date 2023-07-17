@@ -9,8 +9,8 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import {formatDates} from '../common/Common'
 import { Bot } from "../model/Bot";
+import { routeId } from "../model/currentUserData";
 import SearchComp from "../components/searchComp.js";
-
 import Ably from "ably";
 import { useScrollTrigger } from "@mui/material";
 
@@ -20,7 +20,7 @@ export function ChatList(props) {
   const [userList, setUserList] = useState([]);
   const channel = props.ably.channels.get('status-channels');
   const [isactive, setIsactive]= useState(false);
-
+  const [routeTo, setRouteTo] = useState("")
   props.ably.connection.on('connected', function() {
       // Update the variable to indicate that the connection is active
       // console.log(currentUser.userId)
@@ -43,11 +43,13 @@ props.ably.connection.on('disconnected', function() {
     });
   };
   useEffect(() => {
-   
-
+    
     recentEmployee();
   }, []);
-
+  // useEffect(() => {
+  //   // Code to execute when routeId changes
+  //   console.log("routeId has changed:", routeId);
+  // }, []);
   useEffect(() => {
     const fetchLastMessages = async () => {
       if (userList.length > 0) {
@@ -94,36 +96,38 @@ props.ably.connection.on('disconnected', function() {
   };
 
   const ListRecent = userList.map((user) => {
-    if (user.id !== currentUser.userId) {
-      const lastMessage = lastMessages[user.id];
-      // console.log(user)
+  if (user.id !== currentUser.userId) {
+    const lastMessage = lastMessages[user.id];
+    const lastMessageDate =
+      lastMessage && formatDates(new Date(lastMessage.created_at));
 
-      const lastMessageDate =
-        lastMessage &&
-        formatDates(new Date(lastMessage.created_at));
+    // Check if the current user is selected
+    const isSelected =  routeId  === user.id;
 
-      return (
-        <RecentChat
+    return (
+      <RecentChat
+        isSelected={isSelected}
         name={props.name}
-          sele={props.sele}
-          key={user.id}
-          onClick={recentClickHandler}
-          userId={user.id}
-          profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-          recentChat={
-            (user.id === lastMessage?.senderId ||
-              lastMessage?.reciverId === user.id) &&
-            lastMessage?.text
-          }
-          lastMessageD={lastMessageDate}
-          status={true}
-          username={ user.first_name}
-          isActive = {user.isActive}
-          ably={props.ably}
-        />
-      );
-    }
-  });
+        sele={props.sele}
+        key={user.id}
+        onClick={() => recentClickHandler(user.id)} // Pass the user.id to the click handler
+        userId={user.id}
+        profileImg="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
+        recentChat={
+          (user.id === lastMessage?.senderId ||
+            lastMessage?.reciverId === user.id) &&
+          lastMessage?.text
+        }
+        lastMessageD={lastMessageDate}
+        status={true}
+        username={user.first_name}
+        isActive={user.isActive}
+        ably={props.ably}
+      />
+    );
+  }
+});
+
 
   return (
     <div className=" font-bold  text-base md:text-sm h-full border-r border-#bdbaba ">

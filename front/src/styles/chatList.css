@@ -127,9 +127,8 @@ position:absolute;
   width:100%;
   background-color: #44b700;
 }
-  
-.recentChatBox .clicked{
-  background-color: rgb(109, 54, 54);
+ .clicked{
+  background-color: rgb(109, 54, 54) !important;
 }
 .recentChatBox:hover {
   transition: all 0.3s linear;
