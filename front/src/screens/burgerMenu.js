@@ -278,7 +278,8 @@ export function MiniDrawer(props) {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => console.log(res.data));
+        .then((res) => console.log(res.data)
+        );
 
       console.log("Image patch request successful");
     } catch (error) {
@@ -730,6 +731,7 @@ export function MiniDrawer(props) {
                       src={baseImagePath + currentUser.profileImage}
                       onClick={handleImageClick}
                     />
+                      <div className="text-white mr-20 pt-2">{currentUser.username}</div>
                   </label>
                   <input
                     id="profileImageInputTrigger"
@@ -740,12 +742,12 @@ export function MiniDrawer(props) {
                   />
                 </div>
                 <div
-                  className="text-white mr-20 pl-3 cursor-pointer"
+                  className="text-white mr-20 text-xs cursor-pointer"
                   onClick={handleSaveProfilePic}
                 >
-                 
+                upload 
                 </div>
-                <p className="text-white mr-20 pl-3">{currentUser.username}</p>
+              
               </div>
             )}
             {!open ? (
