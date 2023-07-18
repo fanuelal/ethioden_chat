@@ -55,6 +55,7 @@ export function ChatListContainer({ messages, onEdit, name, onDelete }) {
                 message={message.text}
                 isSenders={currentUser.userId === message.senderId}
                 onDelete={handleDeleteClick}
+                senderid={message.senderId}
                 onEdit={handleEditClick}
               />
             </>

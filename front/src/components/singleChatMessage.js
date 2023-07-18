@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import axiosConfig from "../config/axiosConfig";
 // import { ChatUI } from "../screens/chatScreens.js";
 // import { ActiveData } from "../controller/activeChatData";
 // import axiosInstance from "../config/axiosConfig";
@@ -16,6 +17,16 @@ export function MessageView(props) {
     x: 0,
     y: 0,
   });
+
+  const [username, setUsername] = useState();
+  const [firstname, setFirstname] = useState("");
+  axiosConfig
+  .get(`/employee/${props.senderid}`)
+  .then((response) => { 
+   setUsername(response.data.data)
+   setFirstname(username.first_name)
+  })
+  console.log(firstname)
   function DeleteclickHandler() {
     props.onDelete(props.messageID);
     console.log(props.messageID);
@@ -55,7 +66,7 @@ export function MessageView(props) {
               ""
             ) : (
               <div className="-ml-[60px] mx-2">
-                <Avatar name={props.senderId} size={35} round={true} />
+                <Avatar name={firstname} size={35} round={true} />
                 {/* <Avatar alt="Remy Sharp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU" /> */}
               </div>
             )

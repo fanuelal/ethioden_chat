@@ -220,11 +220,6 @@ export function ChatUI(props) {
   size={45}
   className="rounded-full h-12 w-12 "
   round={true}
-  // src={
-  //   prop.profileImg
-  //       ? baseImagePath + prop.profileImg
-  //       : null
-  // }
   alt="recent chat"
   name={user}
 />
