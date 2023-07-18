@@ -49,6 +49,7 @@ import {
   faHSquare,
   faHandBackFist,
   faChampagneGlasses,
+  faCamera
 } from "@fortawesome/free-solid-svg-icons";
 // import { faEyeSlash,faEye,faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from "../config/axiosConfig";
@@ -470,7 +471,7 @@ closePasswordChangePopup()
 
                       <h2 className="">Phone</h2>
                       <h4 className="ml-10 text-left text-sky-400">
-                        {currentUser.phone_num}
+                        {currentUser.phone}
                       </h4>
                     </span>
                     <span className="flex items-center mb-2">
@@ -713,24 +714,27 @@ closePasswordChangePopup()
           <DrawerHeader>
             {open && (
               <div className="flex flex-col mt-3 ">
-                <div>
-                  <label htmlFor="profileImageInputTrigger">
-                    <img
-                      className="chatProfile mt-4"
-                      alt="profileImage"
-                      src={baseImagePath + currentUser.profileImage}
-                      onClick={handleImageClick}
-                    />
-                      <div className="text-white mr-20 pt-2">{currentUser.username}</div>
-                  </label>
-                  <input
-                    id="profileImageInputTrigger"
-                    ref={fileInputRef}
-                    className="mr-20 h-0 w-0 bg-transparent"
-                    type="file"
-                    onChange={handleProfileImage}
-                  />
-                </div>
+                <div className="relative">
+  <label htmlFor="profileImageInputTrigger">
+    <img
+      className="chatProfile mt-4"
+      alt="profileImage"
+      src={baseImagePath + currentUser.profileImage}
+      onClick={handleImageClick}
+    />
+    <div className="absolute inset-0 flex items-center justify-center">
+      <FontAwesomeIcon icon={faCamera} className="text-white text-l" />
+    </div>
+    <div className="text-white mr-20 pt-2">{currentUser.username}</div>
+  </label>
+  <input
+    id="profileImageInputTrigger"
+    ref={fileInputRef}
+    className="mr-20 h-0 w-0 bg-transparent"
+    type="file"
+    onChange={handleProfileImage}
+  />
+</div>
                 <div
                   className="text-white mr-20 text-xs cursor-pointer"
                   onClick={handleSaveProfilePic}

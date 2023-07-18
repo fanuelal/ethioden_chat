@@ -45,7 +45,7 @@ export function RecentChat(prop) {
   return (
  <div className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
       {/* <button className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}> */}
-      <div className=" flex w-2/12">
+      <div className=" flex w-2/12 bg-red">
         <img
           width={50}
           height={50}

@@ -36,6 +36,7 @@ function Login(props) {
         currentUser.profileImage = userData.profileImage
         currentUser.password = userData.password;
         currentUser.username = userData.first_name;
+        currentUser.phone = userData.phone_num;
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         localStorage.setItem('token',token)
         localStorage.setItem('refreshToken',refreshToken)

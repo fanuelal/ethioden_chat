@@ -17,6 +17,7 @@ export const getToken = () => {
     currentUser.email = user.email;
     currentUser.username = user.username;
     currentUser.profileImage = user.profileImage
+    currentUser.phone = user.phone;
   }
  
   return token;
@@ -40,6 +41,7 @@ export const refreshToken = async () => {
         currentUser.password = userData.password;
         currentUser.email = userData.email;
         currentUser.username = userData.first_name;
+        currentUser.phone = userData.phone_num;
       } else{
         console.log(res.data.message);
       }
