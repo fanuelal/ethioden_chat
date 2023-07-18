@@ -63,7 +63,7 @@ export function ChatUI(props) {
         channel.unsubscribe();
       }
     };
-  }, [props.user, props.ably.channels, channel]);
+  }, [props.user, props.ably.channels, channel,props.messages,message]);
   const onMessageAdd = (message) => {
     const messageUUID = uuid();
 

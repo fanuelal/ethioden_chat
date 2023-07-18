@@ -150,7 +150,7 @@ export function MiniDrawer(props) {
   const [open, setOpen] = React.useState(false);
   const [statusContent, setStatusContent] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [activeMenu, setActiveMenu] = useState(null);
+  const [activeMenu, setActiveMenu] = useState("Private Chat");
   const [component, setComponent] = useState(null);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -161,6 +161,9 @@ export function MiniDrawer(props) {
   const [updatePasswordError, setUpdatePasswordError] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [chatClick, setChatClick] = useState(true)
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+
 
   
   const user =  currentUser.username.substring(0, 2)
@@ -269,28 +272,36 @@ export function MiniDrawer(props) {
   };
 
   const handleProfileImage = (event) => {
-    setProfilePic(event.target.files[0]);
+    const file = event.target.files[0];
+    setProfilePic(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+  const handleCancelPreview = () => {
+    setProfilePic(null);
+    setPreviewUrl(null);
   };
 
   const handleSaveProfilePic = async () => {
     try {
       const formData = new FormData();
       formData.append("file", profilePic);
-      for (const [name, file] of formData.entries()) {
-        if (file instanceof File) {
-          console.log(`Filename for field '${name}': ${file.name}`);
-        }
-      }
-      await axiosInstance
-        .patch(`/employee/${currentUser.userId}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => console.log(res.data)
-        );
+
+      await axiosInstance.patch(`/employee/${currentUser.userId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       console.log("Image patch request successful");
+      // Do something after successful upload if needed...
+
+      // Clear the preview and selected image
+      setProfilePic(null);
+      setPreviewUrl(null);
     } catch (error) {
       console.error("Error occurred while sending image patch request:", error);
     }
@@ -716,37 +727,54 @@ closePasswordChangePopup()
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
             {open && (
-              <div className="flex flex-col mt-3 ">
-                <div className="relative">
-  <label htmlFor="profileImageInputTrigger">
-    <img
-      className="chatProfile mt-4"
-      alt="profileImage"
-      src={baseImagePath + currentUser.profileImage}
-      onClick={handleImageClick}
-    />
-    <div className="absolute inset-0 flex items-center justify-center">
-      <FontAwesomeIcon icon={faCamera} className="text-white text-l" />
-    </div>
-    <div className="text-white mr-20 pt-2">{currentUser.username}</div>
-  </label>
-  <input
-    id="profileImageInputTrigger"
-    ref={fileInputRef}
-    className="mr-20 h-0 w-0 bg-transparent"
-    type="file"
-    onChange={handleProfileImage}
-  />
-</div>
-                <div
-                  className="text-white mr-20 text-xs cursor-pointer"
-                  onClick={handleSaveProfilePic}
-                >
-                upload 
-                </div>
-              
+<div className="flex flex-col mt-3">
+      <div className="relative">
+        {previewUrl ? (
+          <div>
+            <img
+              className="chatProfile mt-4"
+              alt="profileImage"
+              src={previewUrl}
+              onClick={handleImageClick}
+            />
+            <div className="flex justify-center mt-2">
+              <div
+                className="text-white mr-4 cursor-pointer"
+                onClick={handleCancelPreview}
+              >
+                Cancel
               </div>
-            )}
+              <div
+                className="text-white cursor-pointer"
+                onClick={handleSaveProfilePic}
+              >
+                Save
+              </div>
+            </div>
+          </div>
+        ) : (
+          <label htmlFor="profileImageInputTrigger">
+            <img
+              className="chatProfile mt-4"
+              alt="profileImage"
+              src={baseImagePath + currentUser.profileImage}
+              onClick={handleImageClick}
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <FontAwesomeIcon icon={faCamera} className="text-white text-l" />
+            </div>
+            <div className="text-white mr-20 pt-2">{currentUser.username}</div>
+          </label>
+        )}
+        <input
+          id="profileImageInputTrigger"
+          ref={fileInputRef}
+          className="mr-20 h-0 w-0 bg-transparent"
+          type="file"
+          onChange={handleProfileImage}
+        />
+      </div>
+    </div>)}
             {!open ? (
               <MenuIcon
                 onClick={handleDrawerOpen}
