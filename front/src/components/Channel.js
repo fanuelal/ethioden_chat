@@ -187,9 +187,9 @@ const Channel = (props) => {
       {currentUser.role==="admin"?
       <Popup
         trigger={
-          <div class="bg-[#1d1f34] h-[30px] w-[30px]  md:h-[40px] md:w-[40px] 
+          <div class=" bg-[#1d1f34] h-[30px] w-[30px]  md:h-[40px] md:w-[40px] 
           lg:h-[45px] lg:w-[45px] xl:h-[50px] xl:w-[50px] ml-[21%] xl:ml-[28%] md:ml-[25%] lg:ml-[27%] 
-          rounded-full fixed bottom-2">
+          rounded-full fixed bottom-2  ">
           <FontAwesomeIcon
             icon={faPlus}
             class="text-[aliceblue] h-[25px] w-[30px] md:h-[35px] md:w-[40px] 

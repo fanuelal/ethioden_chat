@@ -8,6 +8,7 @@ export const currentUser =  {
     department: "",
     role: "",
         profileImg: "",
+        phone:""
         // recentChat: "hey this your boss!",
     };
 
