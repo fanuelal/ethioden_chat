@@ -291,21 +291,19 @@ export function ChatUI(props) {
           <div>
             {showuserlist && (
               <div className="w-[100%] h-[120vh] fixed left-0 top-0 flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
-                <div className="p-[80px] pb-[50px] mb-[80px] max-w-[500px] bg-[white] rounded-lg mt-[-10px] h-[75%]">
-                  <div className="mt-[-60px] float-left bg-[white] ml-[-70px]">
+                <div className="p-[80px] pb-[50px] mb-[80px] max-w-[300px] bg-slate-100 rounded-lg mt-[-10px] h-[75%]">
                     <div
-                      className="close-icon"
+                      className="close-icon -mt-16 "
                       onClick={() => setShowuserlist(false)}
                     >
                       <FontAwesomeIcon className="pl-[115%]" icon={faTimes} />
                     </div>
                     <h3 className="header1">Group members</h3>
-                    <div className="w-[250px] pl-[10%] max-h-[60vh] overflow-auto no-scrollbar">
+                    <div className="w-[250px] bg-slate-300 max-h-[60vh] -ml-16 overflow-auto no-scrollbar">
                       {ListRecent}
                     </div>
                   </div>
                 </div>
-              </div>
             )}
           </div>
         </div>
