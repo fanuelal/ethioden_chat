@@ -150,7 +150,7 @@ export function MiniDrawer(props) {
   const [open, setOpen] = React.useState(false);
   const [statusContent, setStatusContent] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [activeMenu, setActiveMenu] = useState(null);
+  const [activeMenu, setActiveMenu] = useState("Private Chat");
   const [component, setComponent] = useState(null);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -778,7 +778,7 @@ closePasswordChangePopup()
               return (
                 <ListItem key={text} disablePadding sx={{ 
                   display: "block",
-                  backgroundColor: isActiveMenu ? "#EE1f34" : "transparent",
+                  backgroundColor: isActiveMenu ? "#596375" : "transparent",
                  }}>
                   <ListItemButton
                     sx={{
@@ -824,7 +824,7 @@ closePasswordChangePopup()
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, flexShrink: 1 }}>
           <div className="flex shrink h-screen">
-            <div className="w-2/6 ">{component}</div>
+            <div className="w-2/6 bg-slate-100">{component}</div>
             <div className="w-4/6">
               {props.selected !== -1 && props.chatClick  ? (
                 <ActiveData

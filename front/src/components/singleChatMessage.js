@@ -26,7 +26,6 @@ export function MessageView(props) {
    setUsername(response.data.data)
    setFirstname(username.first_name)
   })
-  console.log(firstname)
   function DeleteclickHandler() {
     props.onDelete(props.messageID);
     console.log(props.messageID);

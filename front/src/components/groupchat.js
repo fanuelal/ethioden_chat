@@ -240,7 +240,7 @@ useEffect(() => {
             {showuserlist && (
               <div className="w-[100%] h-[120vh] fixed left-0 top-0 flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
                 <div className="p-[80px] pb-[50px] mb-[80px] max-w-[500px] bg-[white] rounded-lg mt-[-10px] h-[75%]">
-                  <div className="mt-[-60px] float-left bg-[lightgray] ml-[-70px]">
+                  <div className="mt-[-60px] float-left bg-[white] ml-[-70px]">
                     <div
                       className="close-icon"
                       onClick={() => setShowuserlist(false)}

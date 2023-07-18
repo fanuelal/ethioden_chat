@@ -48,16 +48,7 @@ console.log(user)
  <div className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}>
       {/* <button className={chatBoxClass} onClick={buttonClickHandler} key={prop.userId}> */}
       <div className=" flex w-2/12">
-        {/* <img
-          width={50}
-          height={50}
-          className="rounded-full h-12 w-12 "
-          src={prop.name === "Channels"? "https://static.vecteezy.com/system/resources/thumbnails/001/760/457/small/megaphone-loudspeaker-making-announcement-vector.jpg":
-        (prop.profileImg ? baseImagePath + prop.profileImg :`https://ui-avatars.com/api/?name=${user}&size=128`)
-        
-        }
-        alt="recent chat"
-        /> */}
+
 <Avatar
   size={45}
   className="rounded-full h-12 w-12 "
@@ -73,7 +64,7 @@ console.log(user)
 
 
 
-       {prop.name === "Group Chat"? "" : 
+       {prop.name === "Group Chat" || prop.name === "Channels" ? "" : 
         <div
           className={
             prop.isActive

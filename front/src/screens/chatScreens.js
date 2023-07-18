@@ -209,21 +209,23 @@ export function ChatUI(props) {
               : otherclickHandler
           }
         >
-          {props.image ? (
-            <img
-              alt="user profile"
-              className="chatProfile"
-              src={baseImagePath + props.image}
-            />
-          ) : (
+
 <Avatar
   size={45}
   className="rounded-full h-12 w-12 "
   round={true}
+  src={
+    props.image
+        ? baseImagePath + props.image
+        : null
+  }
   alt="recent chat"
   name={user}
 />
- )}
+
+
+
+
         </div>
         <div className="flex flex-col w-10/12 items-start">
           <div className="profilename">{props.username}</div>
