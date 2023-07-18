@@ -26,7 +26,7 @@ app.post('/api/v1/auth', authenticate)
 // app.post('/api/v1/auth')
 app.post('/api/v1/refresh',tokenRefresh)
 // authorize
-app.use('/api/v1/', authorize, apiRoutes)
+app.use('/api/v1/', apiRoutes)
 
 // sequelize.sync()
 const PORT = process.env.PORT
