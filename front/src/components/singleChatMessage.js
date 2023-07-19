@@ -20,13 +20,8 @@ export function MessageView(props) {
 
   const [username, setUsername] = useState();
   const [firstname, setFirstname] = useState("");
-  axiosConfig
-  .get(`/employee/${props.senderid}`)
-  .then((response) => { 
-   setUsername(response.data.data)
-   setFirstname(username.first_name)
-  })
-  console.log(firstname)
+
+  // console.log(firstname)
   function DeleteclickHandler() {
     props.onDelete(props.messageID);
     console.log(props.messageID);
@@ -34,7 +29,14 @@ export function MessageView(props) {
   function EditclickHandler() {
     props.onEdit(props.messageID, props.message);
   }
+  axiosConfig
+  .get(`/employee/${props.senderid}`)
+  .then((response) => { 
+   setUsername(response.data.data)
+   setFirstname(username.first_name)
+  })
   useEffect(() => {
+  
     const handleClick = () => setClicked(false);
     window.addEventListener("click", handleClick);
     return () => {

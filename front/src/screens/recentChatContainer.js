@@ -21,6 +21,7 @@ export function ChatList(props) {
   const channel = props.ably.channels.get('status-channels');
   const [isactive, setIsactive]= useState(false);
   const [routeTo, setRouteTo] = useState("")
+  const [channe, setChannel] = useState(null);
   props.ably.connection.on('connected', function() {
       // Update the variable to indicate that the connection is active
       // console.log(currentUser.userId)
@@ -78,10 +79,38 @@ props.ably.connection.on('disconnected', function() {
         }));
       }
     };
+   
+      userList.forEach((user) => {
+        const ids = [currentUser.userId, user.id];
+        const sortedId = ids.sort();
+        
+        const newChannel = props.ably.channels.get(
+          `private_chat:${sortedId[0]}${sortedId[1]}`
+        );
+      setChannel(newChannel)
+        newChannel.subscribe("private_chat", (message) => {
+          console.log("New message received:", message);
+          if (message.data.senderId !== currentUser.userId) {
+            setLastMessages((prevLastMessages) => ({
+              ...prevLastMessages,
+              [user.id]: message.data,
+            }));
+          }
+        });
+      })
+  
 
     fetchLastMessages();
-  }, [userList]);
 
+    return () => {
+     if(channe){
+      channe.unsubscribe();
+    }
+    };
+  }, [userList,channe]);
+
+
+  
   const recentClickHandler = (userId) => {
     props.onChatClick(userId);
   };
@@ -101,8 +130,6 @@ props.ably.connection.on('disconnected', function() {
     const lastMessage = lastMessages[user.id];
     const lastMessageDate =
       lastMessage && formatDates(new Date(lastMessage.created_at));
-
-    // Check if the current user is selected
     const isSelected =  routeId  === user.id;
 
     return (
@@ -111,7 +138,7 @@ props.ably.connection.on('disconnected', function() {
         name={props.name}
         sele={props.sele}
         key={user.id}
-        onClick={() => recentClickHandler(user.id)} // Pass the user.id to the click handler
+        onClick={() => recentClickHandler(user.id)}
         userId={user.id}
         profileImg={user.profileImage}
         recentChat={
@@ -131,10 +158,10 @@ props.ably.connection.on('disconnected', function() {
 
 
   return (
-    <div className=" font-bold  text-base md:text-sm h-full border-r border-#bdbaba ">
+    <div className=" font-bold  text-base md:text-sm h-full border-r border-#bdbaba overflow-y-scroll ">
       <div className={issearch ? " flex-row-reverse justify-around  items-center h-14 w-full bg-profile":"flex justify-around items-center h-14 w -full bg-profile"}>
         
-          {issearch ? "" : <div className="text-white lg:text-xl"> Private Chat</div>}
+          {issearch ? "" : <div className="text-white lg:text-xl">{props.name}</div>}
         
         <div className="">
           {issearch ? (
