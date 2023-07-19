@@ -6,7 +6,7 @@ import { messages } from "./model/message";
 import { EmptyScreen } from "./screens/emptyChat";
 import Login from "./screens/loginScreen";
 import { Route, Routes, Navigate } from "react-router-dom";
-import { CatagoryList } from "./screens/catagoryList";
+
 import axiosInstance from "./config/axiosConfig";
 import PrivateRoutes from "./components/privateRoutes";
 import { getToken, refreshToken } from "./config/tokenManager";
@@ -89,24 +89,24 @@ function App() {
           console.error(error);
         });
         
-      const ids = [currentUser.userId, userId];
-      const sortedIds = ids.sort();
-      // console.log(ids);
-      const channel = ably.channels.get(`${sortedIds[0]}${sortedIds[1]}`);
-      // console.log(channel);
-      channel.history({ limit: 1 }, (err, result) => {
-        if (err) {
-          throw err;
-        }
-        const lastMessage = result.items[0];
-        // console.log(lastMessage);
-      });
-      channel.subscribe(`${sortedIds[0]}${sortedIds[1]}`, (message) => {
-        if (message.data.senderId !== currentUser.userId) {
-          setMessageData((prev) => [...prev, message.data]);
-          console.log("Received chat message:", message.data);
-        }
-      });
+      // const ids = [currentUser.userId, userId];
+      // const sortedIds = ids.sort();
+      // // console.log(ids);
+      // const channel = ably.channels.get(`${sortedIds[0]}${sortedIds[1]}`);
+      // // console.log(channel);
+      // channel.history({ limit: 1 }, (err, result) => {
+      //   if (err) {
+      //     throw err;
+      //   }
+      //   const lastMessage = result.items[0];
+      //   // console.log(lastMessage);
+      // });
+      // channel.subscribe(`${sortedIds[0]}${sortedIds[1]}`, (message) => {
+      //   if (message.data.senderId !== currentUser.userId) {
+      //     setMessageData((prev) => [...prev, message.data]);
+      //     console.log("Received chat message:", message.data);
+      //   }
+      // });
       setChatClick(true)
       setSelected(userId);
     } catch (error) {

@@ -11,11 +11,12 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import '../styles/chatList.css'
-import { baseImagePath } from "../common/Common";
-
+import { baseImagePath, formatDates } from "../common/Common";
+import axiosInstance from "../config/axiosConfig";
 function SearchComp(props) {
   const [userList, setUserList] = useState([]);
   const [searchedlist, setSearchedlist] = useState(userList);
+  const [lastMessages, setLastMessages] = useState({});
 
   function recentClickHandler(userId) {
     props.onChatClick(userId);
@@ -37,17 +38,56 @@ function SearchComp(props) {
       setUserList(res.data.data);
     });
   }, []);
+  useEffect(() => {
+    const fetchLastMessages = async () => {
+      if (userList.length > 0) {
+        const Users = userList.map((user) =>
+          axiosInstance.get(
+            `/chat/last?senderId=${currentUser.userId}&reciverId=${user.id}`
+          )
+        );
+
+        const responses = await Promise.all(Users);
+
+        const lastMessagesData = responses.map((response, index) => {
+          const lastMessage = response.data.data;
+          return { userId: userList[index].id, lastMessage };
+        });
+
+        const lastMessageData = lastMessagesData.reduce((obj, item) => {
+          obj[item.userId] = item.lastMessage;
+          return obj;
+        }, {});
+
+        setLastMessages((prevLastMessages) => ({
+          ...prevLastMessages,
+          ...lastMessageData,
+        }));
+      }
+    };
+
+    fetchLastMessages();
+  }, [userList]);
+
 
   const ListRecent = (searchedlist.length === 0 ? userList : searchedlist).map(
     (user) => {
       if (user.id !== currentUser.userId) {
+        const lastMessage = lastMessages[user.id];
+        const lastMessageDate =
+          lastMessage && formatDates(new Date(lastMessage.created_at));
         return (
           <RecentChat
           ably={props.ably}
             onClick={recentClickHandler}
             userId={user.id}
             profileImg={user.profileImage}
-            recentChat={"hello there"}
+            recentChat={
+              (user.id === lastMessage?.senderId ||
+                lastMessage?.reciverId === user.id) &&
+              lastMessage?.text
+            }
+            lastMessageD={lastMessageDate}
             status={true}
             username={user.first_name}
           />

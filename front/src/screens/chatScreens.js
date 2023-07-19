@@ -38,10 +38,10 @@ export function ChatUI(props) {
   useEffect(() => {
     console.log("Chat UI");
     console.log(props.members);
-    setMessages([]);
+    setMessages(props.messages);
     setActiveMenu(props.name);
     setUserList(props.members);
-  }, [props.user, props.name]);
+  }, [props.user, props.name,props.messages]);
 
   useEffect(() => {
     const ids = [currentUser.userId, props.user];
@@ -54,7 +54,7 @@ export function ChatUI(props) {
 
     newChannel.subscribe("private_chat", (message) => {
       if (message.data.senderId !== currentUser.userId) {
-        setMessages([...props.messages, message.data]);
+        setMessages([...messages, message.data]);
       }
     });
 
@@ -63,7 +63,7 @@ export function ChatUI(props) {
         channel.unsubscribe();
       }
     };
-  }, [props.user, props.ably.channels, channel,props.messages,message]);
+  }, [props.user, props.ably.channels,props.messages, channel,messages,message]);
   const onMessageAdd = (message) => {
     const messageUUID = uuid();
 
@@ -92,7 +92,7 @@ export function ChatUI(props) {
       .post("/chat/", newMessage)
       .then((response) => {
         console.log(response.data);
-        setMessages([...props.messages, newMessage]);
+        setMessages([...messages, newMessage]);
       })
       .catch((error) => {
         throw error;

@@ -290,11 +290,16 @@ export function MiniDrawer(props) {
       const formData = new FormData();
       formData.append("file", profilePic);
 
-      await axiosInstance.patch(`/employee/${currentUser.userId}`, formData, {
+     const res = await axiosInstance.patch(`/employee/${currentUser.userId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+      if(res.data.success){
+        currentUser.profileImage = res.data.data.profileImage
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        console.log(res.data.data)
+      }
 
       console.log("Image patch request successful");
       // Do something after successful upload if needed...
@@ -468,7 +473,7 @@ closePasswordChangePopup()
                 <div className=" p-4 ml-24 mb-10   rounded-md bg-white">
                 <div class="popup-bodyy flex flex-col items-center sm:flex-row sm:justify-center sm:items-start">
   <div class="w-1/3 flex flex-col items-center mb-4 sm:mr-4 sm:mb-0">
-    <img class="w-full h-full object-cover rounded-full" alt="profileImage" src={currentUser.profileImg} />
+    <img class="w-32 h-28 object-cover rounded-full" alt="profileImage" src={baseImagePath+currentUser.profileImage} />
     <h1 class="mt-4 font-bold text-xl">{currentUser.username}</h1>
   </div>
   </div>

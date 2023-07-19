@@ -7,7 +7,7 @@ export const currentUser =  {
     password:"",
     department: "",
     role: "",
-        profileImg: "",
+    profileImage: "",
         phone:""
         // recentChat: "hey this your boss!",
     };
