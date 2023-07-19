@@ -6,7 +6,7 @@ button {
   background-color: lightgray;
   color: black;
   border: none;
-  padding: 10px 10px;
+  padding: 7px ;
   cursor: pointer;
   margin-left: 10px;
 }
@@ -31,7 +31,7 @@ background-color: rgba(0, 0, 0, 0.5);
 .popup {
   background-color: white;
   padding: 80px;
-  padding-bottom: 50px;
+  padding-bottom: 25px;
   margin-bottom: 80px;
   border-radius: 10px;
   max-width: 500px;
