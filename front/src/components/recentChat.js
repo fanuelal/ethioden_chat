@@ -39,7 +39,7 @@ export function RecentChat(prop) {
     console.log("message.data");
     setIsActive(message.data);
   });
-
+  console.log(prop.isSelected)
   const chatBoxClass = prop.isSelected ? "recentChatBox clicked" : "recentChatBox";
    
 const user =  prop.username.substring(0, 2)

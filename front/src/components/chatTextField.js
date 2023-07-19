@@ -1,5 +1,6 @@
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
+import "../styles/chatList.css";
 export default function ChatSend(props) {
     return (
       <div className='sendBtn'>
