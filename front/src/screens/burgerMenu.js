@@ -169,6 +169,7 @@ export function MiniDrawer(props) {
   const [chatClick, setChatClick] = useState(true)
   const [previewUrl, setPreviewUrl] = useState(null);
   const [openErr, setOpenErr] =  useState(false);
+  const [openn, setOpenn] =  useState(false);
 
 
   const handleClose = (event, reason) => {
@@ -176,6 +177,7 @@ export function MiniDrawer(props) {
       return;
     }
     setOpenErr(false);
+    setOpenn(false);
   };
   
   const user =  currentUser.username.substring(0, 2)
@@ -392,12 +394,18 @@ export function MiniDrawer(props) {
       ends_at: selectedDate,
     };
     if(statusContent === ""){
+      console.log(openn)
+      const openning = true;
+    setOpenErr(true)
+    
+
+    console.log(openn)
       return;
     }
      axiosInstance.post("/status", body);
      closepopup()
      
-     setOpenErr(true)
+     setOpenn(true)
   //  console.log(rs.data)
   };
   const handleInputChange = (event) => {
@@ -721,6 +729,11 @@ closePasswordChangePopup()
                       ))}
                     </ul>
                     <div className="flex justify-around align-baseline">
+                    <Snackbar  open={openErr} autoHideDuration={3000} onClose={handleClose}>
+            <Alert  onClose={handleClose} severity="error" sx={{ width: '100%', ml:'510px', mt:'-470px' }}>
+            Status selection required!
+            </Alert>
+          </Snackbar>
                       <div>
                         Clear after:{" "}
                         <DropDown onDateSelection={handleDateSelection} />
@@ -740,7 +753,8 @@ closePasswordChangePopup()
             ) : (
               ""
             )}
-            <Snackbar open={openErr} autoHideDuration={3000} onClose={handleClose}>
+                       
+            <Snackbar open={openn} autoHideDuration={3000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
             Status added successfully!
             </Alert>

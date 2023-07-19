@@ -250,7 +250,7 @@ useEffect(() => {
                       next
                     </button>
                     <Snackbar  open={openErr} autoHideDuration={3000} onClose={handleClose}>
-            <Alert  onClose={handleClose} severity="error" sx={{ width: '100%', ml:'470px', mt:'-360px' }}>
+            <Alert  onClose={handleClose} severity="error" sx={{ width: '100%', ml:'510px', mt:'-470px' }}>
             Group Name required!
             </Alert>
           </Snackbar>
