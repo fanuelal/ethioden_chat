@@ -3,12 +3,19 @@ import { useState, useEffect } from "react";
 import { RecentChat } from "./recentChat";
 import "../styles/groupchat.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch,faArrowLeft,faPlus,faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faSearch,faArrowLeft,faPlus,faTimes, faLeftLong } from "@fortawesome/free-solid-svg-icons";
 import SearchComp from "./searchComp";
 import Popup from "reactjs-popup";
 import axiosConfig from "../config/axiosConfig";
 import { currentUser } from "../model/currentUserData";
+import { colors } from "@mui/material";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import { Margin } from "@mui/icons-material";
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const GroupChat = (props) => {
   const [issearch, setIssearch] = useState(false);
   const [showpopup, setShowpopup] = useState(false);
@@ -19,6 +26,15 @@ const GroupChat = (props) => {
   const [inputValue, setInputValue] = useState("");
   const [grouplist, setGrouplist] = useState([]);
   const [groupname, setGroupname] = useState("");
+  const [openErr, setOpenErr] =  useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenErr(false);
+    setOpen(false);
+  };
 
   function recentClickHandler(botId, members) {
     props.onChatClick(botId, members);
@@ -67,6 +83,12 @@ useEffect(() => {
     setInputValue(event.target.value);
   };
   const handleNextButtonClick = () => {
+    if(inputValue === ""){
+      setOpenErr(true)
+      return;
+    }
+    setShowpopup(false);
+                        setShowuserlist(true);
     setDictionary({ ...dictionary, [inputValue]: "some value" });
     setInputValue("");
     setGroupname([inputValue]);
@@ -80,10 +102,8 @@ useEffect(() => {
   const handleAddButtonClick = () => {
     setDictionary({ ...dictionary, [useradded]: "some value" });
     setInputValue("");
-
-    // axiosConfig.post(`/room?name=${groupname}&type={"group"}&created_by=${ currentUser.userId}&members=${useradded}`).then((value) => {
-    //   // setMessageData(value.data.data);
-    // });
+    setOpen(true);
+    
     const type = "group";
     const params = {
       name: groupname,
@@ -100,6 +120,9 @@ useEffect(() => {
       .catch((error) => {
         console.error(error);
       });
+
+      setOpen(true);
+      return;
   };
     const useraddHandler = (id) => {
       if (!useradded.includes(id)) {
@@ -110,7 +133,7 @@ useEffect(() => {
     //   console.log(useradded);
     // }, [useradded]);
   
- 
+    
   const handlePopup = () => {
     setShowpopup(true);
   };
@@ -206,6 +229,7 @@ useEffect(() => {
                     {/* <input className="p-[15px] ml-[-50px] h-[10px] mt-[-20px] w-[400px] rounded-[2px] border-[lightskyblue]" type="text" /> */}
                     {/* <input className="groupname" type="text" /> */}
                     <input
+                      required={true}
                       className="groupname"
                       type="text"
                       value={inputValue}
@@ -219,13 +243,18 @@ useEffect(() => {
                     <button
                       className="mt-[5vh] mb-[-10vh] ml-[95%] rounded-lg "
                       onClick={() => {
-                        setShowpopup(false);
-                        setShowuserlist(true);
                         handleNextButtonClick();
+                        
                       }}
                     >
                       next
                     </button>
+                    <Snackbar  open={openErr} autoHideDuration={3000} onClose={handleClose}>
+            <Alert  onClose={handleClose} severity="error" sx={{ width: '100%', ml:'470px', mt:'-360px' }}>
+            Group Name required!
+            </Alert>
+          </Snackbar>
+                    
                   </div>
                 </div>
               </div>
@@ -263,10 +292,17 @@ useEffect(() => {
                     >
                       Add
                     </button>
+                    
+          {/* <p>Account created success!</p> */}
                   </div>
                 </div>
               </div>
             )}
+            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%', ml:'470px', mt:'-360px' }}>
+              Group created successfully!
+            </Alert>
+          </Snackbar>
           </div>
         </div>
       </div>

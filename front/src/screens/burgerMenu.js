@@ -781,12 +781,29 @@ closePasswordChangePopup()
           </div>
         ) : (
           <label htmlFor="profileImageInputTrigger">
-            <img
+            {/* <img
               className="chatProfile mt-4"
               alt="profileImage"
               src={baseImagePath + currentUser.profileImage}
               onClick={handleImageClick}
-            />
+            /> */}
+
+
+<Avatar
+  size={45}
+  // className="rounded-full h-12 w-12 "
+  nClick={handleImageClick}
+  className="chatProfile mt-3 -ml-6"
+  round={true}
+  src={
+    currentUser.profileImage
+        ? baseImagePath + currentUser.profileImage
+        : null
+  }
+  alt="profileImage"
+  name={user}
+/>
+
             <div className="absolute inset-0 flex items-center justify-center">
               <FontAwesomeIcon icon={faCamera} className="text-white mr-6 text-l" />
             </div>
