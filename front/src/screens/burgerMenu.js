@@ -24,6 +24,10 @@ import { DropDown } from "./DropDown";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Avatar from "react-avatar";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+
 import {
   faEyeSlash,
   faEye,
@@ -92,7 +96,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
-
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -162,9 +168,17 @@ export function MiniDrawer(props) {
   const [profilePic, setProfilePic] = useState(null);
   const [chatClick, setChatClick] = useState(true)
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [openErr, setOpenErr] =  useState(false);
+  const [openn, setOpenn] =  useState(false);
 
 
-
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenErr(false);
+    setOpenn(false);
+  };
   
   const user =  currentUser.username.substring(0, 2)
 
@@ -379,8 +393,19 @@ export function MiniDrawer(props) {
       label: statusContent,
       ends_at: selectedDate,
     };
+    if(statusContent === ""){
+      console.log(openn)
+      const openning = true;
+    setOpenErr(true)
+    
+
+    console.log(openn)
+      return;
+    }
      axiosInstance.post("/status", body);
-    closepopup()
+     closepopup()
+     
+     setOpenn(true)
   //  console.log(rs.data)
   };
   const handleInputChange = (event) => {
@@ -398,7 +423,7 @@ export function MiniDrawer(props) {
   // console.log(currentP)
   // console.log(newPassword)
   // console.log(confirmNewPassword)
-
+  
   const handleDateSelection = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd HH:mm:ss");
     setSelectedDate(formattedDate);
@@ -704,12 +729,17 @@ closePasswordChangePopup()
                       ))}
                     </ul>
                     <div className="flex justify-around align-baseline">
+                    <Snackbar  open={openErr} autoHideDuration={3000} onClose={handleClose}>
+            <Alert  onClose={handleClose} severity="error" sx={{ width: '100%', ml:'510px', mt:'-470px' }}>
+            Status selection required!
+            </Alert>
+          </Snackbar>
                       <div>
                         Clear after:{" "}
                         <DropDown onDateSelection={handleDateSelection} />
                       </div>
                       <button
-                        className="transition ease-in-out hover:-translate-y-3 rounded-lg ml-4"
+                        className="transition ease-in-out  rounded-lg ml-4"
                         onClick={setStatus}
                       >
                         Save
@@ -723,6 +753,12 @@ closePasswordChangePopup()
             ) : (
               ""
             )}
+                       
+            <Snackbar open={openn} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            Status added successfully!
+            </Alert>
+          </Snackbar>
           </div>
         </div>
       </div>
@@ -759,14 +795,31 @@ closePasswordChangePopup()
           </div>
         ) : (
           <label htmlFor="profileImageInputTrigger">
-            <img
+            {/* <img
               className="chatProfile mt-4"
               alt="profileImage"
               src={baseImagePath + currentUser.profileImage}
               onClick={handleImageClick}
-            />
+            /> */}
+
+
+<Avatar
+  size={45}
+  // className="rounded-full h-12 w-12 "
+  nClick={handleImageClick}
+  className="chatProfile mt-3 -ml-6"
+  round={true}
+  src={
+    currentUser.profileImage
+        ? baseImagePath + currentUser.profileImage
+        : null
+  }
+  alt="profileImage"
+  name={user}
+/>
+
             <div className="absolute inset-0 flex items-center justify-center">
-              <FontAwesomeIcon icon={faCamera} className="text-white text-l" />
+              <FontAwesomeIcon icon={faCamera} className="text-white mr-6 text-l" />
             </div>
             <div className="text-white mr-20 pt-2">{currentUser.username}</div>
           </label>

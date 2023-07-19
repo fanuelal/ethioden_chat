@@ -135,9 +135,9 @@ const Channel = (props) => {
         ably={props.ably}
         key={user.id}
         userId={user.id}
-        profileImg={
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
-        }
+        // profileImg={
+          
+        // }
         recentChat={""}
         status={true}
         username={user.first_name}
