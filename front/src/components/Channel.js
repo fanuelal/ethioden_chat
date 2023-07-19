@@ -160,23 +160,6 @@ const Channel = (props) => {
             <div className="text-white lg:text-xl"> {props.name}</div>
           )}
 
-          <div className="">
-            {issearch ? (
-              <div className=" items-start align-baseline -ml-72 pt-4 text-white ">
-                <FontAwesomeIcon
-                  icon={faArrowLeft}
-                  className=" "
-                  onClick={arrowclickHandler}
-                />
-              </div>
-            ) : (
-              <FontAwesomeIcon
-                icon={faSearch}
-                className="text-white h-5 w-4 cursor-pointer"
-                onClick={searchHandler}
-              />
-            )}
-          </div>
         </div>
         {issearch ? (
           <SearchComp sele={props.sele} onChatClick={props.onChatClick} />
