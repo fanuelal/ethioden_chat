@@ -33,13 +33,13 @@ function About(props) {
   );
 
   return (
-    <div>
-    <div class="font-bold text-base md:text-sm shadow-md">
+    <div className="max-h-full overflow-auto no-scrollbar">
+    <div class="font-bold text-base md:text-sm shadow-md ">
       <div class="flex justify-around items-center h-14 w-full bg-profile">
         <div class="text-white lg:text-xl">{props.name}</div>
       </div>
     </div>
-    <div class="about-section">
+    <div class="about-section ">
       <h1 class="text-2xl font-bold mb-4">Welcome to our chat app!</h1>
       
       <div class="border border-gray-100 rounded-lg p-4 box-decoration-slice bg-gradient-to-r from-indigo-100 to-white-500 text-white px-5">
