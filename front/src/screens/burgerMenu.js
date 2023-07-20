@@ -24,9 +24,8 @@ import { DropDown } from "./DropDown";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Avatar from "react-avatar";
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 import {
   faEyeSlash,
@@ -54,7 +53,7 @@ import {
   faHSquare,
   faHandBackFist,
   faChampagneGlasses,
-  faCamera
+  faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 // import { faEyeSlash,faEye,faCommentDots, faUsers, faBullhorn, faUser, faInfoCircle, faQuestionCircle, faRobot, faSignOut,faFaceSmileWink,faClose,faHouseChimneyUser,faTree,faFaceSadTear, faPhone, faEnvelope, faSmile, faKey, faBook, faStar } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from "../config/axiosConfig";
@@ -73,6 +72,9 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
 });
 
 const closedMixin = (theme) => ({
@@ -166,21 +168,20 @@ export function MiniDrawer(props) {
   const [confirmNewPassword, setconfirmNewPassword] = useState("");
   const [updatePasswordError, setUpdatePasswordError] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
-  const [chatClick, setChatClick] = useState(true)
+  const [chatClick, setChatClick] = useState(true);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [openErr, setOpenErr] =  useState(false);
-  const [openn, setOpenn] =  useState(false);
-
+  const [openErr, setOpenErr] = useState(false);
+  const [openn, setOpenn] = useState(false);
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpenErr(false);
     setOpenn(false);
   };
-  
-  const user =  currentUser.username.substring(0, 2)
+
+  const user = currentUser.username.substring(0, 2);
 
   const [emailed, setEmailed] = useState("");
   const [selectedMenu, setSelectedMenu] = useState(0);
@@ -214,9 +215,7 @@ export function MiniDrawer(props) {
           />
         );
       case "Bot":
-        return <Bots 
-        name={activeMenu} 
-        ably={props.ably} />;
+        return <Bots name={activeMenu} ably={props.ably} />;
       case "Add Members":
         return <AddMember />;
       case "Settings":
@@ -230,7 +229,7 @@ export function MiniDrawer(props) {
             ably={props.ably}
           />
         );
-      
+
       case "Logout":
         return null;
       default:
@@ -282,7 +281,7 @@ export function MiniDrawer(props) {
   };
   const handleMenuListClick = (menu, index) => {
     setActiveMenu(menu, index);
-    setSelectedMenu(index)
+    setSelectedMenu(index);
   };
 
   const handleProfileImage = (event) => {
@@ -304,15 +303,19 @@ export function MiniDrawer(props) {
       const formData = new FormData();
       formData.append("file", profilePic);
 
-     const res = await axiosInstance.patch(`/employee/${currentUser.userId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      if(res.data.success){
-        currentUser.profileImage = res.data.data.profileImage
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        console.log(res.data.data)
+      const res = await axiosInstance.patch(
+        `/employee/${currentUser.userId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (res.data.success) {
+        currentUser.profileImage = res.data.data.profileImage;
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        console.log(res.data.data);
       }
 
       console.log("Image patch request successful");
@@ -350,7 +353,6 @@ export function MiniDrawer(props) {
           style={{ color: "blue", fontSize: "20px" }}
         />
       ),
-    
     },
 
     {
@@ -361,9 +363,7 @@ export function MiniDrawer(props) {
           style={{ color: "green", fontSize: "20px" }}
         />
       ),
-      
     },
-
 
     {
       Status: "Out of Sick",
@@ -373,7 +373,6 @@ export function MiniDrawer(props) {
           style={{ color: "yellow", fontSize: "20px" }}
         />
       ),
-     
     },
 
     {
@@ -384,29 +383,27 @@ export function MiniDrawer(props) {
           style={{ color: "chocolate", fontSize: "20px" }}
         />
       ),
-    
     },
   ];
-  const setStatus = async() => {
+  const setStatus = async () => {
     const body = {
       userId: currentUser.userId,
       label: statusContent,
       ends_at: selectedDate,
     };
-    if(statusContent === ""){
-      console.log(openn)
+    if (statusContent === "") {
+      console.log(openn);
       const openning = true;
-    setOpenErr(true)
-    
+      setOpenErr(true);
 
-    console.log(openn)
+      console.log(openn);
       return;
     }
-     axiosInstance.post("/status", body);
-     closepopup()
-     
-     setOpenn(true)
-  //  console.log(rs.data)
+    axiosInstance.post("/status", body);
+    closepopup();
+
+    setOpenn(true);
+    //  console.log(rs.data)
   };
   const handleInputChange = (event) => {
     setStatusContent(event.target.value);
@@ -423,7 +420,7 @@ export function MiniDrawer(props) {
   // console.log(currentP)
   // console.log(newPassword)
   // console.log(confirmNewPassword)
-  
+
   const handleDateSelection = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd HH:mm:ss");
     setSelectedDate(formattedDate);
@@ -434,7 +431,7 @@ export function MiniDrawer(props) {
 
   const navigate = useNavigate();
   const logoutHandler = async () => {
-    axiosInstance.patch(`/employee/${currentUser.userId}`, {
+    await axiosInstance.patch(`/employee/${currentUser.userId}`, {
       isActive: 0,
     });
     localStorage.removeItem("currentUser");
@@ -444,7 +441,7 @@ export function MiniDrawer(props) {
 
   const iconLister = (index) => {
     // console.log(index)
-    if(currentUser.role !== 'admin' && index === 5 ){
+    if (currentUser.role !== "admin" && index === 5) {
       return;
     } else {
       return listIcon[index];
@@ -473,8 +470,8 @@ export function MiniDrawer(props) {
           closePasswordChangePopup();
         }
         console.log("Password updated successfully");
-        if (res.data.success){
-closePasswordChangePopup()
+        if (res.data.success) {
+          closePasswordChangePopup();
         }
       } else {
         setUpdatePasswordError(true);
@@ -486,7 +483,6 @@ closePasswordChangePopup()
       alert("An error occurred");
     }
   };
-  
 
   return (
     <>
@@ -496,15 +492,20 @@ closePasswordChangePopup()
             {Profilepopup ? (
               <div className="mainnn p-6 fixed flex   justify-start  items-center w-full h-screen ">
                 <div className=" p-4 ml-24 mb-10   rounded-md bg-white">
-                <div class="popup-bodyy flex flex-col items-center sm:flex-row sm:justify-center sm:items-start">
-  <div class="w-1/3 flex flex-col items-center mb-4 sm:mr-4 sm:mb-0">
-    <img class="w-32 h-28 object-cover rounded-full" alt="profileImage" src={baseImagePath+currentUser.profileImage} />
-    <h1 class="mt-4 font-bold text-xl">{currentUser.username}</h1>
-  </div>
-  </div>
+                  <div class="popup-bodyy flex flex-col items-center sm:flex-row sm:justify-center sm:items-start">
+                    <div class="w-1/3 flex flex-col items-center mb-4 sm:mr-4 sm:mb-0">
+                      <img
+                        class="w-32 h-28 object-cover rounded-full"
+                        alt="profileImage"
+                        src={baseImagePath + currentUser.profileImage}
+                      />
+                      <h1 class="mt-4 font-bold text-xl">
+                        {currentUser.username}
+                      </h1>
+                    </div>
+                  </div>
                   <div className="bg-lightgrey w-full p-0.5"></div>
                   <div className="flex flex-col mt-7 ml-1 pr-10 ">
-                    
                     <span className="flex items-center mb-2">
                       <div className="bg-green-300 rounded-md p-1 mr-2">
                         <FontAwesomeIcon
@@ -556,7 +557,10 @@ closePasswordChangePopup()
 
                     <span className="flex items-center mr-15 mb-2">
                       <div className="bg-blue-300 rounded-md p-1 mr-2">
-                        <FontAwesomeIcon icon={faChain} className="text-white" />
+                        <FontAwesomeIcon
+                          icon={faChain}
+                          className="text-white"
+                        />
                       </div>
                       <button
                         className="bg-white -ml-1 p-1"
@@ -729,11 +733,19 @@ closePasswordChangePopup()
                       ))}
                     </ul>
                     <div className="flex justify-around align-baseline">
-                    <Snackbar  open={openErr} autoHideDuration={3000} onClose={handleClose}>
-            <Alert  onClose={handleClose} severity="error" sx={{ width: '100%', ml:'510px', mt:'-470px' }}>
-            Status selection required!
-            </Alert>
-          </Snackbar>
+                      <Snackbar
+                        open={openErr}
+                        autoHideDuration={3000}
+                        onClose={handleClose}
+                      >
+                        <Alert
+                          onClose={handleClose}
+                          severity="error"
+                          sx={{ width: "100%", ml: "510px", mt: "-470px" }}
+                        >
+                          Status selection required!
+                        </Alert>
+                      </Snackbar>
                       <div>
                         Clear after:{" "}
                         <DropDown onDateSelection={handleDateSelection} />
@@ -744,8 +756,6 @@ closePasswordChangePopup()
                       >
                         Save
                       </button>
-                      
-                      
                     </div>
                   </div>
                 </div>
@@ -753,12 +763,20 @@ closePasswordChangePopup()
             ) : (
               ""
             )}
-                       
-            <Snackbar open={openn} autoHideDuration={3000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-            Status added successfully!
-            </Alert>
-          </Snackbar>
+
+            <Snackbar
+              open={openn}
+              autoHideDuration={3000}
+              onClose={handleClose}
+            >
+              <Alert
+                onClose={handleClose}
+                severity="success"
+                sx={{ width: "100%" }}
+              >
+                Status added successfully!
+              </Alert>
+            </Snackbar>
           </div>
         </div>
       </div>
@@ -768,71 +786,69 @@ closePasswordChangePopup()
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
             {open && (
-<div className="flex flex-col mt-3">
-      <div className="relative">
-        {previewUrl ? (
-          <div>
-            <img
-              className="chatProfile mt-4"
-              alt="profileImage"
-              src={previewUrl}
-              onClick={handleImageClick}
-            />
-            <div className="flex justify-center mt-2">
-              <div
-                className="text-white mr-4 cursor-pointer"
-                onClick={handleCancelPreview}
-              >
-                Cancel
+              <div className="flex flex-col mt-3 ">
+                <div className="relative ">
+                  {previewUrl ? (
+                    <div>
+                      <img
+                        className="chatProfile mt-4"
+                        alt="profileImage"
+                        src={previewUrl}
+                        onClick={handleImageClick}
+                      />
+                      <div className="flex justify-center mt-2">
+                        <div
+                          className="text-white mr-4 cursor-pointer"
+                          onClick={handleCancelPreview}
+                        >
+                          Cancel
+                        </div>
+                        <div
+                          className="text-white cursor-pointer"
+                          onClick={handleSaveProfilePic}
+                        >
+                          Save
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <label htmlFor="profileImageInputTrigger">
+                      <Avatar
+                        size={45}
+                        // className="rounded-full h-12 w-12 "
+                        nClick={handleImageClick}
+                        className="chatProfile mt-3 -ml-6"
+                        round={true}
+                        src={
+                          currentUser.profileImage
+                            ? baseImagePath + currentUser.profileImage
+                            : null
+                        }
+                        alt="profileImage"
+                        name={user}
+                      />
+
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <FontAwesomeIcon
+                          icon={faCamera}
+                          className="text-white mr-6 text-l"
+                        />
+                      </div>
+                      <div className="text-white mr-20 pt-2">
+                        {currentUser.username}
+                      </div>
+                    </label>
+                  )}
+                  <input
+                    id="profileImageInputTrigger"
+                    ref={fileInputRef}
+                    className="mr-20 h-0 w-0 bg-transparent"
+                    type="file"
+                    onChange={handleProfileImage}
+                  />
+                </div>
               </div>
-              <div
-                className="text-white cursor-pointer"
-                onClick={handleSaveProfilePic}
-              >
-                Save
-              </div>
-            </div>
-          </div>
-        ) : (
-          <label htmlFor="profileImageInputTrigger">
-            {/* <img
-              className="chatProfile mt-4"
-              alt="profileImage"
-              src={baseImagePath + currentUser.profileImage}
-              onClick={handleImageClick}
-            /> */}
-
-
-<Avatar
-  size={45}
-  // className="rounded-full h-12 w-12 "
-  nClick={handleImageClick}
-  className="chatProfile mt-3 -ml-6"
-  round={true}
-  src={
-    currentUser.profileImage
-        ? baseImagePath + currentUser.profileImage
-        : null
-  }
-  alt="profileImage"
-  name={user}
-/>
-
-            <div className="absolute inset-0 flex items-center justify-center">
-              <FontAwesomeIcon icon={faCamera} className="text-white mr-6 text-l" />
-            </div>
-            <div className="text-white mr-20 pt-2">{currentUser.username}</div>
-          </label>
-        )}
-        <input
-          id="profileImageInputTrigger"
-          ref={fileInputRef}
-          className="mr-20 h-0 w-0 bg-transparent"
-          type="file"
-          onChange={handleProfileImage}
-        />
-      </div>
-    </div>)}
+            )}
             {!open ? (
               <MenuIcon
                 onClick={handleDrawerOpen}
@@ -860,12 +876,17 @@ closePasswordChangePopup()
               if (currentUser.role !== "admin" && index === 5) {
                 return null;
               }
-              const isActiveMenu =  index === selectedMenu;
+              const isActiveMenu = index === selectedMenu;
               return (
-                <ListItem key={text} disablePadding sx={{ 
-                  display: "block",
-                  backgroundColor: isActiveMenu ? "#596375" : "transparent",
-                 }}>
+                
+                <ListItem
+                  key={text}
+                  disablePadding
+                  sx={{
+                    display: "block",
+                    backgroundColor: isActiveMenu ? "#596375" : "transparent",
+                  }}
+                >
                   <ListItemButton
                     sx={{
                       minHeight: 40,
@@ -875,6 +896,10 @@ closePasswordChangePopup()
                     }}
                     onClick={() => {
                       props.onListItemButtonClick();
+                       {isActiveMenu ?
+                        handleDrawerClose(): // close the Drawer component
+                      
+                      
                       text === "Status"
                         ? handleClickOpen()
                         : text === "Profile"
@@ -882,7 +907,7 @@ closePasswordChangePopup()
                         : text === "Logout"
                         ? logoutHandler()
                         : handleMenuListClick(text, index);
-                    }}
+                    }}}
                   >
                     <ListItemIcon
                       sx={{
@@ -909,10 +934,33 @@ closePasswordChangePopup()
           <Divider />
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, flexShrink: 1 }}>
-          <div className="flex shrink h-screen">
-            <div className="w-2/6 bg-slate-100">{component}</div>
-            <div className="w-4/6">
-              {props.selected !== -1 && props.chatClick  ? (
+          <div
+            className={`${
+              open ? "hidden sm:flex" : ""
+            } flex flex-col sm:flex-row h-screen`}
+            style={{
+              display: "flex",
+              minWidth: "320px",
+              "@media (min-width: 768px)": { minWidth: "600px" },
+            }}
+          >
+            <div
+              className={`w-full md:w-2/6 sm:w-2/6 bg-slate-100 ${
+                props.selected !== -1 && props.chatClick
+                  ? "hidden md:block sm:block"
+                  : "block"
+              }`}
+            >
+              {component}
+            </div>
+            <div
+              className={`w-full md:w-4/6 sm:w-4/6 ${
+                props.selected !== -1 && props.chatClick
+                  ? "block"
+                  : "hidden md:block sm:block"
+              }`}
+            >
+              {props.selected !== -1 && props.chatClick ? (
                 <ActiveData
                   image={props.image}
                   members={props.members}

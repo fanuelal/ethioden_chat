@@ -29,12 +29,14 @@ export function MessageView(props) {
     props.onEdit(props.messageID, props.message);
   }
   useEffect(() => {
-    axiosConfig
-    .get(`/employee/${props.senderid}`)
-    .then((response) => { 
-     setUsername(response.data.data)
-     setFirstname(username.first_name)
-    })
+  axiosConfig
+  .get(`/employee/${props.senderid}`)
+  .then((response) => { 
+   setUsername(response.data.data)
+   setFirstname(username.first_name)
+  })
+  
+   
     const handleClick = () => setClicked(false);
     window.addEventListener("click", handleClick);
     return () => {
@@ -67,7 +69,6 @@ export function MessageView(props) {
             ) : (
               <div className="-ml-[60px] mx-2">
                 <Avatar name={firstname} size={35} round={true} />
-                {/* <Avatar alt="Remy Sharp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU" /> */}
               </div>
             )
           ) : (
