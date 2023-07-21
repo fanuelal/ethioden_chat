@@ -13,6 +13,7 @@ import SearchComp from "./searchComp";
 import Popup from "reactjs-popup";
 import axiosInstance from "../config/axiosConfig";
 import { currentUser } from "../model/currentUserData";
+import { formatDates } from "../common/Common";
 
 const Channel = (props) => {
   const [channels, setChannels] = useState([]);
@@ -23,14 +24,15 @@ const Channel = (props) => {
   const [useradded, setUseradded] = useState([]);
   const [dictionary, setDictionary] = useState({});
   const [inputValue, setInputValue] = useState("");
-  const [grouplist, setGrouplist] = useState([]);
   const [groupname, setGroupname] = useState("");
 
   const channelFetch = async () => {
-    await axiosInstance.get(`/room?type=channel&userId=${currentUser.userId}`).then((res) => {
-      setChannels(res.data.data);
-      console.log(res.data.data);
-    });
+    await axiosInstance
+      .get(`/room?type=channel&userId=${currentUser.userId}`)
+      .then((res) => {
+        setChannels(res.data.data);
+        console.log(res.data.data);
+      });
   };
 
   useEffect(() => {
@@ -41,31 +43,32 @@ const Channel = (props) => {
   }
 
   const chatBots = channels.map((user) => {
-    if(channels !== null){
-    return (
-      <RecentChat
-        name={props.name}
-        sele={props.sele}
-        members={user.membersDetail}
-        onClick={recentClickHandler}
-        // onClick={recentClickHandler}
-        userId={user.id}
-        profileImg={user.image}
-        recentChat={user.type}
-        status={true}
-        username={user.name}
-        ably={props.ably}
-      />
-    );
-  }else{
-    return null;
-   }
+    if (channels !== null) {
+      return (
+        <RecentChat
+          name={props.name}
+          sele={props.sele}
+          members={user.membersDetail}
+          onClick={recentClickHandler}
+          // onClick={recentClickHandler}
+          userId={user.id}
+          profileImg={user.image}
+          recentChat={user.last_message}
+          lastMessageD={formatDates(new Date(user.last_message_time))}
+          status={true}
+          username={user.name}
+          ably={props.ably}
+        />
+      );
+    } else {
+      return null;
+    }
   });
   useEffect(() => {
     axiosInstance.get("/employee").then((res) => {
-       setUserList(res.data.data);
-     });
-  }, [])
+      setUserList(res.data.data);
+    });
+  }, []);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -136,7 +139,7 @@ const Channel = (props) => {
         key={user.id}
         userId={user.id}
         // profileImg={
-          
+
         // }
         recentChat={""}
         status={true}
@@ -159,7 +162,6 @@ const Channel = (props) => {
           ) : (
             <div className="text-white lg:text-xl"> {props.name}</div>
           )}
-
         </div>
         {issearch ? (
           <SearchComp sele={props.sele} onChatClick={props.onChatClick} />
@@ -167,30 +169,35 @@ const Channel = (props) => {
           chatBots
         )}
       </div>
-      {currentUser.role==="admin"?
-      <Popup
-        trigger={
-          <div class=" bg-[#1d1f34] h-[30px] w-[30px]  md:h-[40px] md:w-[40px] 
+      {currentUser.role === "admin" ? (
+        <Popup
+          trigger={
+            <div
+              class=" bg-[#1d1f34] h-[30px] w-[30px]  md:h-[40px] md:w-[40px] 
           lg:h-[45px] lg:w-[45px] xl:h-[50px] xl:w-[50px] ml-[21%] xl:ml-[28%] md:ml-[25%] lg:ml-[27%] 
-          rounded-full fixed bottom-2  ">
-          <FontAwesomeIcon
-            icon={faPlus}
-            class="text-[aliceblue] h-[25px] w-[30px] md:h-[35px] md:w-[40px] 
+          rounded-full fixed bottom-2  "
+            >
+              <FontAwesomeIcon
+                icon={faPlus}
+                class="text-[aliceblue] h-[25px] w-[30px] md:h-[35px] md:w-[40px] 
             lg:h-[40px] lg:w-[45px] xl:h-[40px] xl:w-[45px]  pt-[20%] xl:pt-[30%] md:pt-[25%] lg:pt-[28%]"
-            onClick={handlePopup}
-          />
-        </div>
-        }
-        content={
-          <div className="popuppage">
-            <p>channel name</p>
-          </div>
-        }
-        position="right center"
-        modal
-        closeOnEscape
-        closeOnDocumentClick
-      />:""}
+                onClick={handlePopup}
+              />
+            </div>
+          }
+          content={
+            <div className="popuppage">
+              <p>channel name</p>
+            </div>
+          }
+          position="right center"
+          modal
+          closeOnEscape
+          closeOnDocumentClick
+        />
+      ) : (
+        ""
+      )}
 
       <div>
         <div>
@@ -205,9 +212,7 @@ const Channel = (props) => {
                     >
                       <FontAwesomeIcon className="pl-[180%]" icon={faTimes} />
                     </div>
-                    <h3 className="pb-[15%] pl-[5%] w-[250px]">
-                      channel name
-                    </h3>
+                    <h3 className="pb-[15%] pl-[5%] w-[250px]">channel name</h3>
                   </div>
                   <div className="float-left mt-[-9px] mb-[3px] bg-[black]">
                     {/* <input className="p-[15px] ml-[-50px] h-[10px] mt-[-20px] w-[400px] rounded-[2px] border-[lightskyblue]" type="text" /> */}

@@ -64,13 +64,13 @@ const EmployeeModel = class{
         console.log(currentUserId);
            var fetchedData; 
             // ,chat.id,chat.reciverid,chat.senderid
-          return new Promise((resolve, reject) => {con.query(`SELECT employees.id, employees.first_name, employees.last_name, employees.profileImage, isActive, MAX(chats.created_at) AS last_message_time
+          return new Promise((resolve, reject) => {con.query(`SELECT employees.id, employees.first_name, employees.last_name, employees.profileImage, isActive, chats.text AS last_message, MAX(chats.created_at) AS last_message_time
           FROM employees 
           INNER JOIN chats 
              ON (employees.id = chats.reciverId AND '${currentUserId}' = chats.senderId 
              OR employees.id = chats.senderId AND '${currentUserId}' = chats.reciverId)
           WHERE chats.isDeleted = false
-          GROUP BY employees.id, employees.first_name, employees.last_name
+          GROUP BY employees.id, employees.first_name, employees.last_name,last_message
           ORDER BY last_message_time DESC`, (err, result, fields) => {
             if (err) reject(err);
             resolve(result);

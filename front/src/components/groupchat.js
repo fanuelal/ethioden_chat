@@ -12,6 +12,7 @@ import { colors } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { Margin } from "@mui/icons-material";
+import { formatDates } from "../common/Common";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -59,7 +60,8 @@ const GroupChat = (props) => {
              profileImg={
                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBrq9rrEZy6VUsQmoeIPh6gYzS_2JqKe1i9A&usqp=CAU"
              }
-             recentChat={""}
+             recentChat={user.last_message}
+          lastMessageD={formatDates(new Date(user.last_message_time))}
              status={undefined}
              username={user.name}
              ably={props.ably}
