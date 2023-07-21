@@ -877,8 +877,8 @@ export function MiniDrawer(props) {
                 return null;
               }
               const isActiveMenu = index === selectedMenu;
+
               return (
-                
                 <ListItem
                   key={text}
                   disablePadding
@@ -896,9 +896,10 @@ export function MiniDrawer(props) {
                     }}
                     onClick={() => {
                       props.onListItemButtonClick();
-                       {isActiveMenu ?
-                        handleDrawerClose(): // close the Drawer component
-                      
+                      {isActiveMenu ?
+                        
+                        handleDrawerClose()// close the Drawer component
+                      :
                       
                       text === "Status"
                         ? handleClickOpen()

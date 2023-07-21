@@ -80,7 +80,7 @@ console.log(user)
           </div>
           <div className="text-xs mr-2">{prop.lastMessageD}</div>
         </div>
-        <div className="self-start mt-2 text-xs truncate ml-1">
+        <div className="self-start mt-2 text-xs truncate ml-1 max-w-[170px]" >
           {prop.recentChat}
         </div>
       </div>
