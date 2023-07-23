@@ -17,7 +17,7 @@ export function StatusPopUp () {
     <div className="status ">
         {/* <img className="chatProfile" alt="profileImage" src={currentUser.profileImg} />
       <h3 className='username' >{currentUser.username}</h3> */}
-      <Popup className='popup'
+      <Popup className='popup '
           trigger={
             <FontAwesomeIcon
               icon={faFaceSmileWink}
@@ -27,7 +27,7 @@ export function StatusPopUp () {
           open={showStatus}
           onClose={toggleStatus}
           closeOnDocumentClick={true}
-          position="bottom right"
+          position="bottom right "
         >
           
           <Status showAll={showAllStatus} setShowAll={setShowAllStatus} />

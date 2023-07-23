@@ -186,8 +186,7 @@ export function MiniDrawer(props) {
 
   const [emailed, setEmailed] = useState("");
   const [selectedMenu, setSelectedMenu] = useState(0);
-
-  React.useEffect(() => {
+ React.useEffect(() => {
     function handleResize() {
       setIsSmallDevice(window.innerWidth < 550); // Change 768 to your desired breakpoint
     }

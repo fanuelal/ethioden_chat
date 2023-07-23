@@ -25,7 +25,7 @@ const Channel = (props) => {
   const [dictionary, setDictionary] = useState({});
   const [inputValue, setInputValue] = useState("");
   const [groupname, setGroupname] = useState("");
-
+ const [isSmallDevice, setIsSmallDevice] = React.useState(false);
   const channelFetch = async () => {
     await axiosInstance
       .get(`/room?type=channel&userId=${currentUser.userId}`)
@@ -34,7 +34,15 @@ const Channel = (props) => {
         console.log(res.data.data);
       });
   };
+  React.useEffect(() => {
+    function handleResize() {
+      setIsSmallDevice(window.innerWidth < 550); // Change 768 to your desired breakpoint
+    }
 
+    handleResize(); // Set initial state on component mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   useEffect(() => {
     channelFetch();
   }, []);
@@ -202,45 +210,48 @@ const Channel = (props) => {
       <div>
         <div>
           <div>
-            {showpopup && (
-              <div className="w-[100%] h-[120vh] fixed left-0 top-[-10px] flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
-                <div className="p-[80px] pb-[50px] mb-[80px] max-w-[500px] bg-[white] rounded-lg">
-                  <div className=" mt-[-60px] bg-[white] ml-[-70px] float-left">
-                    <div
-                      className="close-icon"
-                      onClick={() => setShowpopup(false)}
-                    >
-                      <FontAwesomeIcon className="pl-[180%]" icon={faTimes} />
-                    </div>
-                    <h3 className="pb-[15%] pl-[5%] w-[250px]">channel name</h3>
-                  </div>
-                  <div className="float-left mt-[-9px] mb-[3px] bg-[black]">
-                    {/* <input className="p-[15px] ml-[-50px] h-[10px] mt-[-20px] w-[400px] rounded-[2px] border-[lightskyblue]" type="text" /> */}
-                    {/* <input className="groupname" type="text" /> */}
-                    <input
-                      className="groupname"
-                      type="text"
-                      value={inputValue}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+          {showpopup && (
+     <div className="fixed left-0 top-0 w-full h-full bg-[rgba(0, 0, 0, 0.5)] z-30">
+       <div className={`relative  max-w-md mx-auto mt-16 bg-white rounded-lg shadow-lg ${isSmallDevice ? "w-43 ml-10 mt-10 ":"w-full"}`}>
+        <div className={`flex items-center px-4 py-2 bg-profile justify-end`}>
+          <button
+            className="text-white rounded-lg hover:bg-gray-600 focus:outline-none focus: bg-profile"
+            onClick={() => setShowpopup(false)}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </div>
+        <div className="p-4">
+          <div className="mb-4">
+            <label className={`block mb-2 text-sm font-bold text-gray-700 ${isSmallDevice ? "-ml-30":""}`}>
+            channel name
+            </label>
+            <input
+              required={true}
+              className={`block  px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md  focus:outline-none focus:ring ${isSmallDevice ? "w-200 ":"w-full"}`}
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              autoFocus
+            />
+          </div>
+          <div className={`flex justify-end`}>
+            <button
+              className="px-4 py-2 mr-2 font-bold text-white bg-profile rounded-lg  focus:outline-none "
+              onClick={() => {
+                setShowpopup(false);
+                setShowuserlist(true);
+                handleNextButtonClick();
+              }}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+        </div> 
+     </div>
+  )}
 
-                  <div>
-                    {/* <button className="nextbutton" onClick={() => {setShowpopup(false),setShowuserlist(true)}}>next</button> */}
-                    <button
-                      className="mt-[5vh] mb-[-10vh] ml-[95%] rounded-lg "
-                      onClick={() => {
-                        setShowpopup(false);
-                        setShowuserlist(true);
-                        handleNextButtonClick();
-                      }}
-                    >
-                      next
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -248,36 +259,43 @@ const Channel = (props) => {
       <div>
         <div>
           <div>
-            {showuserlist && (
-              <div className="w-[100%] h-[120vh] fixed left-0 top-0 flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
-                <div className="p-[80px] pb-[50px] mb-[80px] max-w-[500px] bg-[white] rounded-lg mt-[-10px] h-[75%]">
-                  <div className="mt-[-60px] float-left bg-[white] ml-[-70px]">
-                    <div
-                      className="close-icon"
-                      onClick={() => setShowuserlist(false)}
-                    >
-                      <FontAwesomeIcon className="pl-[115%]" icon={faTimes} />
-                    </div>
-                    <h3 className="header1">choose a user</h3>
-                    <div className="w-[250px] pl-[10%] max-h-[60vh] overflow-auto no-scrollbar">
-                      {ListRecent}
-                    </div>
-                  </div>
+          {showuserlist && (
+    <div className="fixed left-0 top-0 w-full h-full bg-[rgba(0, 0, 0, 0.5)] z-50">
+      <div className={`relative  max-w-md mx-auto mt-16 bg-white rounded-lg shadow-lg ${isSmallDevice ? "w-43 ml-10 mt-10 ":"w-full"}`}>
+        <div className="flex items-center justify-between px-4 py-2 bg-profile">
+          <h3 className="text-lg font-medium text-white">Choose a user</h3>
+          <button
+            className="text-white rounded-lg  bg-profile focus:outline-none focus:bg-gray-300"
+            onClick={() => setShowuserlist(false)}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </div>
+        <div className="p-4">
+          <div className="mb-4">
+            <label className="block mb-2 text-sm font-bold text-gray-700">
+            choose a user
+            </label>
+            <div className="block w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md max-h-80 overflow-auto no-scrollbar">
+              {ListRecent}
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <button
+              className="px-4 py-2 mr-2 font-bold text-white bg-profile rounded-lg  focus:outline-none"
+              onClick={() => {
+                setShowuserlist(false);
+                handleAddButtonClick();
+              }}
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
 
-                  <div>
-                    <button
-                      className="rounded-lg ml-[100%] mt-[25%] "
-                      onClick={() => {
-                        setShowuserlist(false);
-                        handleAddButtonClick();
-                      }}
-                    >
-                      Add
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
