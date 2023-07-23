@@ -172,6 +172,7 @@ export function MiniDrawer(props) {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [openErr, setOpenErr] = useState(false);
   const [openn, setOpenn] = useState(false);
+  const [isSmallDevice, setIsSmallDevice] = React.useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -185,6 +186,16 @@ export function MiniDrawer(props) {
 
   const [emailed, setEmailed] = useState("");
   const [selectedMenu, setSelectedMenu] = useState(0);
+
+  React.useEffect(() => {
+    function handleResize() {
+      setIsSmallDevice(window.innerWidth < 550); // Change 768 to your desired breakpoint
+    }
+
+    handleResize(); // Set initial state on component mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const renderComponent = () => {
     switch (activeMenu) {
       case "Private Chat":
@@ -491,7 +502,7 @@ export function MiniDrawer(props) {
           <div>
             {Profilepopup ? (
               <div className="mainnn p-6 fixed flex   justify-start  items-center w-full h-screen ">
-                <div className=" p-4 ml-24 mb-10   rounded-md bg-white">
+                <div className={`p-4  mb-10   rounded-md bg-white ${isSmallDevice ? "-ml-1.5" : "ml-24"} md:ml-24`}>
                   <div class="popup-bodyy flex flex-col items-center sm:flex-row sm:justify-center sm:items-start">
                     <div class="w-1/3 flex flex-col items-center mb-4 sm:mr-4 sm:mb-0">
                       <img
@@ -514,8 +525,12 @@ export function MiniDrawer(props) {
                         />
                       </div>
 
-                      <h2 className="">Phone</h2>
-                      <h4 className="ml-10 text-left text-sky-400">
+                      {!isSmallDevice && <h2 className="">Phone</h2>}
+                      <h4
+                        className={`text-left text-sky-400 ${
+                          isSmallDevice ? "ml-1" : "ml-10 "
+                        }`}
+                      >
                         {currentUser.phone}
                       </h4>
                     </span>
@@ -526,9 +541,12 @@ export function MiniDrawer(props) {
                           className="text-white"
                         />
                       </div>
-
-                      <h2 className="">Email</h2>
-                      <h4 className="ml-10 text-right text-sky-400">
+                      {!isSmallDevice && <h2 className="">Email</h2>}
+                      <h4
+                        className={`text-right text-sky-400 ${
+                          isSmallDevice ? "ml-1" : "ml-10 "
+                        }`}
+                      >
                         {currentUser.email}
                       </h4>
                     </span>
@@ -536,8 +554,12 @@ export function MiniDrawer(props) {
                       <div className="bg-red-400 rounded-md p-1 mr-2">
                         <FontAwesomeIcon icon={faKey} className="text-white" />
                       </div>
-                      <h2 className="">Role</h2>
-                      <h4 className="ml-10 text-right text-sky-400">
+                      {!isSmallDevice && <h2 className="">Role</h2>}
+                      <h4
+                        className={`text-right text-sky-400 ${
+                          isSmallDevice ? "ml-1" : "ml-10 "
+                        }`}
+                      >
                         {currentUser.role}
                       </h4>
                     </span>
@@ -548,9 +570,12 @@ export function MiniDrawer(props) {
                           className="text-white"
                         />
                       </div>
-
-                      <h2 className="">Status</h2>
-                      <h4 className="ml-10 text-left text-sky-400">
+                      {!isSmallDevice && <h2 className="">Status</h2>}
+                      <h4
+                        className={` text-left text-sky-400 ${
+                          isSmallDevice ? "ml-1" : "ml-10 "
+                        }`}
+                      >
                         {currentUser.Status}
                       </h4>
                     </span>
@@ -588,7 +613,7 @@ export function MiniDrawer(props) {
         </div>
       </div>
       {showPasswordChangePopup && (
-        <div className="mainnn  fixed  flex justify-around items-center w-full h-screen">
+        <div className={`mainnn  fixed  flex justify-around items-center  h-screen ${isSmallDevice ? "ml-1 w-150" : "w-full "}`}>
           <div className="p-4 mr-[30vh] mb-[20vh]  rounded-md bg-white">
             <div className="popup-bodyy">
               <h1 className="w-15 h-15 mr-[15vh]  font-bold  decoration-8 text-xl">
@@ -831,7 +856,7 @@ export function MiniDrawer(props) {
                       <div className="absolute inset-0 flex items-center justify-center">
                         <FontAwesomeIcon
                           icon={faCamera}
-                          className="text-white mr-6 text-l"
+                          className="text-white mr-6  text-l"
                         />
                       </div>
                       <div className="text-white mr-20 pt-2">
@@ -896,19 +921,18 @@ export function MiniDrawer(props) {
                     }}
                     onClick={() => {
                       props.onListItemButtonClick();
-                      {isActiveMenu ?
-                        
-                        handleDrawerClose()// close the Drawer component
-                      :
-                      
-                      text === "Status"
-                        ? handleClickOpen()
-                        : text === "Profile"
-                        ? handleClickProfileOpen()
-                        : text === "Logout"
-                        ? logoutHandler()
-                        : handleMenuListClick(text, index);
-                    }}}
+                      {
+                        isActiveMenu
+                          ? handleDrawerClose() // close the Drawer component
+                          : text === "Status"
+                          ? handleClickOpen()
+                          : text === "Profile"
+                          ? handleClickProfileOpen()
+                          : text === "Logout"
+                          ? logoutHandler()
+                          : handleMenuListClick(text, index);
+                      }
+                    }}
                   >
                     <ListItemIcon
                       sx={{
@@ -941,24 +965,26 @@ export function MiniDrawer(props) {
             } flex flex-col sm:flex-row h-screen`}
             style={{
               display: "flex",
-              minWidth: "320px",
+              // minWidth: "320px",
               "@media (min-width: 768px)": { minWidth: "600px" },
             }}
           >
             <div
               className={`w-full md:w-2/6 sm:w-2/6 bg-slate-100 ${
+                (open ? "hidden sm:block" : "",
                 props.selected !== -1 && props.chatClick
                   ? "hidden md:block sm:block"
-                  : "block"
+                  : "block")
               }`}
             >
               {component}
             </div>
             <div
               className={`w-full md:w-4/6 sm:w-4/6 ${
+                (open ? "hidden sm:block" : "",
                 props.selected !== -1 && props.chatClick
                   ? "block"
-                  : "hidden md:block sm:block"
+                  : "hidden md:block sm:block")
               }`}
             >
               {props.selected !== -1 && props.chatClick ? (
