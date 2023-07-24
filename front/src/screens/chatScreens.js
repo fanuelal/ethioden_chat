@@ -53,26 +53,41 @@ export function ChatUI(props) {
   }, [props.user, props.name,props.messages]);
 
   useEffect(() => {
+    let newChannel = "";
     const ids = [currentUser.userId, props.user];
     const sortedId = ids.sort();
-
-    const newChannel = props.ably.channels.get(
-      `private_chat:${sortedId[0]}${sortedId[1]}`
-    );
-    setChannel(newChannel);
-
-    newChannel.subscribe("private_chat", (message) => {
-      if (message.data.senderId !== currentUser.userId) {
-        setMessages([...messages, message.data]);
-      }
-    });
-
+  
+    if (activeMenu === "Private Chat") {
+      newChannel = props.ably.channels.get(
+        `private_chat:${sortedId[0]}${sortedId[1]}`
+      );
+      setChannel(newChannel);
+      newChannel.subscribe("private_chat", (message) => {
+        if (message.data.senderId !== currentUser.userId) {
+          console.log(message)
+          setMessages((prevMessages) => [...prevMessages, message.data]);
+        }
+      });
+    } else {
+      newChannel = props.ably.channels.get(
+        `group_chat`
+      );
+      setChannel(newChannel);
+      newChannel.subscribe("group_chat", (message) => {
+        console.log(message)
+        if (message.data.senderId !== currentUser.userId) {
+          setMessages((prevMessages) => [...prevMessages, message.data]);
+        }
+      });
+    }
+  
     return () => {
       if (channel) {
         channel.unsubscribe();
       }
     };
-  }, [props.user, props.ably.channels,props.messages, channel,messages,message]);
+  }, [props.user, props.ably.channels, props.messages, channel, messages, message]);
+  
   const onMessageAdd = (message) => {
     const messageUUID = uuid();
 

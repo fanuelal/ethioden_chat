@@ -51,61 +51,61 @@ export function ChatList(props) {
   //   // Code to execute when routeId changes
   //   console.log("routeId has changed:", routeId);
   // }, []);
-  useEffect(() => {
-    const fetchLastMessages = async () => {
-      if (userList.length > 0) {
-        const Users = userList.map((user) =>
-          axiosInstance.get(
-            `/chat/last?senderId=${currentUser.userId}&reciverId=${user.id}`
-          )
-        );
+  // useEffect(() => {
+  //   const fetchLastMessages = async () => {
+  //     if (userList.length > 0) {
+  //       const Users = userList.map((user) =>
+  //         axiosInstance.get(
+  //           `/chat/last?senderId=${currentUser.userId}&reciverId=${user.id}`
+  //         )
+  //       );
 
-        const responses = await Promise.all(Users);
+  //       const responses = await Promise.all(Users);
 
-        const lastMessagesData = responses.map((response, index) => {
-          const lastMessage = response.data.data;
-          return { userId: userList[index].id, lastMessage };
-        });
+  //       const lastMessagesData = responses.map((response, index) => {
+  //         const lastMessage = response.data.data;
+  //         return { userId: userList[index].id, lastMessage };
+  //       });
 
-        const lastMessageData = lastMessagesData.reduce((obj, item) => {
-          obj[item.userId] = item.lastMessage;
-          return obj;
-        }, {});
+  //       const lastMessageData = lastMessagesData.reduce((obj, item) => {
+  //         obj[item.userId] = item.lastMessage;
+  //         return obj;
+  //       }, {});
 
-        setLastMessages((prevLastMessages) => ({
-          ...prevLastMessages,
-          ...lastMessageData,
-        }));
-      }
-    };
+  //       setLastMessages((prevLastMessages) => ({
+  //         ...prevLastMessages,
+  //         ...lastMessageData,
+  //       }));
+  //     }
+  //   };
 
-    userList.forEach((user) => {
-      const ids = [currentUser.userId, user.id];
-      const sortedId = ids.sort();
+  //   userList.forEach((user) => {
+  //     const ids = [currentUser.userId, user.id];
+  //     const sortedId = ids.sort();
 
-      const newChannel = props.ably.channels.get(
-        `private_chat:${sortedId[0]}${sortedId[1]}`
-      );
-      setChannel(newChannel);
-      newChannel.subscribe("private_chat", (message) => {
-        console.log("New message received:", message);
-        if (message.data.senderId !== currentUser.userId) {
-          setLastMessages((prevLastMessages) => ({
-            ...prevLastMessages,
-            [user.id]: message.data,
-          }));
-        }
-      });
-    });
+  //     const newChannel = props.ably.channels.get(
+  //       `private_chat:${sortedId[0]}${sortedId[1]}`
+  //     );
+  //     setChannel(newChannel);
+  //     newChannel.subscribe("private_chat", (message) => {
+  //       console.log("New message received:", message);
+  //       if (message.data.senderId !== currentUser.userId) {
+  //         setLastMessages((prevLastMessages) => ({
+  //           ...prevLastMessages,
+  //           [user.id]: message.data,
+  //         }));
+  //       }
+  //     });
+  //   });
 
-    fetchLastMessages();
+  //   fetchLastMessages();
 
-    return () => {
-      if (channe) {
-        channe.unsubscribe();
-      }
-    };
-  }, [userList, channe]);
+  //   return () => {
+  //     if (channe) {
+  //       channe.unsubscribe();
+  //     }
+  //   };
+  // }, [userList, channe]);
 
   const recentClickHandler = (userId) => {
     props.onChatClick(userId);

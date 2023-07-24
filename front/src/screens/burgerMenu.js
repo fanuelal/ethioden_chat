@@ -722,20 +722,20 @@ export function MiniDrawer(props) {
         <div className=" Status_icon">
           <div>
             {popup ? (
-              <div className="mainn">
-                <div className="popup">
-                  <div className="popup-body">
+              <div className={`mainn  ${isSmallDevice ? "" : " w-100%"}`}>
+                <div className={`popup  ${isSmallDevice ? "w-200" : " w-[500px]"}`}>
+                  <div className={` ${isSmallDevice ? "flex -mt-[70px] -ml-[35px]" : "popup-body"} `}>
                     <h3>Set a status</h3>
                     <p>
                       <FontAwesomeIcon
                         icon={faClose}
                         onClick={closepopup}
-                        className="bg-lightgrey rounded-full p-1  "
+                        className={`bg-lightgrey rounded-full p-1  ${isSmallDevice ? "ml-20" : " "} `}
                       />
                     </p>
                   </div>
 
-                  <div className="popup-header">
+                  <div className={` ${isSmallDevice ? "  border-2 border-indigo-500/100 flex w-200 mb-[3px] h-6 -ml-10" : "popup-header"} `}>
                     <input
                       autoFocus
                       type="text"
@@ -813,7 +813,7 @@ export function MiniDrawer(props) {
               <div className="flex flex-col mt-3 ">
                 <div className="relative ">
                   {previewUrl ? (
-                    <div>
+                    <div className="cursor-pointer">
                       <img
                         className="chatProfile mt-4"
                         alt="profileImage"
@@ -841,7 +841,7 @@ export function MiniDrawer(props) {
                         size={45}
                         // className="rounded-full h-12 w-12 "
                         nClick={handleImageClick}
-                        className="chatProfile mt-3 -ml-6"
+                        className="chatProfile mt-3 -ml-6 "
                         round={true}
                         src={
                           currentUser.profileImage
@@ -852,7 +852,7 @@ export function MiniDrawer(props) {
                         name={user}
                       />
 
-                      <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="absolute inset-0 flex items-center justify-center cursor-pointer">
                         <FontAwesomeIcon
                           icon={faCamera}
                           className="text-white mr-6  text-l"

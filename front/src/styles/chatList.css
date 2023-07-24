@@ -507,6 +507,7 @@ margin-top: 12px;
   display: flex;
   align-items: end;
   padding: 6px;
+  height: 30px;
   border-bottom: 1px solid #cccccc;
 }
 
