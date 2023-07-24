@@ -250,7 +250,7 @@ export function ChatUI(props) {
 
 
         </div>
-        <div className="flex flex-col w-10/12 items-start">
+        <div className={`flex flex-col w-10/12 items-start ${isSmallDevice ? "ml-6":""}`}>
           <div className="profilename">{props.username}</div>
           <div class="recentSentAt1">
             {props.name === "Channels" || props.name === "Group Chat"
