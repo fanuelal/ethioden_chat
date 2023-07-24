@@ -65,7 +65,7 @@ function App() {
           if (resStatus.data.data.length > 0) {
             Userstatus[0].content = resStatus.data.data[0].label;
           } else {
-            Userstatus[0].content = "";
+            Userstatus[0].content = "Active";
           }
         });
       });

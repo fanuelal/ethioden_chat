@@ -189,7 +189,7 @@ const GroupChat = (props) => {
       <div className="text-white md:text-xl">{props.name}</div>
     </div>
   </div>
-  <div className="h-full overflow-auto no-scrollbar">
+  <div className="h-[89%] overflow-auto no-scrollbar">
     {ListRecentgroup}
   </div>
   <Popup

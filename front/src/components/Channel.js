@@ -167,6 +167,7 @@ const Channel = (props) => {
           useraddHandler(user.id, user.membersDetail);
           console.log(user.id);
         }}
+        isSelected={useradded.includes(user.id)}
         ably={props.ably}
         key={user.id}
         userId={user.id}
@@ -197,8 +198,9 @@ const Channel = (props) => {
         </div>
         {issearch ? (
           <SearchComp sele={props.sele} onChatClick={props.onChatClick} />
+          
         ) : (
-          chatBots
+          chatBots 
         )}
       </div>
       {currentUser.role === "admin" ? (
