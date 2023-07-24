@@ -121,21 +121,9 @@ const EmployeeModel = class{
         });
     }
      updateEmployee = async(userId,type ) => {
-        console.log(`password:${this.password}`)
-        console.log(`type:${type}`)
         if (type === 'password') {
             var encryptedPass = passwordEncryptor(this.password);
-            console.log(`password:${encryptedPass}`);
         }
-        const passUPdaterQuery = `UPDATE employees SET  first_name = '${this.first_name}', 
-        last_name = '${this.last_name}', 
-        isDeleted = '${this.isDeleted}', 
-        isActive = '${this.isActive}', 
-        department = '${this.department}',
-        email = '${this.email}',
-        password = '${encryptedPass}',
-        role = '${this.role},' WHERE id = '${userId}
-       '`;
 
         const updateQuery = `UPDATE employees SET
         first_name = '${this.first_name}',
@@ -155,7 +143,6 @@ const EmployeeModel = class{
                 resolve(result)
             })
         }).then((data) => {
-            console.log(data)
             return data;
         })
     }

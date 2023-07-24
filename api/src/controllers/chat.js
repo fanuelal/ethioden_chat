@@ -30,11 +30,11 @@ export const createChat = async (req, res) => {
       if(body.reciverId !==null){
         channel  = ably.channels.get(`private_chat:${sortedIds[0]}${sortedIds[1]}`);
         channel.publish({ name:'private_chat', data: messageData }); 
-         console.log(body.reciverId)
+        //  console.log(body.reciverId)
       }else{
          channel = ably.channels.get(`group_chat`);
         channel.publish({ name:'group_chat', data: messageData }); 
-         console.log(channel)
+        //  console.log(channel)
       }
       
      
