@@ -198,8 +198,9 @@ const Channel = (props) => {
         </div>
         {issearch ? (
           <SearchComp sele={props.sele} onChatClick={props.onChatClick} />
+          
         ) : (
-          chatBots
+          chatBots 
         )}
       </div>
       {currentUser.role === "admin" ? (
