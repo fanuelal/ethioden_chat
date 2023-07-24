@@ -121,10 +121,12 @@ const EmployeeModel = class{
         });
     }
      updateEmployee = async(userId,type ) => {
-        // console.log(this.isActive);
-        // if(){
-            var encryptedPass = passwordEncryptor(this.password)
-        // }
+        console.log(`password:${this.password}`)
+        console.log(`type:${type}`)
+        if (type === 'password') {
+            var encryptedPass = passwordEncryptor(this.password);
+            console.log(`password:${encryptedPass}`);
+        }
         const passUPdaterQuery = `UPDATE employees SET  first_name = '${this.first_name}', 
         last_name = '${this.last_name}', 
         isDeleted = '${this.isDeleted}', 
@@ -132,8 +134,7 @@ const EmployeeModel = class{
         department = '${this.department}',
         email = '${this.email}',
         password = '${encryptedPass}',
-        role = '${this.role},
-        profileImage = '${this.profileImage}' WHERE id = '${userId}
+        role = '${this.role},' WHERE id = '${userId}
        '`;
 
         const updateQuery = `UPDATE employees SET
@@ -143,17 +144,18 @@ const EmployeeModel = class{
         isActive = '${this.isActive}',
         department = '${this.department}',
         email = '${this.email}',
+        ${type === 'password' ? `password = '${encryptedPass}',` : ''}
         role = '${this.role}',
         profileImage = '${this.profileImage}'
       WHERE id = '${userId}'`
       ;
         return new Promise((resolve, reject) => {
-            con.query(type === 'password' ? passUPdaterQuery:updateQuery, (error, result, fields) => {
+            con.query(updateQuery, (error, result, fields) => {
                 if(error) reject(error);
                 resolve(result)
             })
         }).then((data) => {
-            // console.log(data)
+            console.log(data)
             return data;
         })
     }
@@ -192,7 +194,8 @@ export const createdEmployeeTable = () => {
                 lastSeen DATETIME, 
                 role VARCHAR(50), 
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP);`, (err, res, failed) => {
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                profileImage VARCHAR(255));`, (err, res, failed) => {
 
                 if(err) throw err;
                 console.log(res)

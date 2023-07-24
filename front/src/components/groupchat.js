@@ -50,9 +50,8 @@ const GroupChat = (props) => {
     axiosConfig
       .get(`/room?type=group&userId=${currentUser.userId}`)
       .then((res) => {
-        console.log(res.data.data[0].membersDetail);
+        // console.log(res.data.data[0].membersDetail);
         setGrouplist(res.data.data);
-        console.log(res.data.data);
       });
   }, []);
   // console.log(grouplist);

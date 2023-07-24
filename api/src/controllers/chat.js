@@ -24,12 +24,21 @@ export const createChat = async (req, res) => {
         created_at: new Date()
        
       };
-  
+      let channel=""
       const ids = [body.senderId, body.reciverId]
       const sortedIds =  ids.sort()
-      const channel = ably.channels.get(`private_chat:${sortedIds[0]}${sortedIds[1]}`);
-      // console.log(channel)
-      channel.publish({ name:'private_chat', data: messageData }); 
+      if(body.reciverId !==null){
+        channel  = ably.channels.get(`private_chat:${sortedIds[0]}${sortedIds[1]}`);
+        channel.publish({ name:'private_chat', data: messageData }); 
+         console.log(body.reciverId)
+      }else{
+         channel = ably.channels.get(`group_chat`);
+        channel.publish({ name:'group_chat', data: messageData }); 
+         console.log(channel)
+      }
+      
+     
+      
           //  console.log(messageData);
       return res.status(200).json({ success: true, data: chatId, message: 'Chat created successfully' });
     } catch (error) {
