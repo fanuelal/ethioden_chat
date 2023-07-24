@@ -7,24 +7,26 @@ import '../styles/login.css';
 import axiosInstance from '../config/axiosConfig';
 import { setToken, getToken } from '../config/tokenManager';
 import { currentUser } from '../model/currentUserData';
+//  import loading from './assets/images/loading.gif';
 
 function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true); 
     try {
       const response = await axiosInstance.post('/auth', { email, password });
-
       if (response.data.success) {
         const token = response.data.data.accessToken;
         const refreshToken = response.data.data.refreshToken;
-         setToken(token);
+        setToken(token);
         console.log(getToken());
         console.log(refreshToken);
         var userData = response.data.data;
@@ -40,17 +42,17 @@ function Login(props) {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         localStorage.setItem('token',token)
         localStorage.setItem('refreshToken',refreshToken)
-        
-         navigate('/');
+        navigate('/');
       } else {
         setLoginError(true);
       }
     } catch (err) {
       console.log(err);
       setLoginError(true);
+    } finally { 
+      setIsLoading(false);
     }
   };
-
 
   const showPasswordHandler = () => setShowPassword((show) => !show);
 
@@ -62,7 +64,7 @@ function Login(props) {
           Email
         </label>
         <TextField
-        autoFocus
+          autoFocus
           type="email"
           label="Email"
           variant="outlined"
@@ -95,6 +97,7 @@ function Login(props) {
         <button type="submit" className="login-button">
           Login
         </button>
+        {isLoading && <img src={"assets\images\loading.gif"} alt="Loading..." />} 
         {loginError && <p className="login-error">Incorrect email or password. Please try again.</p>}
       </form>
     </div>

@@ -208,14 +208,14 @@ const GroupChat = (props) => {
         <p>create a group</p>
       </div>
     }
-    position="right center"
-    modal
-    closeOnEscape
-    closeOnDocumentClick
+    // position="right center"
+    // modal
+    // closeOnEscape
+    // closeOnDocumentClick
   />
 
   {showpopup && (
-     <div className="fixed left-0 top-0 w-full h-full bg-[rgba(0, 0, 0, 0.5)] z-30">
+     <div className="mainnn fixed left-0 top-0 w-full h-full bg-[rgba(0, 0, 0, 0.5)] z-30">
        <div className={`relative  max-w-md mx-auto mt-16 bg-white rounded-lg shadow-lg ${isSmallDevice ? "w-43 ml-10 mt-10 ":"w-full"}`}>
         <div className={`flex items-center px-4 py-2 bg-profile ${isSmallDevice ? " ": " justify-between"}`}>
           <h3 className="text-lg font-medium text-white">Create a group</h3>
