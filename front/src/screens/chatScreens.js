@@ -239,10 +239,13 @@ export function ChatUI(props) {
   className="rounded-full h-12 w-12 "
   round={true}
   src={
-    props.image
-        ? baseImagePath + props.image
-        : null
+    props.name === "Channels" || props.name === "Group Chat"
+      ? null
+      : props.image
+      ? baseImagePath + props.image
+      : null
   }
+ 
   alt="recent chat"
   name={user}
 />
