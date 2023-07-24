@@ -42,7 +42,7 @@ export function MessageView(props) {
     return () => {
       window.removeEventListener("click", handleClick);
     };
-  }, []);
+  }, [props.name]);
   return (
     <div className="flex flex-col">
       <div
@@ -68,7 +68,7 @@ export function MessageView(props) {
               ""
             ) : (
               <div className="-ml-[60px] mx-2">
-                <Avatar name={firstname} size={35} round={true} />
+                <Avatar name={props.name} size={35} round={true} />
               </div>
             )
           ) : (
