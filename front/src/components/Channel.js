@@ -181,7 +181,7 @@ const Channel = (props) => {
         <Popup
           trigger={
             <div
-              class=" bg-[#1d1f34] h-[30px] w-[30px]  md:h-[40px] md:w-[40px] 
+              class=" bg-[#1d1f34] h-[30px] w-[30px]  md:h-[40px] md:w-[40px] cursor-pointer
           lg:h-[45px] lg:w-[45px] xl:h-[50px] xl:w-[50px] ml-[21%] xl:ml-[28%] md:ml-[25%] lg:ml-[27%] 
           rounded-full fixed bottom-2  "
             >
