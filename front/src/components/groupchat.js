@@ -189,12 +189,12 @@ const GroupChat = (props) => {
       <div className="text-white md:text-xl">{props.name}</div>
     </div>
   </div>
-  <div className="max-h-[75vh] overflow-auto no-scrollbar">
+  <div className="h-full overflow-auto no-scrollbar">
     {ListRecentgroup}
   </div>
   <Popup
     trigger={
-      <div class=" bg-[#1d1f34] h-[30px] w-[30px]  md:h-[40px] md:w-[40px] 
+      <div class=" bg-[#1d1f34] h-[30px] w-[30px]  md:h-[40px] md:w-[40px] cursor-pointer
       lg:h-[45px] lg:w-[45px] xl:h-[50px] xl:w-[50px] ml-[21%] xl:ml-[28%] md:ml-[25%] lg:ml-[27%] 
       rounded-full fixed bottom-2  ">
       <FontAwesomeIcon
@@ -217,7 +217,7 @@ const GroupChat = (props) => {
   />
 
   {showpopup && (
-     <div className="mainnn fixed left-0 top-0 w-full h-full bg-[rgba(0, 0, 0, 0.5)] z-30">
+     <div className="mainnn fixed left-0 top-0 w-full h-full bg-[rgba(0, 0, 0, 0.5)] ">
        <div className={`relative  max-w-md mx-auto mt-16 bg-white rounded-lg shadow-lg ${isSmallDevice ? "w-43 ml-10 mt-10 ":"w-full"}`}>
         <div className={`flex items-center px-4 py-2 bg-profile ${isSmallDevice ? " ": " justify-between"}`}>
           <h3 className="text-lg font-medium text-white">Create a group</h3>
@@ -312,6 +312,6 @@ const GroupChat = (props) => {
     </Alert>
   </Snackbar>
 </>
-};
+};  
 
 export default GroupChat;
