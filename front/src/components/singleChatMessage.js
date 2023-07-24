@@ -28,7 +28,6 @@ export function MessageView(props) {
   function EditclickHandler() {
     props.onEdit(props.messageID, props.message);
   }
-  useEffect(() => {
   axiosConfig
   .get(`/employee/${props.senderid}`)
   .then((response) => { 
@@ -36,13 +35,15 @@ export function MessageView(props) {
    setFirstname(username.first_name)
   })
   
+  useEffect(() => {
+ 
    
     const handleClick = () => setClicked(false);
     window.addEventListener("click", handleClick);
     return () => {
       window.removeEventListener("click", handleClick);
     };
-  }, [props.name]);
+  }, []);
   return (
     <div className="flex flex-col">
       <div
@@ -68,7 +69,7 @@ export function MessageView(props) {
               ""
             ) : (
               <div className="-ml-[60px] mx-2">
-                <Avatar name={props.name} size={35} round={true} />
+                <Avatar name={firstname} size={35} round={true} />
               </div>
             )
           ) : (
