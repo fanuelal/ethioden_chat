@@ -9,20 +9,15 @@
 .header{
     display: flex;
     align-items: center;
-    /* justify-content: space-around; */
-    background-color: #1d1f34;
+   background-color: #1d1f34;
     padding-bottom: 4px;
 }
-/* .backarrow{
-    color: #1d1f34;
-} */
+
 .search {
     background-color: aliceblue;
     width: 220px;
     height: 32px;
     margin-top: -21%;
-    /* border: none; */
-    /* outline: none; */
     margin-left: 5%;
     border-radius: 10px;
     border-color: #000000;
@@ -39,14 +34,4 @@
     width: 18px;
 
 }
-/* .search::-webkit-input-placeholder { 
-    font-family: FontAwesome;
-    padding: 20px; */
-    /* font-weight: normal;
-    overflow: visible;
-    vertical-align: top; */
-    /* display: inline-block !important;
-    padding-left: 5px;
-    padding-top: 2px;
-    color: hsl(0, 0%, 77%);
-    } */
+
