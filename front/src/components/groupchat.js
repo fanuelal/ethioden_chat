@@ -35,6 +35,7 @@ const GroupChat = (props) => {
   const [groupname, setGroupname] = useState("");
   const [openErr, setOpenErr] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [isSmallDevice, setIsSmallDevice] = React.useState(false);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -42,7 +43,15 @@ const GroupChat = (props) => {
     setOpenErr(false);
     setOpen(false);
   };
+  React.useEffect(() => {
+    function handleResize() {
+      setIsSmallDevice(window.innerWidth < 550); // Change 768 to your desired breakpoint
+    }
 
+    handleResize(); // Set initial state on component mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   function recentClickHandler(botId, members) {
     props.onChatClick(botId, members);
   }
@@ -201,16 +210,16 @@ const GroupChat = (props) => {
         <p>create a group</p>
       </div>
     }
-    position="right center"
-    modal
-    closeOnEscape
-    closeOnDocumentClick
+    // position="right center"
+    // modal
+    // closeOnEscape
+    // closeOnDocumentClick
   />
 
   {showpopup && (
-     <div className="fixed left-0 top-0 w-full h-full bg-[rgba(0, 0, 0, 0.5)] z-30">
-       <div className="relative w-full max-w-md mx-auto mt-16 bg-white rounded-lg shadow-lg">
-        <div className="flex items-center justify-between px-4 py-2 bg-profile">
+     <div className="mainnn fixed left-0 top-0 w-full h-full bg-[rgba(0, 0, 0, 0.5)] z-30">
+       <div className={`relative  max-w-md mx-auto mt-16 bg-white rounded-lg shadow-lg ${isSmallDevice ? "w-43 ml-10 mt-10 ":"w-full"}`}>
+        <div className={`flex items-center px-4 py-2 bg-profile ${isSmallDevice ? " ": " justify-between"}`}>
           <h3 className="text-lg font-medium text-white">Create a group</h3>
           <button
             className="text-white rounded-lg hover:bg-gray-600 focus:outline-none focus: bg-profile"
@@ -221,19 +230,19 @@ const GroupChat = (props) => {
         </div>
         <div className="p-4">
           <div className="mb-4">
-            <label className="block mb-2 text-sm font-bold text-gray-700">
+            <label className={`block mb-2 text-sm font-bold text-gray-700 ${isSmallDevice ? "-ml-30":""}`}>
               Group Name
             </label>
             <input
               required={true}
-              className="block w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md  focus:outline-none focus:ring"
+              className={`block  px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md  focus:outline-none focus:ring ${isSmallDevice ? "w-200 ":"w-full"}`}
               type="text"
               value={inputValue}
               onChange={handleInputChange}
               autoFocus
             />
           </div>
-          <div className="flex justify-end">
+          <div className={`flex ${isSmallDevice ? "justify-start ":"justify-end"}`}>
             <button
               className="px-4 py-2 mr-2 font-bold text-white bg-profile rounded-lg  focus:outline-none "
               onClick={handleNextButtonClick}
@@ -248,7 +257,7 @@ const GroupChat = (props) => {
 
   {showuserlist && (
     <div className="fixed left-0 top-0 w-full h-full bg-[rgba(0, 0, 0, 0.5)] z-50">
-      <div className="relative w-full max-w-md mx-auto mt-16 bg-white rounded-lg shadow-lg">
+      <div className={`relative  max-w-md mx-auto mt-16 bg-white rounded-lg shadow-lg ${isSmallDevice ? "w-43 ml-10 mt-10 ":"w-full"}`}>
         <div className="flex items-center justify-between px-4 py-2 bg-profile">
           <h3 className="text-lg font-medium text-white">Choose a user</h3>
           <button

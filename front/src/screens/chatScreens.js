@@ -28,11 +28,20 @@ export function ChatUI(props) {
   const [channel, setChannel] = useState(null);
   const [editedMessage, setEditedMessage] = useState(null);
   const [activeMenu, setActiveMenu] = useState("Private Chat");
+  const [isSmallDevice, setIsSmallDevice] = React.useState(false);
 
   function recentClickHandler(userId) {
     return;
   }
+  React.useEffect(() => {
+    function handleResize() {
+      setIsSmallDevice(window.innerWidth < 550); // Change 768 to your desired breakpoint
+    }
 
+    handleResize(); // Set initial state on component mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   axiosConfig.get("/employee").then((res) => {});
 
   useEffect(() => {
@@ -303,24 +312,28 @@ export function ChatUI(props) {
       <div>
         <div>
           <div>
-            {showuserlist && (
-              <div className="w-[100%] h-[120vh] fixed left-0 top-0 flex justify-center items-center z-[9999] bg-[rgba(0, 0, 0, 0.5)]">
-                <div className="p-[80px] pb-[50px] mb-[80px] max-w-[500px] bg-[white] rounded-lg mt-[-10px] h-[75%]">
-                  <div className="mt-[-60px] float-left bg-[white] ml-[-70px]">
-                    <div
-                      className="close-icon"
-                      onClick={() => setShowuserlist(false)}
-                    >
-                      <FontAwesomeIcon className="pl-[115%]" icon={faTimes} />
-                    </div>
-                    <h3 className="header1">Group members</h3>
-                    <div className="w-[250px] pl-[10%] max-h-[60vh] overflow-auto no-scrollbar">
-                      {ListRecent}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+          {showuserlist && (
+    <div className="fixed left-0 top-0 w-full h-full bg-[rgba(0, 0, 0, 0.5)] z-50">
+      <div className={`relative  max-w-md mx-auto mt-16 bg-white rounded-lg shadow-lg ${isSmallDevice ? "w-43 ml-10 mt-10 ":"w-full"}`}>
+        <div className="flex items-center justify-between px-4 py-2 ">
+          <h3 className="text-lg font-medium text-profile">members</h3>
+          <button
+            className="text-white rounded-lg  bg-profile focus:outline-none focus:bg-gray-300"
+            onClick={() => setShowuserlist(false)}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </div>
+        <div className="p-4">
+           
+            <div className="block w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md max-h-80 overflow-auto no-scrollbar">
+              {ListRecent}
+          </div>
+        
+          </div>
+        </div>
+      </div>
+  )}
           </div>
         </div>
       </div>

@@ -66,9 +66,9 @@ export function AddMember() {
       
 
     return (
-      <div className="flex flex-col md:flex-row justify-center items-center">
+      <div className="flex flex-col md:flex-row justify-center max-h-full items-center overflow-auto no-scrollbar">
       <div className="w-full md:w-1/2 p-4">
-        <p className="text-2xl font-bold mb-4">Add Members</p>
+        <p className="text-2xl font-bold mt-4 mb-4">Add Members</p>
         <div className="flex flex-col space-y-4">
           <TextField
             type="text"
