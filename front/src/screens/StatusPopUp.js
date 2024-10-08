@@ -29,6 +29,7 @@ export function StatusPopUp () {
           closeOnDocumentClick={true}
           position="bottom right"
         >
+          
           <Status showAll={showAllStatus} setShowAll={setShowAllStatus} />
         </Popup>
     </div>

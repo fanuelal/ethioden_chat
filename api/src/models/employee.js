@@ -42,19 +42,54 @@ const EmployeeModel = class{
     }
 
     static getAll = async () => {
+        var fetchedData; 
+       return new Promise((resolve, reject) => {con.query('SELECT * FROM `employees` WHERE isDeleted = false', (err, result, fields) => {
+         if (err) reject(err);
+         resolve(result);
+       });
+      
+   }).then((value) => {
+     fetchedData = value;
+     const extractedData = fetchedData.map((data)=> {
+         // console.log(data.id)
+         return data
+     })
+     return extractedData
+ })
+ }
+ 
+    static getAllRecent = async (currentUserId) => {
+        console.log(currentUserId);
            var fetchedData; 
-          return new Promise((resolve, reject) => {con.query('SELECT * FROM `employees` WHERE isDeleted = false', (err, result, fields) => {
+            // ,chat.id,chat.reciverid,chat.senderid
+          return new Promise((resolve, reject) => {con.query(`SELECT employees.id, employees.first_name, employees.last_name, isActive, MAX(chats.created_at) AS last_message_time
+          FROM employees 
+          INNER JOIN chats 
+             ON (employees.id = chats.reciverId AND '${currentUserId}' = chats.senderId 
+             OR employees.id = chats.senderId AND '${currentUserId}' = chats.reciverId)
+          WHERE chats.isDeleted = false
+          GROUP BY employees.id, employees.first_name, employees.last_name
+          ORDER BY last_message_time DESC`, (err, result, fields) => {
             if (err) reject(err);
             resolve(result);
           });
          
       }).then((value) => {
         fetchedData = value;
-        const extractedData = fetchedData.map((data)=> {
-            // console.log(data.id)
-            return data
+        var tempList = [];
+        
+        var extractedData = fetchedData.map((data)=> {
+ 
+            if(! tempList.includes(data.id)){
+                
+                tempList.push(data.id);
+                return data
+            }
+            return;
+            
         })
-        return extractedData
+        // console.log();
+        return extractedData.filter((value) => value !== undefined)
     })
     }
 
@@ -83,19 +118,34 @@ const EmployeeModel = class{
             return data
         });
     }
-     updateEmployee = async(userId) => {
+     updateEmployee = async(userId,type ) => {
+        // console.log(this.isActive);
+        // if(){
+            var encryptedPass = passwordEncryptor(this.password)
+        // }
+        const passUPdaterQuery = `UPDATE employees SET  first_name = '${this.first_name}', 
+        last_name = '${this.last_name}', 
+        isDeleted = '${this.isDeleted}', 
+        isActive = '${this.isActive}', 
+        department = '${this.department}',
+        email = '${this.email}',
+        password = '${encryptedPass}',
+        role = '${this.role}' WHERE id = '${userId}'`;
+
+        const updateQuery = `UPDATE employees SET  first_name = '${this.first_name}', 
+        last_name = '${this.last_name}', 
+        isDeleted = '${this.isDeleted}', 
+        isActive = '${this.isActive}', 
+        department = '${this.department}',
+        email = '${this.email}',
+        role = '${this.role}' WHERE id = '${userId}'`;
         return new Promise((resolve, reject) => {
-            con.query(`UPDATE employees SET  first_name = '${this.first_name}', 
-            last_name = '${this.last_name}', 
-            isDeleted = '${this.isDeleted}', 
-            isActive = '${this.isActive}', 
-            department = '${this.department}',
-            email = '${this.email}',
-            role = '${this.role}' WHERE id = '${userId}'`, (error, result, fields) => {
+            con.query(type === 'password' ? passUPdaterQuery:updateQuery, (error, result, fields) => {
                 if(error) reject(error);
                 resolve(result)
             })
         }).then((data) => {
+            // console.log(data)
             return data;
         })
     }
@@ -129,7 +179,7 @@ export const createdEmployeeTable = () => {
                 email VARCHAR(50),
                 password VARCHAR(100), 
                 department VARCHAR(50), 
-                isActive BOOLEAN DEFAULT true, 
+                isActive BOOLEAN DEFAULT false, 
                 isDeleted BOOLEAN DEFAULT false, 
                 lastSeen DATETIME, 
                 role VARCHAR(50), 

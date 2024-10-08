@@ -4,6 +4,13 @@ import { passwordEncryptor,  passwordchecker} from '../helper/encrypted.js';
 import jwt from 'jsonwebtoken'
 dotenv.config({path: '../../.env'})
 
+const mapEmployeeToResponse = (employee) => {
+  const { department,first_name
+,id, role,email, name } = employee;
+  return { department,first_name
+,id,role, email, name };
+};
+
 export const authenticate = async(req, res) =>{
     const {email, password} = req.body;
     console.log(password, email)
@@ -17,11 +24,11 @@ try{
     
     const accessToken = accessTokenGenerator(existingEmployee)
     const refreshToken = RefreshTokenGenerator(existingEmployee)
-    return res.status(200).json({success: true, data: {...existingEmployee, accessToken,refreshToken}, message: `your token has been successfully generated`})
+    const employeeData = mapEmployeeToResponse(existingEmployee)
+    return res.status(200).json({success: true, data: {...employeeData, accessToken,refreshToken}, message: `your token has been successfully generated`})
 }catch(error){
     return res.status(400).json({succes: false, data: null, message: `Error occured ${error}`})
 }
-
 
 }
 
@@ -30,16 +37,16 @@ export const accessTokenGenerator = (employee) => {
         {employee},
         process.env.SERVER_KEY,
         {
-            expiresIn: '20 seconds'
+            expiresIn: '1h'
         }
     )
 }
+
 
  export const RefreshTokenGenerator = (employee)=>{
     return jwt.sign(
         {employee},process.env.REFRESH_TOKEN_SECRET,{
             expiresIn: '7d'
-
         }
     )
 }
@@ -55,10 +62,11 @@ export const tokenRefresh = async (req, res) => {
       const { employee } = data;
   
       const newAccessToken = accessTokenGenerator(employee);
+      const employeeData = mapEmployeeToResponse(existingEmployee)
   
       return res.status(200).json({
         success: true,
-        data: { accessToken: newAccessToken },
+        data: {...employeeData, accessToken: newAccessToken },
         message: 'Access token has been refreshed'
       });
     } catch (err) {

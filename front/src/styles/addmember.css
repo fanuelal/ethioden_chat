@@ -1,0 +1,21 @@
+:root {
+    --primary: #ffffff;
+    --secondary: #ffffff;
+    --tertiary: #1d1f34;
+    --white: #fff;
+  }
+.addMember{
+    padding-left: 10%;
+    align-items: center;
+    /* background-color: green !important; */
+}
+.addMember .input {
+    margin-top: 10px !important;
+  }
+
+.addMember .addButton{
+    background-color: var(--tertiary);
+    margin-top: 20px !important;
+    margin-right: 10%;
+    position: relative !important;
+}
